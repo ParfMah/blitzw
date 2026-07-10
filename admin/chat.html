@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+    API BACKEND — Configuration de l'URL du serveur.
+    ✏️  EN PRODUCTION : remplacer le contenu par l'URL réelle de votre backend.
+    Exemple : <meta name="api-base" content="https://blitz-leihen-backend.onrender.com">
+  -->
+  <meta name="api-base" content="http://localhost:3000">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Live-Chat – Blitz Leihen Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="icon" type="image/webp" href="../blitz_leihen_logo.webp">
+</head>
+<body class="admin-body">
+
+  <!-- ===================================================
+       LAYOUT ADMIN : Sidebar + Contenu
+  =================================================== -->
+  <div class="admin-layout">
+
+    <!-- =============================================
+         SIDEBAR
+    ============================================= -->
+    <aside class="admin-sidebar" id="adminSidebar" role="navigation" aria-label="Administration">
+
+      <!-- Logo dans la sidebar -->
+      <div class="admin-sidebar__header">
+        <img src="../blitz_leihen_logo.webp" alt="Blitz Leihen" class="admin-sidebar__logo">
+      </div>
+
+      <!-- Navigation -->
+      <nav class="admin-nav">
+        <span class="admin-nav__section-title">Hauptmenü</span>
+        <a href="dashboard.html" class="admin-nav__link">
+          <span class="admin-nav__icon">📊</span> Dashboard
+        </a>
+        <a href="dashboard.html#demandes" class="admin-nav__link">
+          <span class="admin-nav__icon">📋</span> Alle Anträge
+        </a>
+        <a href="dashboard.html#neu" class="admin-nav__link">
+          <span class="admin-nav__icon">🆕</span> Neue Anträge
+        </a>
+        <a href="chat.html" class="admin-nav__link active">
+          <span class="admin-nav__icon">💬</span> Live-Chat
+          <span id="chatUnreadCount" style="margin-left:auto; background:var(--color-accent); color:white; border-radius:var(--radius-full); padding:2px 8px; font-size:0.65rem; font-weight:700;">0</span>
+        </a>
+
+        <span class="admin-nav__section-title">Verwaltung</span>
+        <a href="#" class="admin-nav__link">
+          <span class="admin-nav__icon">👥</span> Kunden
+        </a>
+        <a href="#" class="admin-nav__link">
+          <span class="admin-nav__icon">📧</span> E-Mails
+        </a>
+        <a href="#" class="admin-nav__link">
+          <span class="admin-nav__icon">⚙️</span> Einstellungen
+        </a>
+
+        <span class="admin-nav__section-title">System</span>
+        <a href="../index.html" class="admin-nav__link" target="_blank">
+          <span class="admin-nav__icon">🌐</span> Website anzeigen
+        </a>
+        <a href="#" class="admin-nav__link" id="logoutBtn">
+          <span class="admin-nav__icon">🚪</span> Abmelden
+        </a>
+      </nav>
+
+      <!-- Infos utilisateur -->
+      <div class="admin-sidebar__footer">
+        <div class="admin-user">
+          <div class="admin-user__avatar" id="userAvatar">A</div>
+          <div>
+            <div class="admin-user__name" id="userName">Administrator</div>
+            <div class="admin-user__role">Super Admin</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- =============================================
+         CONTENU PRINCIPAL
+    ============================================= -->
+    <div class="admin-content">
+
+      <!-- Topbar -->
+      <header class="admin-topbar">
+        <button id="sidebarToggle" style="display:none; background:none; border:none; cursor:pointer; font-size:1.3rem; color:var(--color-primary); margin-right:var(--space-4);" aria-label="Menü öffnen">☰</button>
+
+        <h1 class="admin-topbar__title">Live-Chat</h1>
+
+        <div class="admin-topbar__actions">
+          <div class="admin-user__avatar" id="topbarAvatar" style="cursor:pointer;" title="Abmelden" onclick="logout()">A</div>
+        </div>
+      </header>
+
+      <!-- Zone principale -->
+      <main class="admin-main" id="adminMain">
+
+        <div class="chat-inbox" id="chatInbox">
+
+          <!-- ================= LISTE DES CONVERSATIONS ================= -->
+          <div class="chat-inbox__list">
+            <div class="chat-inbox__list-header">
+              <strong style="font-size:var(--text-sm);">Konversationen</strong>
+              <select id="filterStatut" aria-label="Nach Status filtern">
+                <option value="toutes">Alle</option>
+                <option value="ouvert" selected>Offen</option>
+                <option value="ferme">Geschlossen</option>
+              </select>
+            </div>
+            <div class="chat-inbox__items" id="chatItems">
+              <div class="chat-inbox__empty">Konversationen werden geladen…</div>
+            </div>
+          </div>
+
+          <!-- ================= FIL DE DISCUSSION ================= -->
+          <div class="chat-inbox__thread" id="chatThread">
+            <div class="chat-inbox__thread-empty">
+              💬 Wählen Sie eine Konversation aus der Liste aus, um den Chatverlauf anzuzeigen.
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.8.3/socket.io.min.js" integrity="sha384-kzavj5fiMwLKzzD1f8S7TeoVIEi7uKHvbTA3ueZkrzYq75pNQUiUi6Dy98Q3fxb0" crossorigin="anonymous"></script>
+  <script>
+    /**
+     * BLITZ LEIHEN — Admin Live-Chat
+     *
+     * Gère :
+     * 1. Authentification (réutilise le token de sessionStorage)
+     * 2. Chargement + filtrage de la liste des conversations
+     * 3. Affichage du fil de discussion d'une conversation
+     * 4. Envoi de messages en temps réel (Socket.IO), avec repli HTTP
+     * 5. Fermeture / réouverture d'une conversation
+     */
+    (function() {
+      'use strict';
+
+      // --- Configuration API (même logique que dashboard.html) ---
+      var API_BASE = (
+        document.querySelector('meta[name="api-base"]')?.getAttribute('content') ||
+        window.BLITZ_API_BASE ||
+        'http://localhost:3000'
+      ).replace(/\/$/, '') + '/api';
+
+      var SOCKET_BASE = API_BASE.replace(/\/api$/, '');
+
+      // --- État ---
+      var allConversations = [];
+      var currentId         = null;
+      var socket             = null;
+      var socketReady        = false;
+
+      // --- Authentification ---
+      function checkAuth() {
+        var token = sessionStorage.getItem('blitz_admin_token');
+        if (!token) { window.location.href = 'login.html'; return false; }
+        return token;
+      }
+
+      function authHeaders() {
+        var token = sessionStorage.getItem('blitz_admin_token');
+        return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
+      }
+
+      function loadUserInfo() {
+        var userStr = sessionStorage.getItem('blitz_admin_user');
+        if (!userStr) return;
+        try {
+          var user = JSON.parse(userStr);
+          var initial = user.name ? user.name[0].toUpperCase() : 'A';
+          var avatarEl = document.getElementById('userAvatar');
+          var nameEl   = document.getElementById('userName');
+          var topbarAv = document.getElementById('topbarAvatar');
+          if (avatarEl) avatarEl.textContent = initial;
+          if (nameEl)   nameEl.textContent   = user.name || 'Administrator';
+          if (topbarAv) topbarAv.textContent  = initial;
+        } catch(e) {}
+      }
+
+      window.logout = function() {
+        sessionStorage.removeItem('blitz_admin_token');
+        sessionStorage.removeItem('blitz_admin_user');
+        window.location.href = 'login.html';
+      };
+
+      // --- Utilitaires d'affichage ---
+      function formaterHeure(iso) {
+        try {
+          var d = new Date(iso);
+          var maintenant = new Date();
+          var memeJour = d.toDateString() === maintenant.toDateString();
+          return memeJour
+            ? d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
+            : d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' });
+        } catch (e) { return ''; }
+      }
+
+      function nomAffiche(conv) {
+        return conv.nom && conv.nom.trim() ? conv.nom : 'Anonymer Besucher';
+      }
+
+      function initiale(conv) {
+        return nomAffiche(conv)[0].toUpperCase();
+      }
+
+      // --- Chargement de la liste des conversations ---
+      function loadConversations() {
+        var token = checkAuth();
+        if (!token) return;
+
+        var statut = document.getElementById('filterStatut').value;
+
+        fetch(API_BASE + '/chat/admin/conversations?statut=' + encodeURIComponent(statut) + '&limite=50', {
+          headers: authHeaders(),
+        })
+          .then(function(r) { if (r.status === 401) { logout(); return null; } return r.json(); })
+          .then(function(json) {
+            if (!json || !json.success) return;
+            allConversations = json.data.conversations || [];
+            renderListe();
+          })
+          .catch(function() {
+            document.getElementById('chatItems').innerHTML =
+              '<div class="chat-inbox__empty">Verbindung zum Server fehlgeschlagen.</div>';
+          });
+      }
+
+      function renderListe() {
+        var container = document.getElementById('chatItems');
+        if (!allConversations.length) {
+          container.innerHTML = '<div class="chat-inbox__empty">Keine Konversationen gefunden.</div>';
+          return;
+        }
+
+        container.innerHTML = allConversations.map(function(conv) {
+          var actif = conv._id === currentId ? ' active' : '';
+          var badge = conv.nonLuAdmin > 0
+            ? '<span class="chat-inbox__item-badge">' + conv.nonLuAdmin + '</span>'
+            : '';
+          return [
+            '<div class="chat-inbox__item' + actif + '" data-id="' + conv._id + '">',
+            '  <div class="chat-inbox__item-avatar">' + initiale(conv) + '</div>',
+            '  <div class="chat-inbox__item-body">',
+            '    <div class="chat-inbox__item-name">',
+            '      <span>' + nomAffiche(conv) + '</span>',
+            '      <span class="chat-inbox__item-time">' + formaterHeure(conv.dernierMessageDate) + '</span>',
+            '    </div>',
+            '    <div class="chat-inbox__item-preview">' + (conv.dernierMessage || '—') + '</div>',
+            '  </div>',
+            badge,
+            '</div>',
+          ].join('');
+        }).join('');
+
+        Array.prototype.forEach.call(container.querySelectorAll('.chat-inbox__item'), function(el) {
+          el.addEventListener('click', function() {
+            selectConversation(el.getAttribute('data-id'));
+          });
+        });
+      }
+
+      // --- Sélection + affichage d'une conversation ---
+      function selectConversation(id) {
+        currentId = id;
+        renderListe(); // met à jour la surbrillance + réinitialise visuellement le badge
+
+        var conv = allConversations.find(function(c) { return c._id === id; });
+        if (!conv) return;
+
+        conv.nonLuAdmin = 0; // reset visuel immédiat
+
+        renderThreadHeader(conv);
+
+        fetch(API_BASE + '/chat/admin/conversations/' + id, { headers: authHeaders() })
+          .then(function(r) { if (r.status === 401) { logout(); return null; } return r.json(); })
+          .then(function(json) {
+            if (!json || !json.success) return;
+            renderMessages(json.data.messages || []);
+          });
+
+        // Marque comme lu côté serveur
+        fetch(API_BASE + '/chat/admin/conversations/' + id + '/lu', {
+          method: 'PUT', headers: authHeaders(),
+        }).then(function() { majBadgeGlobal(); });
+
+        // Rejoint la room Socket.IO de cette conversation (temps réel)
+        if (socketReady && socket) {
+          socket.emit('admin:join_conversation', { conversationId: id });
+        }
+
+        // Sur mobile : bascule vers le fil (masque la liste)
+        document.getElementById('chatInbox').classList.remove('show-list');
+      }
+
+      function renderThreadHeader(conv) {
+        var thread = document.getElementById('chatThread');
+        var estFerme = conv.statut === 'ferme';
+        var localisation = conv.visiteurLocalisationAffichage
+          ? '📍 ' + conv.visiteurLocalisationAffichage
+          : (conv.ipAdresse ? '📍 IP: ' + conv.ipAdresse : '');
+
+        thread.innerHTML = [
+          '<div class="chat-inbox__thread-header">',
+          '  <div>',
+          '    <div class="chat-inbox__thread-title">' + nomAffiche(conv) + '</div>',
+          '    <div class="chat-inbox__thread-sub">' + (conv.email || 'Keine E-Mail angegeben') + (localisation ? ' · ' + localisation : '') + '</div>',
+          '  </div>',
+          '  <button class="btn btn-sm btn-outline-primary" id="toggleStatutBtn">',
+          estFerme ? '↺ Wieder öffnen' : '✓ Chat schließen',
+          '  </button>',
+          '</div>',
+          '<div class="chat-inbox__messages" id="chatMessages"></div>',
+          '<div class="chat-inbox__inputbar">',
+          '  <textarea id="chatInput" rows="1" maxlength="4000" placeholder="Antwort schreiben…" aria-label="Nachricht"></textarea>',
+          '  <button class="btn btn-primary" id="chatSendBtn">Senden</button>',
+          '</div>',
+        ].join('');
+
+        document.getElementById('toggleStatutBtn').addEventListener('click', function() {
+          changerStatut(conv._id, estFerme ? 'ouvert' : 'ferme');
+        });
+
+        var input = document.getElementById('chatInput');
+        var sendBtn = document.getElementById('chatSendBtn');
+        sendBtn.addEventListener('click', envoyerMessage);
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); envoyerMessage(); }
+        });
+      }
+
+      function renderMessages(messages) {
+        var container = document.getElementById('chatMessages');
+        if (!container) return;
+        container.innerHTML = messages.map(messageHtml).join('');
+        container.scrollTop = container.scrollHeight;
+      }
+
+      function ajouterMessageAuFil(message) {
+        var container = document.getElementById('chatMessages');
+        if (!container || document.getElementById('admin-msg-' + message._id)) return;
+        container.insertAdjacentHTML('beforeend', messageHtml(message));
+        container.scrollTop = container.scrollHeight;
+      }
+
+      function messageHtml(m) {
+        var cls = m.expediteur === 'admin' ? 'chat-inbox__msg--admin' : 'chat-inbox__msg--visiteur';
+        return [
+          '<div class="chat-inbox__msg ' + cls + '" id="admin-msg-' + m._id + '">',
+          escapeHtml(m.texte),
+          '<span class="chat-inbox__msg-time">' + formaterHeure(m.createdAt) + '</span>',
+          '</div>',
+        ].join('');
+      }
+
+      function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.textContent = str || '';
+        return div.innerHTML;
+      }
+
+      // --- Envoi d'un message admin ---
+      function envoyerMessage() {
+        var input = document.getElementById('chatInput');
+        if (!input || !currentId) return;
+        var texte = input.value.trim();
+        if (!texte) return;
+
+        input.value = '';
+
+        if (socketReady && socket) {
+          socket.emit('admin:message', { conversationId: currentId, texte: texte });
+        } else {
+          fetch(API_BASE + '/chat/admin/conversations/' + currentId + '/message', {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify({ texte: texte }),
+          })
+            .then(function(r) { return r.json(); })
+            .then(function(json) {
+              if (json && json.success) ajouterMessageAuFil(json.data.message);
+            });
+        }
+      }
+
+      // --- Fermer / réouvrir une conversation ---
+      function changerStatut(id, statut) {
+        fetch(API_BASE + '/chat/admin/conversations/' + id + '/statut', {
+          method: 'PUT',
+          headers: authHeaders(),
+          body: JSON.stringify({ statut: statut }),
+        })
+          .then(function(r) { return r.json(); })
+          .then(function(json) {
+            if (!json || !json.success) return;
+            var conv = allConversations.find(function(c) { return c._id === id; });
+            if (conv) { conv.statut = statut; renderThreadHeader(conv); }
+          });
+      }
+
+      // --- Badge global "non lus" dans la sidebar ---
+      function majBadgeGlobal() {
+        fetch(API_BASE + '/chat/admin/non-lus', { headers: authHeaders() })
+          .then(function(r) { return r.json(); })
+          .then(function(json) {
+            var el = document.getElementById('chatUnreadCount');
+            if (el && json && json.success) el.textContent = json.data.total;
+          })
+          .catch(function() {});
+      }
+
+      // --- Socket.IO : temps réel ---
+      function connecterSocket() {
+        if (typeof io !== 'function') return;
+
+        socket = io(SOCKET_BASE);
+
+        socket.on('connect', function() {
+          socket.emit('admin:auth', { token: sessionStorage.getItem('blitz_admin_token') });
+        });
+
+        socket.on('admin:pret', function() {
+          socketReady = true;
+          if (currentId) socket.emit('admin:join_conversation', { conversationId: currentId });
+        });
+
+        socket.on('admin:historique', function(data) {
+          if (data && data.conversationId === currentId) renderMessages(data.messages || []);
+        });
+
+        socket.on('nouveau_message', function(message) {
+          if (message && message.conversation === currentId) {
+            ajouterMessageAuFil(message);
+            // Le message vient d'être lu puisque la conversation est ouverte
+            fetch(API_BASE + '/chat/admin/conversations/' + currentId + '/lu', { method: 'PUT', headers: authHeaders() });
+          }
+          loadConversations();
+        });
+
+        socket.on('conversation_maj', function() {
+          loadConversations();
+          majBadgeGlobal();
+        });
+
+        socket.on('disconnect', function() { socketReady = false; });
+      }
+
+      // --- Liaisons + initialisation ---
+      function bindEvents() {
+        document.getElementById('filterStatut').addEventListener('change', loadConversations);
+
+        var logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) logoutBtn.addEventListener('click', function(e) { e.preventDefault(); logout(); });
+
+        var sidebarToggle = document.getElementById('sidebarToggle');
+        var sidebar       = document.getElementById('adminSidebar');
+        if (sidebarToggle && sidebar) {
+          sidebarToggle.addEventListener('click', function() { sidebar.classList.toggle('open'); });
+        }
+      }
+
+      function init() {
+        if (!checkAuth()) return;
+        loadUserInfo();
+        bindEvents();
+        loadConversations();
+        majBadgeGlobal();
+        connecterSocket();
+
+        if (window.innerWidth <= 1024) {
+          var toggleBtn = document.getElementById('sidebarToggle');
+          if (toggleBtn) toggleBtn.style.display = 'flex';
+        }
+
+        // Rafraîchissement périodique de secours (si Socket.IO indisponible)
+        setInterval(function() { if (!socketReady) { loadConversations(); majBadgeGlobal(); } }, 15000);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+  </script>
+</body>
+</html>

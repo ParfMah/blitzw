@@ -1,0 +1,10 @@
+# Blitz Leihen — robots.txt
+
+User-agent: *
+Allow: /
+
+# Espaces d'administration : non destinés à l'indexation
+Disallow: /admin/
+Disallow: /admin-mobile/
+
+Sitemap: https://www.blitz-leihen.de/sitemap.xml

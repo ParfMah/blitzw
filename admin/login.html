@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+    API BACKEND — Configuration de l'URL du serveur.
+    ✏️  EN PRODUCTION : remplacer le contenu par l'URL réelle de votre backend.
+    Exemple : <meta name="api-base" content="https://blitz-leihen-backend.onrender.com">
+  -->
+  <meta name="api-base" content="http://localhost:3000">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Login – Blitz Leihen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="icon" type="image/webp" href="../blitz_leihen_logo.webp">
+</head>
+<body class="admin-body">
+
+  <main class="admin-login-page" role="main">
+    <div class="admin-login-card">
+
+      <!-- Logo -->
+      <div class="admin-login-logo">
+        <img src="../blitz_leihen_logo.webp" alt="Blitz Leihen">
+      </div>
+
+      <h1 class="admin-login-title">Administratorbereich</h1>
+      <p class="admin-login-subtitle">Bitte melden Sie sich mit Ihren Zugangsdaten an</p>
+
+      <!-- Message d'erreur (caché par défaut) -->
+      <div id="loginError" class="alert alert-error" style="display:none; margin-bottom:var(--space-5);">
+        <span>⚠</span>
+        <span>Ungültige Zugangsdaten. Bitte versuchen Sie es erneut.</span>
+      </div>
+
+      <!-- Formulaire de connexion -->
+      <form class="admin-login-form" id="loginForm" novalidate>
+
+        <div class="form-group">
+          <label class="form-label" for="username">Benutzername</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="form-control"
+            placeholder="admin@blitz-leihen.de"
+            required
+            autocomplete="username"
+            autofocus
+          >
+          <span class="form-error" style="display:none;"></span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">
+            Passwort
+            <a href="#" style="font-size:var(--text-xs); color:var(--color-primary-light); float:right; margin-left:auto; font-weight:var(--weight-regular);">Passwort vergessen?</a>
+          </label>
+          <div style="position:relative;">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control"
+              placeholder="••••••••••"
+              required
+              autocomplete="current-password"
+              style="padding-right:3rem;"
+            >
+            <!-- Bouton afficher/masquer le mot de passe -->
+            <button
+              type="button"
+              id="togglePassword"
+              style="position:absolute; right:var(--space-3); top:50%; transform:translateY(-50%); background:none; border:none; cursor:pointer; color:var(--color-text-muted); font-size:1rem;"
+              aria-label="Passwort anzeigen/verbergen"
+            >
+              👁
+            </button>
+          </div>
+          <span class="form-error" style="display:none;"></span>
+        </div>
+
+        <!-- Se souvenir de moi -->
+        <label style="display:flex; align-items:center; gap:var(--space-2); cursor:pointer; font-size:var(--text-sm); color:var(--color-text-light);">
+          <input type="checkbox" name="remember" style="accent-color:var(--color-primary);">
+          Angemeldet bleiben
+        </label>
+
+        <!-- Bouton de connexion -->
+        <button type="submit" class="btn btn-primary btn-lg" id="loginBtn" style="width:100%; justify-content:center; margin-top:var(--space-2);">
+          Anmelden
+        </button>
+
+      </form>
+
+      <!-- Lien retour au site -->
+      <div style="text-align:center; margin-top:var(--space-6); padding-top:var(--space-6); border-top:1px solid var(--color-border);">
+        <a href="../index.html" style="font-size:var(--text-sm); color:var(--color-text-muted);">
+          ← Zurück zur Website
+        </a>
+      </div>
+
+      <!-- Note de sécurité -->
+      <p style="text-align:center; font-size:0.7rem; color:var(--color-text-muted); margin-top:var(--space-4);">
+        🔒 Diese Verbindung ist SSL-verschlüsselt und sicher.
+      </p>
+
+    </div>
+  </main>
+
+  <script>
+    /**
+     * BLITZ LEIHEN — Admin Login
+     *
+     * Gère :
+     * 1. Validation du formulaire de connexion
+     * 2. Envoi vers l'API backend (POST /api/auth/login)
+     * 3. Stockage du token JWT en sessionStorage
+     * 4. Redirection vers le dashboard en cas de succès
+     * 5. Afficher/masquer le mot de passe
+     */
+    (function() {
+      'use strict';
+
+      // --- URL de l'API backend ---
+      // En développement : http://localhost:3000
+      // En production    : remplacer par l'URL réelle, ou injecter via meta tag
+      // (voir README pour la configuration FRONTEND_URL / API_BASE_URL)
+      var API_BASE = (
+        document.querySelector('meta[name="api-base"]')?.getAttribute('content') ||
+        window.BLITZ_API_BASE ||
+        'http://localhost:3000'
+      ).replace(/\/$/, '');
+      var AUTH_URL = API_BASE + '/api/auth/login';
+
+      var form      = document.getElementById('loginForm');
+      var loginBtn  = document.getElementById('loginBtn');
+      var errorEl   = document.getElementById('loginError');
+      var toggleBtn = document.getElementById('togglePassword');
+      var passInput = document.getElementById('password');
+
+      // --- Afficher / masquer le mot de passe ---
+      if (toggleBtn && passInput) {
+        toggleBtn.addEventListener('click', function() {
+          var isPassword = passInput.type === 'password';
+          passInput.type = isPassword ? 'text' : 'password';
+          toggleBtn.textContent = isPassword ? '🔒' : '👁';
+        });
+      }
+
+      // --- Soumission du formulaire ---
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+
+          var username = document.getElementById('username').value.trim();
+          var password = document.getElementById('password').value;
+
+          // Validation basique
+          if (!username || !password) {
+            showError('Bitte füllen Sie alle Felder aus.');
+            return;
+          }
+
+          // État chargement
+          if (loginBtn) {
+            loginBtn.disabled = true;
+            loginBtn.textContent = 'Anmeldung…';
+          }
+
+          // Envoi vers l'API backend
+          fetch(AUTH_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: username, password: password })
+          })
+          .then(function(response) {
+            return response.json().then(function(data) {
+              // On traite les erreurs et succès de la même façon (on a le body dans les deux cas)
+              return { ok: response.ok, status: response.status, data: data };
+            });
+          })
+          .then(function(result) {
+            if (result.ok && result.data.token) {
+              // Connexion réussie : stocker token + infos utilisateur + expiration
+              sessionStorage.setItem('blitz_admin_token',   result.data.token);
+              sessionStorage.setItem('blitz_admin_user',    JSON.stringify(result.data.user || {}));
+              sessionStorage.setItem('blitz_admin_expires', result.data.expiresAt || '');
+              window.location.href = 'dashboard.html';
+            } else {
+              // Message d'erreur exact du backend (verrouillage, mauvais MDP, compte inactif...)
+              var msg = result.data.message || 'E-Mail oder Passwort ist falsch';
+              showError(msg);
+              if (loginBtn) {
+                loginBtn.disabled = false;
+                loginBtn.textContent = 'Anmelden';
+              }
+            }
+          })
+          .catch(function() {
+            showError('Verbindung zum Server fehlgeschlagen. Bitte versuchen Sie es später erneut.');
+            if (loginBtn) {
+              loginBtn.disabled = false;
+              loginBtn.textContent = 'Anmelden';
+            }
+          });
+        });
+      }
+
+      function showError(msg) {
+        if (errorEl) {
+          // Afficher le message précis si disponible
+          var msgEl = errorEl.querySelector('p, span, [data-msg]');
+          if (msgEl && msg) msgEl.textContent = msg;
+          errorEl.style.display = 'flex';
+        }
+        // Masquage automatique après 6 secondes
+        setTimeout(function() {
+          if (errorEl) errorEl.style.display = 'none';
+        }, 6000);
+      }
+
+    })();
+  </script>
+</body>
+</html>

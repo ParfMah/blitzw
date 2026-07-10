@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!--
+    API BACKEND — Configuration de l'URL du serveur.
+    ✏️  EN PRODUCTION : remplacer le contenu par l'URL réelle de votre backend.
+    Exemple : <meta name="api-base" content="https://blitz-leihen-backend.onrender.com">
+  -->
+  <meta name="api-base" content="http://localhost:3000">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dashboard – Blitz Leihen Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="icon" type="image/webp" href="../blitz_leihen_logo.webp">
+</head>
+<body class="admin-body">
+
+  <!-- ===================================================
+       LAYOUT ADMIN : Sidebar + Contenu
+  =================================================== -->
+  <div class="admin-layout">
+
+    <!-- =============================================
+         SIDEBAR
+    ============================================= -->
+    <aside class="admin-sidebar" id="adminSidebar" role="navigation" aria-label="Administration">
+
+      <!-- Logo dans la sidebar -->
+      <div class="admin-sidebar__header">
+        <img src="../blitz_leihen_logo.webp" alt="Blitz Leihen" class="admin-sidebar__logo">
+      </div>
+
+      <!-- Navigation -->
+      <nav class="admin-nav">
+        <span class="admin-nav__section-title">Hauptmenü</span>
+        <a href="dashboard.html" class="admin-nav__link active">
+          <span class="admin-nav__icon">📊</span> Dashboard
+        </a>
+        <a href="dashboard.html#demandes" class="admin-nav__link">
+          <span class="admin-nav__icon">📋</span> Alle Anträge
+        </a>
+        <a href="dashboard.html#neu" class="admin-nav__link">
+          <span class="admin-nav__icon">🆕</span> Neue Anträge
+          <span id="newCount" style="margin-left:auto; background:var(--color-accent); color:white; border-radius:var(--radius-full); padding:2px 8px; font-size:0.65rem; font-weight:700;">0</span>
+        </a>
+        <a href="chat.html" class="admin-nav__link">
+          <span class="admin-nav__icon">💬</span> Live-Chat
+          <span id="chatUnreadCount" style="margin-left:auto; background:var(--color-accent); color:white; border-radius:var(--radius-full); padding:2px 8px; font-size:0.65rem; font-weight:700;">0</span>
+        </a>
+
+        <span class="admin-nav__section-title">Verwaltung</span>
+        <a href="#" class="admin-nav__link">
+          <span class="admin-nav__icon">👥</span> Kunden
+        </a>
+        <a href="#" class="admin-nav__link">
+          <span class="admin-nav__icon">📧</span> E-Mails
+        </a>
+        <a href="#" class="admin-nav__link">
+          <span class="admin-nav__icon">⚙️</span> Einstellungen
+        </a>
+
+        <span class="admin-nav__section-title">System</span>
+        <a href="../index.html" class="admin-nav__link" target="_blank">
+          <span class="admin-nav__icon">🌐</span> Website anzeigen
+        </a>
+        <a href="#" class="admin-nav__link" id="logoutBtn">
+          <span class="admin-nav__icon">🚪</span> Abmelden
+        </a>
+      </nav>
+
+      <!-- Infos utilisateur -->
+      <div class="admin-sidebar__footer">
+        <div class="admin-user">
+          <div class="admin-user__avatar" id="userAvatar">A</div>
+          <div>
+            <div class="admin-user__name" id="userName">Administrator</div>
+            <div class="admin-user__role">Super Admin</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- =============================================
+         CONTENU PRINCIPAL
+    ============================================= -->
+    <div class="admin-content">
+
+      <!-- Topbar -->
+      <header class="admin-topbar">
+        <!-- Bouton hamburger (mobile) -->
+        <button id="sidebarToggle" style="display:none; background:none; border:none; cursor:pointer; font-size:1.3rem; color:var(--color-primary); margin-right:var(--space-4);" aria-label="Menü öffnen">☰</button>
+
+        <h1 class="admin-topbar__title" id="topbarTitle">Dashboard</h1>
+
+        <div class="admin-topbar__actions">
+          <!-- Recherche rapide -->
+          <div class="admin-search">
+            <span class="admin-search__icon">🔍</span>
+            <input type="text" id="globalSearch" placeholder="Antrag suchen…" aria-label="Suche">
+          </div>
+
+          <!-- Bouton rafraîchir -->
+          <button onclick="loadDemandes()" class="btn btn-outline-primary btn-sm" title="Aktualisieren">↻ Aktualisieren</button>
+
+          <!-- Avatar utilisateur -->
+          <div class="admin-user__avatar" id="topbarAvatar" style="cursor:pointer;" title="Abmelden" onclick="logout()">A</div>
+        </div>
+      </header>
+
+      <!-- Zone principale -->
+      <main class="admin-main" id="adminMain">
+
+        <!-- ==========================================
+             STATISTIQUES
+        ========================================== -->
+        <div class="admin-stats-grid" id="statsGrid">
+          <div class="admin-stat-card">
+            <div class="admin-stat-card__header">
+              <span class="admin-stat-card__label">Gesamte Anträge</span>
+              <div class="admin-stat-card__icon admin-stat-card__icon--blue">📋</div>
+            </div>
+            <div class="admin-stat-card__number" id="statTotal">—</div>
+            <div class="admin-stat-card__change up" id="statTotalChange">Werden geladen…</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-card__header">
+              <span class="admin-stat-card__label">Neue Anträge</span>
+              <div class="admin-stat-card__icon admin-stat-card__icon--gold">🆕</div>
+            </div>
+            <div class="admin-stat-card__number" id="statNew">—</div>
+            <div class="admin-stat-card__change">Noch nicht bearbeitet</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-card__header">
+              <span class="admin-stat-card__label">Akzeptierte Anträge</span>
+              <div class="admin-stat-card__icon admin-stat-card__icon--green">✅</div>
+            </div>
+            <div class="admin-stat-card__number" id="statAccepted">—</div>
+            <div class="admin-stat-card__change up" id="statAcceptedRate">Werden geladen…</div>
+          </div>
+          <div class="admin-stat-card">
+            <div class="admin-stat-card__header">
+              <span class="admin-stat-card__label">Abgelehnte Anträge</span>
+              <div class="admin-stat-card__icon admin-stat-card__icon--red">❌</div>
+            </div>
+            <div class="admin-stat-card__number" id="statRefused">—</div>
+            <div class="admin-stat-card__change down" id="statRefusedRate">Werden geladen…</div>
+          </div>
+        </div>
+
+        <!-- ==========================================
+             TABLEAU DES DEMANDES
+        ========================================== -->
+        <div class="admin-table-wrap" id="demandes">
+
+          <!-- En-tête du tableau avec filtres -->
+          <div class="admin-table-header">
+            <h2 class="admin-table-title">Kreditanträge</h2>
+            <div style="display:flex; gap:var(--space-3); align-items:center; flex-wrap:wrap;">
+              <!-- Filtre par statut -->
+              <select id="filterStatus" style="padding:var(--space-2) var(--space-3); border:1.5px solid var(--color-border); border-radius:var(--radius-md); font-size:var(--text-sm); font-family:var(--font-body); outline:none; cursor:pointer; appearance:none; padding-right:2rem; background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%278%27 viewBox=%270 0 12 8%27%3E%3Cpath d=%27M1 1l5 5 5-5%27 stroke=%27%234A5478%27 stroke-width=%271.5%27 fill=%27none%27 stroke-linecap=%27round%27/%3E%3C/svg%3E'); background-repeat:no-repeat; background-position:right 0.5rem center;" aria-label="Status filtern">
+                <option value="">Alle Status</option>
+                <option value="Neu">Neu</option>
+                <option value="Analyse">In Analyse</option>
+                <option value="Akzeptiert">Akzeptiert</option>
+                <option value="Abgelehnt">Abgelehnt</option>
+              </select>
+              <!-- Filtre par type de prêt -->
+              <select id="filterType" style="padding:var(--space-2) var(--space-3); border:1.5px solid var(--color-border); border-radius:var(--radius-md); font-size:var(--text-sm); font-family:var(--font-body); outline:none; cursor:pointer; appearance:none; padding-right:2rem; background-image:url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%278%27 viewBox=%270 0 12 8%27%3E%3Cpath d=%27M1 1l5 5 5-5%27 stroke=%27%234A5478%27 stroke-width=%271.5%27 fill=%27none%27 stroke-linecap=%27round%27/%3E%3C/svg%3E'); background-repeat:no-repeat; background-position:right 0.5rem center;" aria-label="Kreditart filtern">
+                <option value="">Alle Kreditarten</option>
+                <option value="Privatkredit">Privatkredit</option>
+                <option value="Immobilienkredit">Immobilienkredit</option>
+                <option value="Autofinanzierung">Autofinanzierung</option>
+                <option value="Renovierungskredit">Renovierungskredit</option>
+                <option value="Hypothekenkredit">Hypothekenkredit</option>
+                <option value="Umschuldung">Umschuldung</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Tableau -->
+          <div style="overflow-x:auto;">
+            <table class="admin-table" aria-label="Liste der Kreditanträge">
+              <thead>
+                <tr>
+                  <th>Ref.-Nr.</th>
+                  <th>Antragsteller</th>
+                  <th>Kreditart</th>
+                  <th>Betrag</th>
+                  <th>Datum</th>
+                  <th>Status</th>
+                  <th>Aktion</th>
+                </tr>
+              </thead>
+              <tbody id="demandesTableBody">
+                <!-- Rempli dynamiquement par JavaScript -->
+                <tr>
+                  <td colspan="7" style="text-align:center; padding:var(--space-12); color:var(--color-text-muted);">
+                    <span style="font-size:2rem; display:block; margin-bottom:var(--space-3);">⏳</span>
+                    Anträge werden geladen…
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="admin-pagination">
+            <span class="admin-pagination__info" id="paginationInfo">—</span>
+            <div class="admin-pagination__controls" id="paginationControls"></div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ===================================================
+       DRAWER / DÉTAIL D'UNE DEMANDE
+  =================================================== -->
+  <div class="admin-modal-overlay" id="drawerOverlay">
+    <div class="admin-drawer" id="drawerPanel" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+
+      <div class="admin-drawer__header">
+        <h2 class="admin-drawer__title" id="drawerTitle">Antragsdetails</h2>
+        <button class="admin-drawer__close" id="drawerClose" aria-label="Schließen">×</button>
+      </div>
+
+      <div class="admin-drawer__body" id="drawerBody">
+        <!-- Rempli dynamiquement -->
+      </div>
+
+      <div class="admin-drawer__footer">
+        <div style="flex:1;">
+          <label style="font-size:var(--text-xs); color:var(--color-text-muted); display:block; margin-bottom:var(--space-2);">Status ändern:</label>
+          <select class="status-select" id="drawerStatusSelect">
+            <option value="Neu">🆕 Neu</option>
+            <option value="Analyse">🔍 In Analyse</option>
+            <option value="Akzeptiert">✅ Akzeptiert</option>
+            <option value="Abgelehnt">❌ Abgelehnt</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" id="saveStatusBtn">Status speichern</button>
+        <button class="btn btn-outline-primary" id="drawerCloseBtn">Schließen</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    /**
+     * BLITZ LEIHEN — Admin Dashboard
+     *
+     * Gère :
+     * 1. Vérification de l'authentification au chargement
+     * 2. Chargement des demandes depuis le backend (GET /api/demandes)
+     * 3. Affichage des statistiques
+     * 4. Filtrage et recherche des demandes
+     * 5. Affichage du détail d'une demande (drawer)
+     * 6. Modification du statut (PUT /api/demandes/:id)
+     * 7. Déconnexion
+     */
+    (function() {
+      'use strict';
+
+      // --- Configuration API ---
+      // En développement : http://localhost:3000
+      // En production    : lire depuis le meta tag <meta name="api-base" content="https://...">
+      //                    ou depuis window.BLITZ_API_BASE défini par le serveur
+      var API_BASE = (
+        document.querySelector('meta[name="api-base"]')?.getAttribute('content') ||
+        window.BLITZ_API_BASE ||
+        'http://localhost:3000'
+      ).replace(/\/$/, '') + '/api';
+
+      // --- État ---
+      var allDemandes  = [];  // Toutes les demandes chargées
+      var filteredData = [];  // Données après filtres
+      var currentPage  = 1;
+      var itemsPerPage = 10;
+      var currentId    = null; // ID de la demande affichée dans le drawer
+
+      // --- Vérification de l'authentification ---
+      function checkAuth() {
+        var token = sessionStorage.getItem('blitz_admin_token');
+        if (!token) {
+          window.location.href = 'login.html';
+          return false;
+        }
+        return token;
+      }
+
+      // --- En-têtes d'authentification ---
+      function authHeaders() {
+        var token = sessionStorage.getItem('blitz_admin_token');
+        return {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        };
+      }
+
+      // --- Infos utilisateur dans la sidebar ---
+      function loadUserInfo() {
+        var userStr = sessionStorage.getItem('blitz_admin_user');
+        if (!userStr) return;
+        try {
+          var user = JSON.parse(userStr);
+          var initial = user.name ? user.name[0].toUpperCase() : 'A';
+          var avatarEl = document.getElementById('userAvatar');
+          var nameEl   = document.getElementById('userName');
+          var topbarAv = document.getElementById('topbarAvatar');
+          if (avatarEl) avatarEl.textContent = initial;
+          if (nameEl)   nameEl.textContent   = user.name || 'Administrator';
+          if (topbarAv) topbarAv.textContent  = initial;
+        } catch(e) {}
+      }
+
+      // --- Chargement des demandes depuis l'API ---
+      window.loadDemandes = function() {
+        var token = checkAuth();
+        if (!token) return;
+
+        fetch(API_BASE + '/demandes', { headers: authHeaders() })
+          .then(function(r) {
+            if (r.status === 401) { logout(); return null; }
+            if (!r.ok) throw new Error('API error ' + r.status);
+            return r.json();
+          })
+          .then(function(json) {
+            if (!json) return;
+            // Le backend retourne { success, data: { demandes: [], total, page, pages } }
+            // On supporte aussi le format simple { demandes: [] } ou [] pour compatibilité
+            var demandes;
+            if (json.data && json.data.demandes) {
+              demandes = json.data.demandes;    // format backend réel
+            } else if (json.demandes) {
+              demandes = json.demandes;          // format alternatif
+            } else if (Array.isArray(json)) {
+              demandes = json;                   // tableau direct
+            } else {
+              demandes = [];
+            }
+            allDemandes  = demandes;
+            filteredData = allDemandes.slice();
+            renderStats(allDemandes);
+            renderTable();
+            updateNewCount();
+          })
+          .catch(function(err) {
+            console.error('Fehler beim Laden der Anträge:', err);
+            // Mode démo : affiche des données fictives si le backend n'est pas encore connecté
+            loadDemoData();
+          });
+      };
+
+      // --- Données de démonstration (mode sans backend) ---
+      function loadDemoData() {
+        allDemandes = [
+          { _id:'1', referenceNumber:'BL-2025-001234', vorname:'Max',     nachname:'Müller',  kreditart:'Privatkredit',      kreditbetrag:20000, statut:'Neu',        createdAt:'2025-01-15T10:30:00Z', land:'Deutschland',   einkommen:3500 },
+          { _id:'2', referenceNumber:'BL-2025-001235', vorname:'Sandra',  nachname:'Becker',  kreditart:'Immobilienkredit',  kreditbetrag:250000, statut:'Analyse',   createdAt:'2025-01-14T14:22:00Z', land:'Deutschland',   einkommen:5000 },
+          { _id:'3', referenceNumber:'BL-2025-001236', vorname:'Thomas',  nachname:'Richter', kreditart:'Autofinanzierung',  kreditbetrag:35000, statut:'Akzeptiert', createdAt:'2025-01-13T09:15:00Z', land:'Österreich',    einkommen:4200 },
+          { _id:'4', referenceNumber:'BL-2025-001237', vorname:'Laura',   nachname:'Schulz',  kreditart:'Renovierungskredit', kreditbetrag:15000, statut:'Abgelehnt', createdAt:'2025-01-12T16:45:00Z', land:'Deutschland',  einkommen:2800 },
+          { _id:'5', referenceNumber:'BL-2025-001238', vorname:'Klaus',   nachname:'Weber',   kreditart:'Umschuldung',       kreditbetrag:45000, statut:'Neu',        createdAt:'2025-01-11T11:00:00Z', land:'Frankreich',    einkommen:4800 },
+          { _id:'6', referenceNumber:'BL-2025-001239', vorname:'Maria',   nachname:'Hofmann', kreditart:'Hypothekenkredit',  kreditbetrag:180000, statut:'Analyse',   createdAt:'2025-01-10T13:30:00Z', land:'Deutschland',  einkommen:6000 },
+        ];
+        filteredData = allDemandes.slice();
+        renderStats(allDemandes);
+        renderTable();
+        updateNewCount();
+      }
+
+      // --- Statistiques ---
+      function renderStats(data) {
+        var total    = data.length;
+        var neu      = data.filter(function(d) { return d.statut === 'Neu'; }).length;
+        var accepted = data.filter(function(d) { return d.statut === 'Akzeptiert'; }).length;
+        var refused  = data.filter(function(d) { return d.statut === 'Abgelehnt'; }).length;
+
+        setText('statTotal',        total);
+        setText('statNew',          neu);
+        setText('statAccepted',     accepted);
+        setText('statRefused',      refused);
+        setText('statTotalChange',  total + ' Anträge insgesamt');
+        setText('statAcceptedRate', Math.round(accepted / (total || 1) * 100) + '% Akzeptierungsrate');
+        setText('statRefusedRate',  Math.round(refused  / (total || 1) * 100) + '% Ablehnungsrate');
+      }
+
+      // --- Rendu du tableau ---
+      function renderTable() {
+        var tbody = document.getElementById('demandesTableBody');
+        var info  = document.getElementById('paginationInfo');
+        if (!tbody) return;
+
+        // Application des filtres de recherche et de statut
+        var search     = (document.getElementById('globalSearch')  || {}).value || '';
+        var statusF    = (document.getElementById('filterStatus')   || {}).value || '';
+        var typeF      = (document.getElementById('filterType')     || {}).value || '';
+        var searchLow  = search.toLowerCase();
+
+        filteredData = allDemandes.filter(function(d) {
+          var name = ((d.vorname || '') + ' ' + (d.nachname || '')).toLowerCase();
+          var ref  = (d.referenceNumber || '').toLowerCase();
+
+          var matchSearch = !search || name.includes(searchLow) || ref.includes(searchLow);
+          var matchStatus = !statusF || d.statut === statusF;
+          var matchType   = !typeF   || d.kreditart === typeF;
+
+          return matchSearch && matchStatus && matchType;
+        });
+
+        // Pagination
+        var start  = (currentPage - 1) * itemsPerPage;
+        var end    = start + itemsPerPage;
+        var page   = filteredData.slice(start, end);
+        var total  = filteredData.length;
+
+        if (info) info.textContent = total + ' Einträge gefunden';
+
+        if (total === 0) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:var(--space-10);color:var(--color-text-muted);">Keine Anträge gefunden.</td></tr>';
+          renderPagination(0);
+          return;
+        }
+
+        tbody.innerHTML = page.map(function(d) {
+          var date   = d.createdAt ? new Date(d.createdAt).toLocaleDateString('de-DE') : '—';
+          var amount = d.kreditbetrag ? Number(d.kreditbetrag).toLocaleString('de-DE') + ' €' : '—';
+          var badge  = statusBadge(d.statut);
+
+          return [
+            '<tr onclick="openDrawer(\'' + d._id + '\')" style="cursor:pointer;">',
+            '  <td><code style="font-size:0.7rem; color:var(--color-text-muted);">' + (d.referenceNumber || d._id) + '</code></td>',
+            '  <td><strong>' + (d.vorname || '') + ' ' + (d.nachname || '') + '</strong></td>',
+            '  <td>' + (d.kreditart || '—') + '</td>',
+            '  <td style="font-weight:600; color:var(--color-primary); font-family:var(--font-mono);">' + amount + '</td>',
+            '  <td>' + date + '</td>',
+            '  <td>' + badge + '</td>',
+            '  <td><button onclick="event.stopPropagation(); openDrawer(\'' + d._id + '\')" class="btn btn-sm btn-outline-primary">Details</button></td>',
+            '</tr>'
+          ].join('');
+        }).join('');
+
+        renderPagination(total);
+      }
+
+      // --- Badge de statut HTML ---
+      function statusBadge(statut) {
+        var map = {
+          'Neu':         'status-badge--nouveau',
+          'Analyse':     'status-badge--analyse',
+          'Akzeptiert':  'status-badge--accepte',
+          'Abgelehnt':   'status-badge--refuse'
+        };
+        var cls = map[statut] || 'status-badge--nouveau';
+        return '<span class="status-badge ' + cls + '">' + (statut || 'Neu') + '</span>';
+      }
+
+      // --- Pagination ---
+      function renderPagination(total) {
+        var controls = document.getElementById('paginationControls');
+        if (!controls) return;
+
+        var pages = Math.ceil(total / itemsPerPage);
+        var html  = '';
+
+        for (var i = 1; i <= pages; i++) {
+          html += '<button class="admin-page-btn' + (i === currentPage ? ' active' : '') + '" data-page="' + i + '">' + i + '</button>';
+        }
+
+        controls.innerHTML = html;
+        controls.querySelectorAll('.admin-page-btn').forEach(function(btn) {
+          btn.addEventListener('click', function() {
+            currentPage = parseInt(this.getAttribute('data-page'));
+            renderTable();
+          });
+        });
+      }
+
+      // --- Ouverture du drawer ---
+      window.openDrawer = function(id) {
+        var demande = allDemandes.find(function(d) { return d._id === id; });
+        if (!demande) return;
+
+        currentId = id;
+
+        var overlay = document.getElementById('drawerOverlay');
+        var body    = document.getElementById('drawerBody');
+        var statusSel = document.getElementById('drawerStatusSelect');
+
+        if (overlay) overlay.classList.add('open');
+
+        // Pré-sélection du statut actuel
+        if (statusSel) statusSel.value = demande.statut || 'Neu';
+
+        var date = demande.createdAt ? new Date(demande.createdAt).toLocaleString('de-DE') : '—';
+        var amount = demande.kreditbetrag ? Number(demande.kreditbetrag).toLocaleString('de-DE') + ' €' : '—';
+
+        if (body) {
+          body.innerHTML = [
+            // Statut actuel
+            '<div style="margin-bottom:var(--space-5);">' + statusBadge(demande.statut) + ' <small style="color:var(--color-text-muted); margin-left:var(--space-2);">Eingangsdatum: ' + date + '</small></div>',
+
+            // Infos personnelles
+            '<div class="detail-section">',
+            '<div class="detail-section__title">Persönliche Angaben</div>',
+            '<div class="detail-grid">',
+            detailRow('Vorname',       demande.vorname),
+            detailRow('Nachname',      demande.nachname),
+            detailRow('Geburtsdatum',  demande.geburtsdatum),
+            detailRow('E-Mail',        demande.email),
+            detailRow('Telefon',       demande.telefon),
+            detailRow('Adresse',       (demande.adresse || '') + (demande.ort ? ', ' + demande.ort : '')),
+            detailRow('Wohnsitzland',  demande.land),
+            detailRow('Beschäftigung', demande.beschaeftigung),
+            detailRow('Einkommen',     demande.einkommen ? demande.einkommen + ' € / Monat' : '—'),
+            detailRow('Bestehende Verbindlichkeiten', (demande.bestehendeVerbindlichkeiten || 0) + ' € / Monat'),
+            '</div></div>',
+
+            // Infos crédit
+            '<div class="detail-section">',
+            '<div class="detail-section__title">Kreditangaben</div>',
+            '<div class="detail-grid">',
+            detailRow('Kreditart',       demande.kreditart),
+            detailRow('Betrag',          amount),
+            detailRow('Laufzeit',        demande.laufzeit ? demande.laufzeit + ' Monate' : '—'),
+            detailRow('Schuldenquote (geschätzt)', typeof demande.schuldenquote === 'number' ? demande.schuldenquote.toLocaleString('de-DE') + ' %' : '—'),
+            detailRow('Verwendungszweck', demande.verwendungszweck, true),
+            detailRow('SMS-Benachrichtigung', demande.sms_verification === 'ja' ? '✓ Ja' : '✗ Nein'),
+            '</div></div>',
+
+            // Référence
+            '<div class="detail-section">',
+            '<div class="detail-section__title">Systeminformationen</div>',
+            '<div class="detail-grid">',
+            detailRow('Referenznummer', demande.referenceNumber || demande._id),
+            detailRow('Eingangsdatum',  date),
+            detailRow('Standort (IP)',  demande.visiteurLocalisationAffichage || '—'),
+            detailRow('IP-Adresse',     demande.ipAdresse || '—'),
+            '</div></div>'
+          ].join('');
+        }
+      };
+
+      function detailRow(label, value, full) {
+        return '<div' + (full ? ' style="grid-column:1/-1;"' : '') + '>'
+          + '<div class="detail-field__label">' + label + '</div>'
+          + '<div class="detail-field__value">' + (value || '—') + '</div>'
+          + '</div>';
+      }
+
+      // --- Fermeture du drawer ---
+      function closeDrawer() {
+        var overlay = document.getElementById('drawerOverlay');
+        if (overlay) overlay.classList.remove('open');
+        currentId = null;
+      }
+
+      // --- Sauvegarde du statut ---
+      function saveStatus() {
+        if (!currentId) return;
+        var newStatus = document.getElementById('drawerStatusSelect').value;
+
+        fetch(API_BASE + '/demandes/' + currentId + '/statut', {
+          method: 'PUT',
+          headers: authHeaders(),
+          body: JSON.stringify({ statut: newStatus })
+        })
+        .then(function(r) {
+          if (r.status === 401) { logout(); return null; }
+          return r.json();
+        })
+        .then(function(json) {
+          if (!json) return;
+          // Le backend retourne { success, data: { demande, emailStatut } }
+          // On prend la demande mise à jour si disponible, sinon on met à jour localement
+          var updatedDemande = json.data && json.data.demande;
+          var d = allDemandes.find(function(x) { return x._id === currentId; });
+          if (d) {
+            d.statut = updatedDemande ? updatedDemande.statut : newStatus;
+          }
+          renderTable();
+          renderStats(allDemandes);
+          closeDrawer();
+        })
+        .catch(function() {
+          // Mode démo ou erreur réseau : mise à jour locale uniquement
+          var d = allDemandes.find(function(x) { return x._id === currentId; });
+          if (d) d.statut = newStatus;
+          renderTable();
+          renderStats(allDemandes);
+          closeDrawer();
+        });
+      }
+
+      // --- Compteur "Nouvelles demandes" ---
+      function updateNewCount() {
+        var count = allDemandes.filter(function(d) { return d.statut === 'Neu'; }).length;
+        var el = document.getElementById('newCount');
+        if (el) el.textContent = count;
+      }
+
+      // --- Badge "Live-Chat" non lus ---
+      function updateChatBadge() {
+        fetch(API_BASE + '/chat/admin/non-lus', { headers: authHeaders() })
+          .then(function(r) { return r.json(); })
+          .then(function(json) {
+            var el = document.getElementById('chatUnreadCount');
+            if (el && json && json.success) el.textContent = json.data.total;
+          })
+          .catch(function() {});
+      }
+
+      // --- Déconnexion ---
+      window.logout = function() {
+        sessionStorage.removeItem('blitz_admin_token');
+        sessionStorage.removeItem('blitz_admin_user');
+        window.location.href = 'login.html';
+      };
+
+      // --- Utilitaire : setText ---
+      function setText(id, text) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = text;
+      }
+
+      // --- Liaisons des événements ---
+      function bindEvents() {
+        // Fermeture du drawer
+        var drawerClose  = document.getElementById('drawerClose');
+        var drawerCloseB = document.getElementById('drawerCloseBtn');
+        var overlay      = document.getElementById('drawerOverlay');
+
+        if (drawerClose)  drawerClose.addEventListener('click', closeDrawer);
+        if (drawerCloseB) drawerCloseB.addEventListener('click', closeDrawer);
+        if (overlay) overlay.addEventListener('click', function(e) {
+          if (e.target === overlay) closeDrawer();
+        });
+
+        // Sauvegarde du statut
+        var saveBtn = document.getElementById('saveStatusBtn');
+        if (saveBtn) saveBtn.addEventListener('click', saveStatus);
+
+        // Déconnexion
+        var logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) logoutBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          logout();
+        });
+
+        // Filtres
+        ['filterStatus', 'filterType', 'globalSearch'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) el.addEventListener('input', function() {
+            currentPage = 1;
+            renderTable();
+          });
+        });
+
+        // Toggle sidebar mobile
+        var sidebarToggle = document.getElementById('sidebarToggle');
+        var sidebar       = document.getElementById('adminSidebar');
+        if (sidebarToggle && sidebar) {
+          sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('open');
+          });
+        }
+      }
+
+      // --- Initialisation ---
+      function init() {
+        if (!checkAuth()) return;
+        loadUserInfo();
+        bindEvents();
+        loadDemandes();
+        updateChatBadge();
+
+        // Affiche le bouton hamburger sur mobile
+        if (window.innerWidth <= 1024) {
+          var toggleBtn = document.getElementById('sidebarToggle');
+          if (toggleBtn) toggleBtn.style.display = 'flex';
+        }
+
+        // Rafraîchissement automatique toutes les 5 minutes
+        setInterval(loadDemandes, 300000);
+        // Badge Live-Chat : rafraîchi plus fréquemment
+        setInterval(updateChatBadge, 20000);
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+  </script>
+</body>
+</html>
