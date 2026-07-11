@@ -33,14 +33,14 @@
   //      (méthode recommandée pour la production)
   //   2. window.BLITZ_API_BASE = "https://..."
   //      (assignée par un script inline en haut de page)
-  //   3. http://localhost:3000 (développement local)
+  //   3. https://blitzback.onrender.com (développement local)
   // -------------------------------------------------------
   function getApiBase() {
     var meta = document.querySelector('meta[name="api-base"]');
     return (
       (meta && meta.getAttribute('content')) ||
       window.BLITZ_API_BASE ||
-      'http://localhost:3000'
+      'https://blitzback.onrender.com'
     ).replace(/\/$/, '');
   }
 

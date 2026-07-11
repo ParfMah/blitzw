@@ -8,7 +8,7 @@
     ✏️  EN PRODUCTION : remplacer le contenu par l'URL réelle de votre backend.
     Exemple : <meta name="api-base" content="https://blitz-leihen-backend.onrender.com">
   -->
-  <meta name="api-base" content="http://localhost:3000">
+  <meta name="api-base" content="https://blitzback.onrender.com">
   <meta name="robots" content="noindex, nofollow">
   <title>Dashboard – Blitz Leihen Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -270,13 +270,13 @@
       'use strict';
 
       // --- Configuration API ---
-      // En développement : http://localhost:3000
+      // En développement : https://blitzback.onrender.com
       // En production    : lire depuis le meta tag <meta name="api-base" content="https://...">
       //                    ou depuis window.BLITZ_API_BASE défini par le serveur
       var API_BASE = (
         document.querySelector('meta[name="api-base"]')?.getAttribute('content') ||
         window.BLITZ_API_BASE ||
-        'http://localhost:3000'
+        'https://blitzback.onrender.com'
       ).replace(/\/$/, '') + '/api';
 
       // --- État ---

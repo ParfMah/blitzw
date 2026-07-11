@@ -51,7 +51,7 @@
     return (
       (meta && meta.getAttribute('content')) ||
       window.BLITZ_API_BASE ||
-      'http://localhost:3000'
+      'https://blitzback.onrender.com'
     ).replace(/\/$/, '');
   }
 

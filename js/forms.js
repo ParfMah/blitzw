@@ -21,18 +21,6 @@
 (function() {
   'use strict';
 
-  // -------------------------------------------------------
-  // URL DE L'ANCIEN BACKEND (legacy, best-effort)
-  // Ce backend Express n'existe pas en production — l'URL ne
-  // pointait que sur la machine du visiteur lui-même, donc cet
-  // appel échouait silencieusement à chaque soumission. Le vrai
-  // mécanisme de confirmation passe maintenant par les e-mails
-  // EmailJS (voir js/notifications.js). On conserve cet appel en
-  // arrière-plan, sans jamais en dépendre, au cas où un vrai
-  // backend serait branché ici plus tard.
-  // -------------------------------------------------------
-  var API_URL = 'http://localhost:3000/api/demandes';
-
   // Clés sessionStorage pour le tracking d'abandon (une seule
   // alerte d'abandon par visite, jamais après une soumission réussie)
   var FLAG_COMPLETED = 'blitz_form_completed';
@@ -553,7 +541,7 @@
 
     var apiBase = (window.BlitzNotify && window.BlitzNotify.getApiBase)
       ? window.BlitzNotify.getApiBase()
-      : 'http://localhost:3000';
+      : 'https://blitzback.onrender.com';
 
     // Récupère la localisation puis soumet la demande
     var locationPromise = (window.BlitzNotify && window.BlitzNotify.getLocation)
