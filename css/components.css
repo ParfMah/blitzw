@@ -722,7 +722,6 @@
   .hero-panel__text {
     font-size: var(--text-xs);
     margin-bottom: var(--space-4);
-    -webkit-line-clamp: 3;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
