@@ -41,13 +41,13 @@
         btnSecondary:    'Alle Kreditprodukte',
         btnSecondaryHref:'kredite.html',
         photos: [
-          { src: '', alt: 'Glücklicher Kunde mit Kreditvertrag',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-kunde-kreditvertrag-lachend_hvnefd.webp', alt: 'Glücklicher Kunde mit Kreditvertrag',
             caption: 'Kredit in 48 Stunden',
             desc: 'CLIENT SATISFAIT tenant un contrat de crédit — ambiance chaleureuse et professionnelle — 800×600px' },
-          { src: '', alt: 'Professioneller Finanzberater',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-finanzberater-beratungsgespraech_nhkcni.webp', alt: 'Professioneller Finanzberater',
             caption: 'Persönliche Beratung',
             desc: 'CONSEILLER FINANCIER souriant face au client, bureau moderne — 800×600px' },
-          { src: '', alt: 'Familie mit finanziertem Wunsch',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-familie-wohnzimmer-gluecklich_ya6ki8.webp', alt: 'Familie mit finanziertem Wunsch',
             caption: 'Finanzielle Freiheit',
             desc: 'FAMILLE HEUREUSE dans leur salon, ambiance de réussite et sérénité — 800×600px' }
         ]
@@ -66,13 +66,13 @@
         btnSecondary:    'Konditionen ansehen',
         btnSecondaryHref:'immobilien.html',
         photos: [
-          { src: '', alt: 'Modernes Einfamilienhaus in Deutschland',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-einfamilienhaus-garten-modern_rglahy.webp', alt: 'Modernes Einfamilienhaus in Deutschland',
             caption: 'Traumhaus verwirklichen',
             desc: 'MAISON INDIVIDUELLE MODERNE avec jardin, style contemporain, ciel bleu — 800×600px' },
-          { src: '', alt: 'Elegante Eigentumswohnung',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849032/blitz-leihen-hero-eigentumswohnung-interieur_bbtfus.webp', alt: 'Elegante Eigentumswohnung',
             caption: 'Eigentumswohnung',
             desc: 'INTÉRIEUR APPARTEMENT élégant avec lumière naturelle, mobilier design — 800×600px' },
-          { src: '', alt: 'Paar vor neuem Haus',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-paar-hausschluessel-uebergabe1_mikuxd.webp', alt: 'Paar vor neuem Haus',
             caption: 'Schlüsselübergabe',
             desc: 'COUPLE souriant devant leur nouvelle maison, tenant les clés — 800×600px' }
         ]
@@ -91,13 +91,13 @@
         btnSecondary:    'Über uns',
         btnSecondaryHref:'ueber-uns.html',
         photos: [
-          { src: '', alt: 'Digitale Kreditanwendung auf Smartphone',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-smartphone-kredit-app_yzlmin.webp', alt: 'Digitale Kreditanwendung auf Smartphone',
             caption: '100% digital & sicher',
             desc: 'SMARTPHONE avec app de crédit sur écran, fond lumineux moderne — 800×600px' },
-          { src: '', alt: 'BaFin Sicherheit und Zertifizierung',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849032/blitz-leihen-hero-bafin-sicherheit-tresor_zxtkwd.webp', alt: 'BaFin Sicherheit und Zertifizierung',
             caption: 'BaFin-reguliert',
             desc: 'SÉCURITÉ FINANCIÈRE — coffre fort, bouclier ou façade banque allemande — 800×600px' },
-          { src: '', alt: 'Professionelles Team Blitz Leihen',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849037/blitz-leihen-hero-team-buero-modern_k5iek0.webp', alt: 'Professionelles Team Blitz Leihen',
             caption: 'Unser Expertenteam',
             desc: 'ÉQUIPE BUREAU MODERNE — conseillers en open space, ambiance dynamique — 800×600px' }
         ]
@@ -116,13 +116,13 @@
         btnSecondary:    'Kundenstimmen',
         btnSecondaryHref:'ueber-uns.html',
         photos: [
-          { src: '', alt: 'Berlin Stadtansicht Deutschland',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849032/blitz-leihen-hero-berlin-skyline-panorama_gqw7uk.webp', alt: 'Berlin Stadtansicht Deutschland',
             caption: 'Gegründet in Berlin 2015',
             desc: 'PANORAMA BERLIN ou grande ville allemande, skyline moderne, ciel bleu — 800×600px' },
-          { src: '', alt: 'Glückliche Familie zu Hause',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-familie-mehrgenerationen-zuhause_jbrasy.webp', alt: 'Glückliche Familie zu Hause',
             caption: '15.000+ zufriedene Kunden',
             desc: 'FAMILLE MULTIGÉNÉRATIONNELLE dans leur maison, ambiance chaleureuse — 800×600px' },
-          { src: '', alt: 'Geschäftshandschlag Partnerschaft',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-geschaeftshandschlag-partnerschaft_jqgame.webp', alt: 'Geschäftshandschlag Partnerschaft',
             caption: 'Ihr Partner für die Zukunft',
             desc: 'POIGNÉE DE MAIN professionnelle, bureau élégant en arrière-plan — 800×600px' }
         ]
