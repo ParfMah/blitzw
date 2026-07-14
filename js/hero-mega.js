@@ -37,7 +37,7 @@
         title:     'Schnelle Kredite für jede Lebenslage',
         text:      'Bis zu 150.000 € in weniger als 48 Stunden. Einfacher Antrag, transparente Zinsen, persönlicher Berater.',
         btnPrimary:      'Jetzt Kredit beantragen ⚡',
-        btnPrimaryHref:  'kontakt.html',
+        btnPrimaryHref:  'kreditantrag.html',
         btnSecondary:    'Alle Kreditprodukte',
         btnSecondaryHref:'kredite.html',
         photos: [
@@ -87,7 +87,7 @@
         title:     'Ihre Vorteile bei Blitz Leihen',
         text:      'BaFin-reguliert, DSGVO-konform, 15.000+ zufriedene Kunden. Kostenlose Erstberatung ohne Verpflichtungen.',
         btnPrimary:      'Kostenlos beraten lassen',
-        btnPrimaryHref:  'kontakt.html',
+        btnPrimaryHref:  'kreditantrag.html',
         btnSecondary:    'Über uns',
         btnSecondaryHref:'ueber-uns.html',
         photos: [

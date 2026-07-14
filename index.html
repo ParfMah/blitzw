@@ -80,6 +80,7 @@
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/ratgeber.css">
   <link rel="stylesheet" href="css/chat-widget.css">
+  <link rel="stylesheet" href="css/bg-effects.css">
 
   <!-- Favicon (utilise le logo) -->
   <link rel="icon" type="image/webp" href="blitz_leihen_logo.webp">
@@ -437,7 +438,7 @@
               oder berechnen Sie direkt Ihre Rate mit unserem <a href="simulation.html" style="color:var(--color-secondary); font-weight:var(--weight-semi);">Kreditrechner</a>.
             </p>
             <div style="display:flex; gap: var(--space-4); flex-wrap:wrap; margin-top: var(--space-8);">
-              <a href="kontakt.html" class="btn btn-primary btn-lg">Jetzt Kredit beantragen</a>
+              <a href="kreditantrag.html" class="btn btn-primary btn-lg">Jetzt Kredit beantragen</a>
               <a href="ueber-uns.html" class="btn btn-outline-primary btn-lg">Mehr über uns</a>
             </div>
           </div>
@@ -643,7 +644,7 @@
               Unser vereinfachter Antragsprozess ermöglicht es Ihnen, Ihren Kredit bequem von zu Hause aus zu beantragen — ohne Papierformulare, ohne Wartezeiten.
             </p>
             <div style="margin-top: var(--space-8);">
-              <a href="kontakt.html" class="btn btn-accent btn-lg">Jetzt starten ⚡</a>
+              <a href="kreditantrag.html" class="btn btn-accent btn-lg">Jetzt starten ⚡</a>
             </div>
           </div>
 
@@ -766,7 +767,7 @@
             </div>
 
             <div style="text-align:center; margin-top: var(--space-6); display:flex; gap:var(--space-3); justify-content:center; flex-wrap:wrap;">
-              <a href="kontakt.html" class="btn btn-accent btn-lg">Mit diesem Betrag beantragen ⚡</a>
+              <a href="kreditantrag.html" class="btn btn-accent btn-lg">Mit diesem Betrag beantragen ⚡</a>
               <a href="simulation.html" class="btn btn-outline-primary btn-lg">🧮 Ausführlicher Kreditrechner</a>
             </div>
 
@@ -815,7 +816,9 @@
     <!-- -------------------------------------------------
          10. TÉMOIGNAGES CLIENTS
     ------------------------------------------------- -->
-    <section class="section-py" style="background:var(--color-white);" aria-labelledby="testimonials-title">
+    <section class="section-py testimonials-cf-wrap" style="background:var(--color-white);" aria-labelledby="testimonials-title">
+      <!-- Diaporama en fondu enchaîné (Effet N°2) — construit par js/bg-effects.js -->
+      <div id="testimonialsCrossfadeBg" aria-hidden="true"></div>
       <div class="container">
         <header class="section-header section-header--center animate-on-scroll">
           <span class="section-eyebrow">Kundenstimmen</span>
@@ -902,7 +905,7 @@
           Kostenlos, unverbindlich und in nur 5 Minuten. Unser Team antwortet innerhalb von 24 Stunden.
         </p>
         <div class="cta-section__actions">
-          <a href="kontakt.html" class="btn btn-accent btn-lg">⚡ Jetzt Kredit beantragen</a>
+          <a href="kreditantrag.html" class="btn btn-accent btn-lg">⚡ Jetzt Kredit beantragen</a>
           <a href="kontakt.html#contact-info" class="btn btn-outline-white btn-lg">📞 Kostenlos anrufen</a>
         </div>
       </div>
@@ -937,6 +940,7 @@
   <script src="js/loader.js"></script>
   <script src="js/navigation.js"></script>
   <script src="js/hero-mega.js"></script>
+  <script src="js/bg-effects.js" defer></script>
   <script src="js/main.js"></script>
   <script src="https://cdn.socket.io/4.8.3/socket.io.min.js" integrity="sha384-kzavj5fiMwLKzzD1f8S7TeoVIEi7uKHvbTA3ueZkrzYq75pNQUiUi6Dy98Q3fxb0" crossorigin="anonymous"></script>
   <script src="js/chat-widget.js"></script>

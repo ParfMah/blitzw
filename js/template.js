@@ -63,7 +63,8 @@
     '      <a href="' + rootPath + 'simulation.html" class="nav-desktop__link">Kreditrechner</a>',
     '      <a href="' + rootPath + 'ratgeber.html"   class="nav-desktop__link">Ratgeber</a>',
     '      <a href="' + rootPath + 'ueber-uns.html"  class="nav-desktop__link">Über uns</a>',
-    '      <a href="' + rootPath + 'kontakt.html"    class="nav-desktop__link nav-desktop__cta">Kreditantrag stellen</a>',
+    '      <a href="' + rootPath + 'kontakt.html"    class="nav-desktop__link">Kontakt</a>',
+    '      <a href="' + rootPath + 'kreditantrag.html" class="nav-desktop__link nav-desktop__cta">Kreditantrag stellen</a>',
     '    </nav>',
     '',
     '    <!-- Bouton Hamburger (mobile/tablette) -->',
@@ -127,7 +128,7 @@
     '',
     '  <!-- Pied de la sidebar : CTA -->',
     '  <div class="nav-mobile__footer">',
-    '    <a href="' + rootPath + 'kontakt.html" class="btn btn-accent">⚡ Jetzt Kredit beantragen</a>',
+    '    <a href="' + rootPath + 'kreditantrag.html" class="btn btn-accent">⚡ Jetzt Kredit beantragen</a>',
     '  </div>',
     '</nav>'
   ].join('\n');
@@ -137,6 +138,8 @@
   // -------------------------------------------------------
   var FOOTER_HTML = [
     '<footer class="site-footer" role="contentinfo">',
+    '  <!-- Diaporama en fondu enchaîné (Effet N°2, global) — construit par js/bg-effects.js -->',
+    '  <div id="footerCrossfadeBg" aria-hidden="true"></div>',
     '  <div class="footer-top">',
     '',
     '    <!-- Colonne : marque -->',
@@ -158,6 +161,7 @@
     '    <div class="footer-col">',
     '      <h3 class="footer-col__title">Unsere Produkte</h3>',
     '      <ul class="footer-col__links">',
+    '        <li><a href="' + rootPath + 'kreditantrag.html"          class="footer-col__link">⚡ Kreditantrag stellen</a></li>',
     '        <li><a href="' + rootPath + 'kredite.html#privatkredit"   class="footer-col__link">Privatkredit</a></li>',
     '        <li><a href="' + rootPath + 'immobilien.html"             class="footer-col__link">Immobilienkredit</a></li>',
     '        <li><a href="' + rootPath + 'kredite.html#autokredit"     class="footer-col__link">Autofinanzierung</a></li>',

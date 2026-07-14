@@ -40,7 +40,7 @@
       title:            'Schnelle Kredite, die Ihr Leben verändern',
       text:             'Bis zu 150.000 € in weniger als 48 Stunden. Einfache Konditionen, transparente Zinsen und ein persönlicher Berater an Ihrer Seite.',
       btnPrimary:       'Jetzt Kredit beantragen',
-      btnPrimaryHref:   'kontakt.html',
+      btnPrimaryHref:   'kreditantrag.html',
       btnSecondary:     'Unsere Angebote entdecken',
       btnSecondaryHref: 'kredite.html'
     },
@@ -60,7 +60,7 @@
       title:            'Finanzlösungen für jeden Bedarf',
       text:             'Ob Privatkredit, Autofinanzierung oder Umschuldung — bei Blitz Leihen finden Sie die passende Lösung für Ihre finanzielle Situation.',
       btnPrimary:       'Kostenlose Beratung starten',
-      btnPrimaryHref:   'kontakt.html',
+      btnPrimaryHref:   'kreditantrag.html',
       btnSecondary:     'Alle Kredite anzeigen',
       btnSecondaryHref: 'kredite.html'
     }

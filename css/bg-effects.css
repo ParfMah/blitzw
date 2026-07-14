@@ -1,0 +1,270 @@
+/* ==========================================================
+   BLITZ LEIHEN — EFFETS VISUELS AVANCÉS
+   Diaporamas Ken Burns / Crossfade / Distortion + vidéo de fond.
+
+   Ce fichier ne définit QUE l'apparence. La construction du DOM
+   (slides, overlay, placeholders) est gérée par js/bg-effects.js,
+   qui lit sa configuration Cloudinary centralisée en tête de
+   fichier — voir ce fichier pour remplacer les images/vidéos.
+
+   Chargement : ce fichier est lié sur TOUTES les pages publiques
+   car le diaporama du footer (§2) est global. Chaque conteneur
+   n'est construit par le JS que s'il est présent dans le DOM :
+   aucun impact sur les pages qui n'utilisent pas tel ou tel effet.
+   ========================================================== */
+
+/* ----------------------------------------------------------
+   0. UTILITAIRE — Filtre "overlay" de contraste
+   Appliqué par-dessus toute image/vidéo de fond en Hero pour
+   garantir la lisibilité du texte au premier plan (cahier des
+   charges §3). rgba(0,0,0,0.5) = assombrissement optimal validé.
+---------------------------------------------------------- */
+.bg-overlay-contrast {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Variante claire : utilisée quand le texte au premier plan est
+   sombre (ex. section Témoignages, qui garde sa mise en page claire) */
+.bg-overlay-contrast--light {
+  background: rgba(255, 255, 255, 0.86);
+}
+
+/* ----------------------------------------------------------
+   0bis. PLACEHOLDER GÉNÉRIQUE (tant que les vrais médias
+   Cloudinary ne sont pas branchés). Reprend le même esprit que
+   .hero-photo-placeholder déjà utilisé par js/hero-mega.js.
+---------------------------------------------------------- */
+.media-ph {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  text-align: center;
+  padding: var(--space-6);
+  background: linear-gradient(135deg, #16345F 0%, #0B2D59 100%);
+}
+
+.media-ph__icon  { font-size: 2rem; opacity: 0.5; }
+.media-ph__label { font-size: var(--text-sm); font-weight: var(--weight-semi); color: var(--color-accent); }
+.media-ph__desc  { font-size: 0.7rem; color: rgba(255,255,255,0.5); max-width: 320px; line-height: 1.5; }
+.media-ph__code  { font-size: 0.62rem; font-family: var(--font-mono); color: var(--color-accent); background: rgba(255,255,255,0.07); padding: 3px 10px; border-radius: 3px; }
+
+/* ==========================================================
+   1. EFFET N°1 — DIAPORAMA "KEN BURNS" (Hero Accueil)
+   Zoom lent et continu + fondu enchaîné invisible entre images.
+   ========================================================== */
+.kb-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0; /* reste TOUJOURS derrière le contenu du hero */
+}
+
+.kb-bg__slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 2400ms ease;
+  animation-duration: 22s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-play-state: paused; /* activée uniquement quand .is-active */
+  will-change: transform, opacity;
+}
+
+.kb-bg__slide.is-active {
+  opacity: 1;
+  animation-play-state: running;
+  z-index: 1;
+}
+
+/* Alternance zoom avant / zoom arrière selon les slides, pour
+   éviter un mouvement mécanique identique à chaque transition */
+.kb-bg__slide--in  { animation-name: kbZoomIn; }
+.kb-bg__slide--out { animation-name: kbZoomOut; }
+
+@keyframes kbZoomIn {
+  from { transform: scale(1);    }
+  to   { transform: scale(1.14); }
+}
+
+@keyframes kbZoomOut {
+  from { transform: scale(1.14); }
+  to   { transform: scale(1);    }
+}
+
+/* ==========================================================
+   2. EFFET N°2 — CROSSFADE PUR (Footer global + Témoignages)
+   Changement doux, sans zoom ni glissement horizontal.
+   ========================================================== */
+.cf-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.cf-bg__slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 2600ms ease;
+}
+
+.cf-bg__slide.is-active { opacity: 1; z-index: 1; }
+
+/* -- Footer : overlay sombre pour laisser le texte blanc lisible -- */
+.site-footer {
+  position: relative;
+  overflow: hidden;
+}
+
+.site-footer .footer-top,
+.site-footer .footer-bottom,
+.site-footer .footer-divider {
+  position: relative;
+  z-index: 2;
+}
+
+.site-footer .cf-bg { opacity: 0.55; } /* diaporama discret, décoratif */
+.site-footer .bg-overlay-contrast { background: rgba(5, 18, 38, 0.82); }
+
+/* -- Témoignages : overlay clair pour garder les cartes lisibles -- */
+#testimonialsCrossfadeBg { border-radius: var(--radius-2xl); }
+
+.testimonials-cf-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-2xl);
+}
+
+.testimonials-cf-wrap > .container { position: relative; z-index: 2; }
+
+/* ==========================================================
+   3. EFFET N°3 — TRANSITION PAR DISTORSION FLUIDE
+   Galerie des offres de crédit (kredite.html). Fondu + flou +
+   léger déplacement organique, renforcé par une distorsion SVG
+   (feTurbulence/feDisplacementMap) le temps de la transition.
+   ========================================================== */
+.distort-gallery {
+  position: relative;
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  box-shadow: var(--shadow-xl);
+  background: var(--color-primary);
+}
+
+.distort-gallery__slide {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.06);
+  filter: blur(0);
+  transition:
+    opacity 900ms ease,
+    transform 1100ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    filter 900ms ease;
+}
+
+.distort-gallery__slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 2;
+}
+
+.distort-gallery__slide.is-leaving {
+  opacity: 0;
+  transform: scale(1.08);
+  filter: blur(14px);
+  z-index: 1;
+}
+
+/* Distorsion organique appliquée UNIQUEMENT pendant la fenêtre de
+   transition (classe ajoutée/retirée par le JS) */
+.distort-gallery__slide.is-distorting { filter: url(#dg-distort-filter) blur(2px); }
+
+.distort-gallery__caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 3;
+  padding: var(--space-6) var(--space-8);
+  background: linear-gradient(to top, rgba(11,45,89,0.88), transparent);
+  color: var(--color-white);
+}
+
+.distort-gallery__caption-eyebrow {
+  display: block;
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-1);
+}
+
+.distort-gallery__caption-title {
+  font-family: var(--font-heading);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+}
+
+.distort-gallery__dots {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+  z-index: 3;
+  display: flex;
+  gap: var(--space-2);
+}
+
+.distort-gallery__dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.4);
+  cursor: pointer;
+  padding: 0;
+  transition: background var(--transition-normal), width var(--transition-normal);
+}
+
+.distort-gallery__dot.active {
+  background: var(--color-accent);
+  width: 22px;
+  border-radius: 4px;
+}
+
+@media (max-width: 767px) {
+  .distort-gallery { aspect-ratio: 4 / 5; }
+  .distort-gallery__caption-title { font-size: var(--text-lg); }
+}
+
+/* ==========================================================
+   4. VIDÉO DE FOND (page Kontakt — hero-mini)
+   Sans son, boucle, lecture automatique, compatible mobile.
+   ========================================================== */
+.hero-mini--video .hero-mini__video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* L'overlay de contraste (§0) est injecté juste après la vidéo
+   par js/bg-effects.js pour respecter le cahier des charges §3 */
+.hero-mini--video .hero-mini__content { z-index: 2; }

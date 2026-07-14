@@ -71,7 +71,7 @@
     // Le CTA transmet le montant/durée choisis au formulaire de demande,
     // qui les pré-remplit automatiquement (voir js/forms.js)
     if (applyBtn) {
-      applyBtn.href = 'kontakt.html?betrag=' + state.betrag + '&laufzeit=' + state.laufzeit;
+      applyBtn.href = 'kreditantrag.html?betrag=' + state.betrag + '&laufzeit=' + state.laufzeit;
     }
   }
 

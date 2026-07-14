@@ -394,6 +394,8 @@
   display: flex;
   width: 400%;
   height: 100%;
+  position: relative; /* nécessaire pour rester AU-DESSUS du fond Ken Burns (js/bg-effects.js), qui est en z-index:0 */
+  z-index: 1;
   /* will-change retiré : causait un GPU layer qui bloquait le header */
   transition: transform 0.85s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -547,9 +549,12 @@
   flex-direction: column;
   justify-content: center;
   padding: var(--space-12) var(--space-8) var(--space-12) var(--space-6);
+  /* Légèrement plus transparent qu'auparavant : laisse deviner le
+     diaporama Ken Burns du fond (js/bg-effects.js) derrière le panneau.
+     Le contraste du texte reste garanti par .bg-overlay-contrast. */
   background: linear-gradient(135deg,
-    rgba(11,45,89,0.97) 0%,
-    rgba(11,45,89,0.88) 100%);
+    rgba(11,45,89,0.90) 0%,
+    rgba(11,45,89,0.74) 100%);
   position: relative;
   z-index: 2;
 }
@@ -707,7 +712,7 @@
     order: 1;
     flex: 0 0 auto;
     padding: var(--space-5) var(--space-4) var(--space-4);
-    background: var(--color-primary);
+    background: rgba(11,45,89,0.88); /* légèrement transparent : laisse deviner le fond Ken Burns */
   }
 
   .hero-panel__content::before { display: none; }
@@ -722,6 +727,7 @@
   .hero-panel__text {
     font-size: var(--text-xs);
     margin-bottom: var(--space-4);
+    -webkit-line-clamp: 3;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     overflow: hidden;
