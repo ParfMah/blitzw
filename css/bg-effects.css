@@ -269,3 +269,12 @@
 /* L'overlay de contraste (§0) est injecté juste après la photo
    par js/bg-effects.js pour respecter le cahier des charges §3 */
 .hero-mini--photo .hero-mini__content { z-index: 2; }
+
+/* Cas particulier : le hero "Über uns" (.about-hero) utilise .container
+   au lieu de .hero-mini__content — ce dernier n'a pas de z-index propre
+   par défaut, il faut donc l'ancrer explicitement au-dessus de la photo
+   et de l'overlay injectés par js/bg-effects.js. */
+.about-hero.hero-mini--photo > .container {
+  position: relative;
+  z-index: 2;
+}

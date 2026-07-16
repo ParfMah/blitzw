@@ -224,3 +224,136 @@ que l'effet Ken Burns) donne tout de même du mouvement à l'image.
 | 17 | IMG_DISTORT_HYPOTHEK | hypothekenkredit-immobiliensicherheit.jpg | Galerie distorsion | 1600×900 |
 | 18 | IMG_DISTORT_UMSCHULDUNG | umschuldung-kredit-zusammenfassen.jpg | Galerie distorsion | 1600×900 |
 | 19 | IMG_KONTAKT_HERO_BG | kontakt-team-buero-blitz-leihen.jpg | Photo hero contact | 1920×1080 |
+
+---
+
+## Effet 4bis — Photo de fond pour le hero de toutes les autres pages
+**Format : 1920×1080px (16:9)** — même traitement que le hero de `kontakt.html` :
+photo + léger zoom continu + overlay sombre `rgba(0,0,0,0.5)` pour la lisibilité.
+
+### IMG_HERO_KREDITE — hero de `kredite.html`
+**Nom de fichier recommandé :** `kredite-uebersicht-blitz-leihen.webp`
+**Prompt :**
+> Photorealistic warm handshake moment between a financial advisor and a client across a modern office desk, a tablet with a loan approval screen blurred in the foreground, soft natural daylight, navy and gold tones, trustworthy and professional mood, shallow depth of field, no text or logos — 16:9
+
+**Mots-clés banque d'images :** loan approval handshake office, bank advisor client agreement
+
+### IMG_HERO_IMMOBILIEN — hero de `immobilien.html`
+**Nom de fichier recommandé :** `immobilienfinanzierung-hero-schluesseluebergabe.webp`
+**Prompt :**
+> Photorealistic joyful moment of a real estate agent handing house keys to a happy young couple in front of a modern home, warm golden hour light, candid emotional mood, shallow depth of field, no text or logos — 16:9
+
+**Mots-clés banque d'images :** house keys handover couple, new homeowners key handoff
+
+### IMG_HERO_SIMULATION — hero de `simulation.html`
+**Nom de fichier recommandé :** `kreditrechner-finanzplanung-hero.webp`
+**Prompt :**
+> Photorealistic close-up of hands typing on a laptop showing a clean financial chart/graph interface, notebook and coffee cup nearby on a wooden desk, soft window light, navy and gold accents, focused planning mood, shallow depth of field, no readable text or logos — 16:9
+
+**Mots-clés banque d'images :** laptop financial chart hands, budget planning laptop desk
+
+### IMG_HERO_ZINSSATZ — hero de `zinssatz.html`
+**Nom de fichier recommandé :** `zinssatz-beratung-hero.webp`
+**Prompt :**
+> Photorealistic financial advisor pointing at an interest rate chart on a tablet while explaining it to an attentive client, bright modern office, soft daylight, warm and clear communication mood, shallow depth of field, no text or logos — 16:9
+
+**Mots-clés banque d'images :** advisor explaining chart client, interest rate consultation office
+
+### IMG_HERO_RATGEBER — hero de `ratgeber.html`
+**Nom de fichier recommandé :** `ratgeber-finanzwissen-hero.webp`
+**Prompt :**
+> Photorealistic person sitting comfortably with a laptop and an open notebook, warm reading light, calm studious atmosphere, cozy home office, soft navy and amber color grade, no text or logos — 16:9
+
+**Mots-clés banque d'images :** person researching laptop notebook, reading finance articles laptop cozy
+
+### IMG_HERO_KREDITANTRAG — hero de `kreditantrag.html`
+**Nom de fichier recommandé :** `kreditantrag-online-unterschrift-hero.webp`
+**Prompt :**
+> Photorealistic close-up of a hand signing a digital contract on a tablet with a stylus, clean modern desk setup, soft natural light, navy and gold tones, confident and modern fintech mood, shallow depth of field, no readable text or logos — 16:9
+
+**Mots-clés banque d'images :** digital signature tablet hand, e-signature contract close-up
+
+### IMG_HERO_AGB — hero de `agb.html`
+**Nom de fichier recommandé :** `agb-vertragsunterlagen-hero.webp`
+**Prompt :**
+> Photorealistic neutral professional still life of contract documents, a pen, and reading glasses on a clean wooden desk, soft diffused daylight, calm formal mood, muted navy tones, no readable text or logos — 16:9
+
+**Mots-clés banque d'images :** contract documents desk pen, legal paperwork office still life
+
+### IMG_HERO_DATENSCHUTZ — hero de `datenschutz.html`
+**Nom de fichier recommandé :** `datenschutz-datensicherheit-hero.webp`
+**Prompt :**
+> Photorealistic laptop on a clean desk displaying a subtle abstract padlock/shield icon glow on screen, soft blue ambient lighting, modern minimalist data-security mood, shallow depth of field, no readable text or logos — 16:9
+
+**Mots-clés banque d'images :** data security laptop lock concept, cybersecurity office desk blue
+
+### IMG_HERO_IMPRESSUM — hero de `impressum.html`
+**Nom de fichier recommandé :** `impressum-buero-blitz-leihen-hero.webp`
+**Prompt :**
+> Photorealistic elegant modern office building reception/lobby area, clean architectural lines, soft daylight through large windows, professional and understated mood, no visible signage or logos, no text — 16:9
+
+**Mots-clés banque d'images :** modern office lobby reception, corporate building interior clean
+
+### IMG_HERO_SCHUFA_NEGATIV — hero de l'article `kredit-trotz-negativer-schufa.html`
+**Nom de fichier recommandé :** `kredit-trotz-schufa-hero.webp`
+**Prompt :**
+> Photorealistic relieved, optimistic person looking out of a bright window with soft morning light, symbolic fresh-start mood, warm and hopeful atmosphere, shallow depth of field, no text or logos — 16:9
+
+**Mots-clés banque d'images :** hopeful fresh start person window, relieved optimistic morning light
+
+### IMG_HERO_KREDITANTRAG_ABLAUF — hero de l'article `kreditantrag-ablauf-dauer.html`
+**Nom de fichier recommandé :** `kreditantrag-ablauf-prozess-hero.webp`
+**Prompt :**
+> Photorealistic person checking off steps on a digital checklist on a smartphone, tidy desk in the background, soft natural light, organized and efficient mood, shallow depth of field, no readable text or logos — 16:9
+
+**Mots-clés banque d'images :** checklist smartphone process steps, digital process tracking phone
+
+### IMG_HERO_RATENKREDIT_DISPO — hero de l'article `ratenkredit-vs-dispokredit.html`
+**Nom de fichier recommandé :** `ratenkredit-dispokredit-vergleich-hero.webp`
+**Prompt :**
+> Photorealistic thoughtful person comparing two documents side by side at a bright desk, contemplative decision-making mood, soft daylight, navy and gold tones, shallow depth of field, no readable text or logos — 16:9
+
+**Mots-clés banque d'images :** person comparing options desk, decision making documents thoughtful
+
+### IMG_HERO_SCHUFA_SCORE — hero de l'article `schufa-score-verbessern.html`
+**Nom de fichier recommandé :** `schufa-score-verbessern-hero.webp`
+**Prompt :**
+> Photorealistic abstract upward-trending growth chart glowing softly on a tablet screen held by a person, symbolic positive financial improvement, warm confident mood, soft light, shallow depth of field, no readable text or logos — 16:9
+
+**Mots-clés banque d'images :** upward growth chart tablet, positive financial trend graph hand
+
+### IMG_HERO_UEBER_UNS — hero "Über uns" de `ueber-uns.html`
+**Nom de fichier recommandé :** `ueber-uns-team-blitz-leihen-hero.webp`
+**Prompt :**
+> Photorealistic candid team photo of a diverse group of financial advisors smiling together in a modern bright office, warm natural light, genuine camaraderie, navy and gold color accents, no text or logos — 16:9
+
+**Mots-clés banque d'images :** finance team office group photo, diverse professional team candid
+
+---
+
+## Récapitulatif — 14 images de hero supplémentaires
+
+| # | Identifiant | Nom de fichier recommandé | Page |
+|---|---|---|---|
+| 1 | IMG_HERO_KREDITE | kredite-uebersicht-blitz-leihen.webp | kredite.html |
+| 2 | IMG_HERO_IMMOBILIEN | immobilienfinanzierung-hero-schluesseluebergabe.webp | immobilien.html |
+| 3 | IMG_HERO_SIMULATION | kreditrechner-finanzplanung-hero.webp | simulation.html |
+| 4 | IMG_HERO_ZINSSATZ | zinssatz-beratung-hero.webp | zinssatz.html |
+| 5 | IMG_HERO_RATGEBER | ratgeber-finanzwissen-hero.webp | ratgeber.html |
+| 6 | IMG_HERO_KREDITANTRAG | kreditantrag-online-unterschrift-hero.webp | kreditantrag.html |
+| 7 | IMG_HERO_AGB | agb-vertragsunterlagen-hero.webp | agb.html |
+| 8 | IMG_HERO_DATENSCHUTZ | datenschutz-datensicherheit-hero.webp | datenschutz.html |
+| 9 | IMG_HERO_IMPRESSUM | impressum-buero-blitz-leihen-hero.webp | impressum.html |
+| 10 | IMG_HERO_SCHUFA_NEGATIV | kredit-trotz-schufa-hero.webp | ratgeber/kredit-trotz-negativer-schufa.html |
+| 11 | IMG_HERO_KREDITANTRAG_ABLAUF | kreditantrag-ablauf-prozess-hero.webp | ratgeber/kreditantrag-ablauf-dauer.html |
+| 12 | IMG_HERO_RATENKREDIT_DISPO | ratenkredit-dispokredit-vergleich-hero.webp | ratgeber/ratenkredit-vs-dispokredit.html |
+| 13 | IMG_HERO_SCHUFA_SCORE | schufa-score-verbessern-hero.webp | ratgeber/schufa-score-verbessern.html |
+| 14 | IMG_HERO_UEBER_UNS | ueber-uns-team-blitz-leihen-hero.webp | ueber-uns.html |
+
+## ⚠️ Page non concernée : `404.html`
+Cette page n'a volontairement **pas** reçu de hero avec photo : elle est en
+`noindex` (aucun bénéfice SEO possible) et n'a pas de structure de hero du
+tout — c'est une simple page de redirection centrée, avec du texte sombre
+sur fond clair. Lui ajouter une photo demanderait de repenser tout son design
+(texte blanc, overlay sombre) pour un gain nul en référencement. Dites-moi si
+vous souhaitez tout de même l'harmoniser visuellement.
