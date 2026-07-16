@@ -182,7 +182,6 @@
     '        <li><a href="' + rootPath + 'kontakt.html"    class="footer-col__link">Kontakt</a></li>',
     '        <li><a href="' + rootPath + 'ueber-uns.html#team" class="footer-col__link">Unser Team</a></li>',
     '        <li><a href="' + rootPath + 'ueber-uns.html#karriere" class="footer-col__link">Karriere</a></li>',
-    '        <li><a href="' + rootPath + 'impressum.html"  class="footer-col__link">Impressum</a></li>',
     '      </ul>',
     '    </div>',
     '',

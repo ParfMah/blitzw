@@ -253,18 +253,19 @@
 }
 
 /* ==========================================================
-   4. VIDÉO DE FOND (page Kontakt — hero-mini)
-   Sans son, boucle, lecture automatique, compatible mobile.
+   4. PHOTO DE FOND (page Kontakt — hero-mini)
+   Remplace une vidéo : plus fiable, plus léger, avec un léger
+   zoom continu (même keyframes que l'effet Ken Burns).
    ========================================================== */
-.hero-mini--video .hero-mini__video-bg {
+.hero-mini--photo .hero-mini__photo-bg {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
+  background-size: cover;
+  background-position: center;
 }
 
-/* L'overlay de contraste (§0) est injecté juste après la vidéo
+/* L'overlay de contraste (§0) est injecté juste après la photo
    par js/bg-effects.js pour respecter le cahier des charges §3 */
-.hero-mini--video .hero-mini__content { z-index: 2; }
+.hero-mini--photo .hero-mini__content { z-index: 2; }

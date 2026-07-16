@@ -84,17 +84,30 @@
     var counters = document.querySelectorAll('[data-count]');
     if (counters.length === 0) return;
 
+    // Formatage allemand : séparateur de milliers "." et virgule décimale
+    // (ex: 15000 → "15.000", 98.5 → "98,5") — cohérent avec formatEuro()
+    // utilisé ailleurs sur le site (js/kreditrechner.js, etc.)
+    // useGrouping=false pour les années (ex: 2015 doit rester "2015", pas "2.015")
+    function formatNombreAllemand(n, decimals, useGrouping) {
+      return n.toLocaleString('de-DE', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals,
+        useGrouping: useGrouping
+      });
+    }
+
     var counterObserver = new IntersectionObserver(function(entries) {
       entries.forEach(function(entry) {
         if (!entry.isIntersecting) return;
 
-        var el       = entry.target;
-        var target   = parseFloat(el.getAttribute('data-count'));
-        var suffix   = el.getAttribute('data-suffix') || '';
-        var prefix   = el.getAttribute('data-prefix') || '';
-        var decimals = el.getAttribute('data-decimals') ? parseInt(el.getAttribute('data-decimals')) : 0;
-        var duration = 1800; // Durée de l'animation en ms
-        var start    = null;
+        var el          = entry.target;
+        var target      = parseFloat(el.getAttribute('data-count'));
+        var suffix      = el.getAttribute('data-suffix') || '';
+        var prefix      = el.getAttribute('data-prefix') || '';
+        var decimals    = el.getAttribute('data-decimals') ? parseInt(el.getAttribute('data-decimals')) : 0;
+        var useGrouping = el.getAttribute('data-no-grouping') !== 'true';
+        var duration    = 1800; // Durée de l'animation en ms
+        var start       = null;
 
         // Animation via requestAnimationFrame
         function animate(timestamp) {
@@ -105,12 +118,12 @@
           var eased = 1 - Math.pow(1 - progress, 3);
           var current = target * eased;
 
-          el.textContent = prefix + current.toFixed(decimals).replace('.', ',') + suffix;
+          el.textContent = prefix + formatNombreAllemand(current, decimals, useGrouping) + suffix;
 
           if (progress < 1) {
             requestAnimationFrame(animate);
           } else {
-            el.textContent = prefix + target.toFixed(decimals).replace('.', ',') + suffix;
+            el.textContent = prefix + formatNombreAllemand(target, decimals, useGrouping) + suffix;
           }
         }
 

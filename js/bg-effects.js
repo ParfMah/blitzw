@@ -20,50 +20,49 @@
     /* --- Effet 1 : Ken Burns — Hero de la page d'accueil (index.html) ---
        5 ambiances variées pour un fond riche qui ne se répète pas trop vite. */
     heroKenBurns: [
-      { src: 'IMG_KENBURNS_HERO_1', alt: 'Familie plant gemeinsam ihre Finanzierung',
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145820/familie-finanzberatung-zuhause.webp', alt: 'Familie plant gemeinsam ihre Finanzierung',
         desc: 'Ambiance chaleureuse : famille/couple autour d\'une table, discussion financière — 1920×1080px' },
-      { src: 'IMG_KENBURNS_HERO_2', alt: 'Moderne deutsche Stadtsilhouette bei Dämmerung',
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145820/deutsche-stadtsilhouette-daemmerung.webp', alt: 'Moderne deutsche Stadtsilhouette bei Dämmerung',
         desc: 'Skyline urbaine allemande moderne au crépuscule — 1920×1080px' },
-      { src: 'IMG_KENBURNS_HERO_3', alt: 'Berater im Gespräch mit zufriedenem Kunden',
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145821/kreditberater-kundengespraech-buero.webp', alt: 'Berater im Gespräch mit zufriedenem Kunden',
         desc: 'Conseiller financier et client, bureau moderne, ambiance de confiance — 1920×1080px' },
-      { src: 'IMG_KENBURNS_HERO_4', alt: 'Einfamilienhaus mit Garten in Deutschland',
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145820/einfamilienhaus-mit-garten-deutschland.webp', alt: 'Einfamilienhaus mit Garten in Deutschland',
         desc: 'Maison individuelle avec jardin, lumière douce — 1920×1080px' },
-      { src: 'IMG_KENBURNS_HERO_5', alt: 'Digitale Kreditanwendung auf Smartphone und Laptop',
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145819/digitaler-kreditantrag-smartphone.webp', alt: 'Digitale Kreditanwendung auf Smartphone und Laptop',
         desc: 'Ambiance digitale/tech, smartphone et laptop, tons bleu marine — 1920×1080px' }
     ],
 
     /* --- Effet 2 (a) : Crossfade pur — Footer global (toutes les pages) --- */
     footerCrossfade: [
-      { src: 'IMG_FOOTER_CROSSFADE_1', alt: 'Blitz Leihen Bürogebäude bei Nacht', desc: 'Façade de bureau discrète, tons bleu marine — 1600×900px' },
-      { src: 'IMG_FOOTER_CROSSFADE_2', alt: 'Team von Finanzberatern bei Blitz Leihen', desc: 'Équipe au travail, ambiance feutrée — 1600×900px' },
-      { src: 'IMG_FOOTER_CROSSFADE_3', alt: 'Abstrakte Finanznetzwerk Visualisierung', desc: 'Motif abstrait finance/réseau, tons sombres — 1600×900px' },
-      { src: 'IMG_FOOTER_CROSSFADE_4', alt: 'Berlin bei Nacht mit beleuchteten Gebäuden', desc: 'Vue nocturne d\'une ville allemande — 1600×900px' }
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145820/buerogebaeude-nachtansicht-blitz-leihen.webp', alt: 'Blitz Leihen Bürogebäude bei Nacht', desc: 'Façade de bureau discrète, tons bleu marine — 1600×900px' },
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145825/team-finanzberater-buero-abend.webp', alt: 'Team von Finanzberatern bei Blitz Leihen', desc: 'Équipe au travail, ambiance feutrée — 1600×900px' },
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145819/abstraktes-finanznetzwerk-blau.webp', alt: 'Abstrakte Finanznetzwerk Visualisierung', desc: 'Motif abstrait finance/réseau, tons sombres — 1600×900px' },
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145820/deutsche-grossstadt-nachtansicht.webp', alt: 'Berlin bei Nacht mit beleuchteten Gebäuden', desc: 'Vue nocturne d\'une ville allemande — 1600×900px' }
     ],
 
     /* --- Effet 2 (b) : Crossfade pur — Section Témoignages (index.html) --- */
     testimonialsCrossfade: [
-      { src: 'IMG_TESTIMONIALS_CROSSFADE_1', alt: 'Zufriedene Kunden nach Kreditzusage', desc: 'Portrait lifestyle client souriant, tons clairs et chauds — 1600×900px' },
-      { src: 'IMG_TESTIMONIALS_CROSSFADE_2', alt: 'Familie vor ihrem finanzierten Zuhause', desc: 'Famille devant sa maison, ambiance positive — 1600×900px' },
-      { src: 'IMG_TESTIMONIALS_CROSSFADE_3', alt: 'Paar mit Laptop bei der Finanzplanung', desc: 'Couple planifiant ensemble, intérieur lumineux — 1600×900px' }
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145826/zufriedener-kunde-portraet-blitz-leihen.webp', alt: 'Zufriedene Kunden nach Kreditzusage', desc: 'Portrait lifestyle client souriant, tons clairs et chauds — 1600×900px' },
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145821/familie-vor-eigenheim-finanziert.webp', alt: 'Familie vor ihrem finanzierten Zuhause', desc: 'Famille devant sa maison, ambiance positive — 1600×900px' },
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145821/paar-finanzplanung-laptop-wohnzimmer.webp', alt: 'Paar mit Laptop bei der Finanzplanung', desc: 'Couple planifiant ensemble, intérieur lumineux — 1600×900px' }
     ],
 
     /* --- Effet 3 : Distorsion fluide — Galerie des offres (kredite.html) ---
        Une image par produit de crédit affiché sur la page. */
     offersGallery: [
-      { src: 'IMG_DISTORT_PRIVATKREDIT',   alt: 'Privatkredit für persönliche Projekte',      eyebrow: 'Privatkredit',        title: 'Für Ihre persönlichen Projekte', desc: 'Client heureux, projet personnel (voyage, achat) — 1600×900px' },
-      { src: 'IMG_DISTORT_IMMOBILIEN',     alt: 'Immobilienfinanzierung für das Eigenheim',   eyebrow: 'Immobilienfinanzierung', title: 'Ihr Traumhaus wird Realität', desc: 'Maison individuelle moderne — 1600×900px' },
-      { src: 'IMG_DISTORT_AUTOKREDIT',     alt: 'Autofinanzierung für den Neuwagenkauf',      eyebrow: 'Autofinanzierung',    title: 'Ihr neues Auto, sofort verfügbar', desc: 'Véhicule neuf, concession moderne — 1600×900px' },
-      { src: 'IMG_DISTORT_RENOVIERUNG',    alt: 'Renovierungskredit für die Modernisierung',  eyebrow: 'Renovierungskredit',  title: 'Investieren Sie in Ihr Zuhause', desc: 'Rénovation intérieure moderne, artisan au travail — 1600×900px' },
-      { src: 'IMG_DISTORT_HYPOTHEK',       alt: 'Hypothekenkredit mit Immobiliensicherheit',  eyebrow: 'Hypothekenkredit',    title: 'Großzügiger Kapitalspielraum', desc: 'Grande propriété, ambiance patrimoniale — 1600×900px' },
-      { src: 'IMG_DISTORT_UMSCHULDUNG',    alt: 'Umschuldung mehrerer bestehender Kredite',   eyebrow: 'Umschuldung',        title: 'Eine einzige, günstigere Rate', desc: 'Personne sereine consultant ses finances — 1600×900px' }
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145824/privatkredit-blitz-leihen.webp',   alt: 'Privatkredit für persönliche Projekte',      eyebrow: 'Privatkredit',        title: 'Für Ihre persönlichen Projekte', desc: 'Client heureux, projet personnel (voyage, achat) — 1600×900px' },
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145821/immobilienfinanzierung-traumhaus.webp',     alt: 'Immobilienfinanzierung für das Eigenheim',   eyebrow: 'Immobilienfinanzierung', title: 'Ihr Traumhaus wird Realität', desc: 'Maison individuelle moderne — 1600×900px' },
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145820/autokredit-neuwagen-finanzierung.webp',     alt: 'Autofinanzierung für den Neuwagenkauf',      eyebrow: 'Autofinanzierung',    title: 'Ihr neues Auto, sofort verfügbar', desc: 'Véhicule neuf, concession moderne — 1600×900px' },
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145825/renovierungskredit-modernisierung-kueche.webp',    alt: 'Renovierungskredit für die Modernisierung',  eyebrow: 'Renovierungskredit',  title: 'Investieren Sie in Ihr Zuhause', desc: 'Rénovation intérieure moderne, artisan au travail — 1600×900px' },
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145820/hypothekenkredit-immobiliensicherheit.webp',       alt: 'Hypothekenkredit mit Immobiliensicherheit',  eyebrow: 'Hypothekenkredit',    title: 'Großzügiger Kapitalspielraum', desc: 'Grande propriété, ambiance patrimoniale — 1600×900px' },
+      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145825/umschuldung-kredit-zusammenfassen.webp',    alt: 'Umschuldung mehrerer bestehender Kredite',   eyebrow: 'Umschuldung',        title: 'Eine einzige, günstigere Rate', desc: 'Personne sereine consultant ses finances — 1600×900px' }
     ],
 
-    /* --- Effet 4 : Vidéo de fond (sans son) — Hero de kontakt.html --- */
-    kontaktVideo: {
-      src:    'VIDEO_KONTAKT_HERO_BG',
-      poster: 'IMG_KONTAKT_HERO_POSTER',
-      alt:    'Team von Blitz Leihen im Kundengespräch',
-      desc:   'Vidéo ambiance bureau/équipe, plan large, sans texte incrusté — 1920×1080px, format .mp4, 10–20s en boucle'
+    /* --- Effet 4 : Photo de fond (remplace la vidéo, plus fiable) — Hero de kontakt.html --- */
+    kontaktHero: {
+      src:  'https://res.cloudinary.com/duramdsjz/image/upload/v1784145821/kontakt-team-buero-blitz-leihen.webp',
+      alt:  'Team von Blitz Leihen im Kundengespräch',
+      desc: 'Ambiance bureau/équipe chaleureuse, plan large, sans texte incrusté — 1920×1080px'
     }
   };
 
@@ -274,35 +273,31 @@
   }
 
   /* ============================================================
-     EFFET 4 — VIDÉO DE FOND (page Kontakt)
+     EFFET 4 — PHOTO DE FOND (page Kontakt)
+     Remplace une vidéo : rendu plus fiable, chargement plus léger,
+     tout aussi immersif avec le zoom Ken Burns ci-dessous.
      ============================================================ */
-  function initVideoBg(containerId, config) {
+  function initHeroPhoto(containerId, config) {
     var container = document.getElementById(containerId);
     if (!container || !config) return;
 
+    var photo = document.createElement('div');
+    photo.className = 'hero-mini__photo-bg';
+    photo.style.animationName = 'kbZoomIn'; // léger zoom continu, cohérent avec l'effet 1
+    photo.style.animationDuration = '26s';
+    photo.style.animationTimingFunction = 'ease-in-out';
+    photo.style.animationIterationCount = 'infinite';
+    photo.style.animationDirection = 'alternate';
+
     if (estUrlReelle(config.src)) {
-      var video = document.createElement('video');
-      video.className = 'hero-mini__video-bg';
-      video.setAttribute('autoplay', '');
-      video.setAttribute('muted', '');
-      video.setAttribute('loop', '');
-      video.setAttribute('playsinline', '');
-      video.muted = true; // requis par certains navigateurs en plus de l'attribut
-      video.setAttribute('aria-hidden', 'true'); // décoratif : le titre H1 porte déjà l'information
-      if (estUrlReelle(config.poster)) video.poster = config.poster;
-
-      var source = document.createElement('source');
-      source.src = config.src;
-      source.type = 'video/mp4';
-      video.appendChild(source);
-
-      container.insertBefore(video, container.firstChild);
+      photo.style.backgroundImage = 'url(' + config.src + ')';
+      photo.setAttribute('role', 'img');
+      photo.setAttribute('aria-label', config.alt);
     } else {
-      var ph = creerPlaceholder(config.desc, config.alt);
-      ph.style.position = 'absolute';
-      ph.style.inset = '0';
-      container.insertBefore(ph, container.firstChild);
+      photo.appendChild(creerPlaceholder(config.desc, config.alt));
     }
+
+    container.insertBefore(photo, container.firstChild);
 
     var overlay = document.createElement('div');
     overlay.className = 'bg-overlay-contrast';
@@ -325,7 +320,7 @@
       ariaLabel: 'Zufriedene Blitz Leihen Kunden'
     });
     initDistortion('offersDistortionGallery', MEDIA.offersGallery);
-    initVideoBg('kontaktHeroVideo', MEDIA.kontaktVideo);
+    initHeroPhoto('kontaktHeroVideo', MEDIA.kontaktHero);
   }
 
   if (document.readyState === 'loading') {
@@ -339,7 +334,7 @@
     initKenBurns: initKenBurns,
     initCrossfade: initCrossfade,
     initDistortion: initDistortion,
-    initVideoBg: initVideoBg
+    initHeroPhoto: initHeroPhoto
   };
 
 })();
