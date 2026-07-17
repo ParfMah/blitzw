@@ -59,8 +59,9 @@
   <main id="main-content">
 
     <!-- Hero Mini -->
-    <!-- Photo de fond injectée par js/bg-effects.js (voir ce fichier pour le lien Cloudinary) -->
-    <div class="hero-mini hero-mini--photo" id="ratgeberHeroBg" role="banner" style="min-height:260px;">
+    <!-- Photo de fond 100% statique (CSS pur, voir css/bg-effects.css) : aucun flash au chargement -->
+    <div class="hero-mini hero-mini--photo" id="ratgeberHeroBg" role="banner" style="min-height:260px; --hero-photo:url('https://res.cloudinary.com/duramdsjz/image/upload/v1784173520/ratgeber-finanzwissen-hero.webp');">
+      <div class="bg-overlay-contrast" aria-hidden="true"></div>
       <div class="hero-mini__content">
         <nav class="breadcrumb" aria-label="Breadcrumb">
           <span class="breadcrumb__item"><a href="index.html">Startseite</a></span>
@@ -88,7 +89,7 @@
         <div class="ratgeber-grid" id="ratgeberGrid">
 
           <a href="ratgeber/schufa-score-verbessern.html" class="ratgeber-card" data-category="bonitaet">
-            <div class="ratgeber-card__img">📊</div>
+            <div class="ratgeber-card__img" role="img" aria-label="Schufa-Score verbessern: Bonität steigern" style="background-image:url('https://res.cloudinary.com/duramdsjz/image/upload/v1784254451/schufa-score-tipps-card.webp');"></div>
             <div class="ratgeber-card__body">
               <span class="ratgeber-card__category">Bonität & Schufa</span>
               <h2 class="ratgeber-card__title">Schufa-Score verbessern: 7 wirksame Tipps</h2>
@@ -98,7 +99,7 @@
           </a>
 
           <a href="ratgeber/kredit-trotz-negativer-schufa.html" class="ratgeber-card" data-category="bonitaet">
-            <div class="ratgeber-card__img">🔍</div>
+            <div class="ratgeber-card__img" role="img" aria-label="Kredit trotz negativer Schufa: Ihre Möglichkeiten" style="background-image:url('https://res.cloudinary.com/duramdsjz/image/upload/v1784254451/kredit-trotz-schufa-card.webp');"></div>
             <div class="ratgeber-card__body">
               <span class="ratgeber-card__category">Bonität & Schufa</span>
               <h2 class="ratgeber-card__title">Kredit trotz negativer Schufa: Ihre Möglichkeiten</h2>
@@ -108,7 +109,7 @@
           </a>
 
           <a href="ratgeber/ratenkredit-vs-dispokredit.html" class="ratgeber-card" data-category="vergleich">
-            <div class="ratgeber-card__img">⚖️</div>
+            <div class="ratgeber-card__img" role="img" aria-label="Ratenkredit vs. Dispokredit im Vergleich" style="background-image:url('https://res.cloudinary.com/duramdsjz/image/upload/v1784254451/ratenkredit-dispokredit-card.webp');"></div>
             <div class="ratgeber-card__body">
               <span class="ratgeber-card__category">Vergleich</span>
               <h2 class="ratgeber-card__title">Ratenkredit vs. Dispokredit: Was ist günstiger?</h2>
@@ -118,7 +119,7 @@
           </a>
 
           <a href="ratgeber/kreditantrag-ablauf-dauer.html" class="ratgeber-card" data-category="prozess">
-            <div class="ratgeber-card__img">🗂️</div>
+            <div class="ratgeber-card__img" role="img" aria-label="Kreditantrag: Ablauf, Dauer und benötigte Unterlagen" style="background-image:url('https://res.cloudinary.com/duramdsjz/image/upload/v1784254451/kreditantrag-ablauf-card.webp');"></div>
             <div class="ratgeber-card__body">
               <span class="ratgeber-card__category">Antragsprozess</span>
               <h2 class="ratgeber-card__title">Kreditantrag: Ablauf, Dauer und benötigte Unterlagen</h2>

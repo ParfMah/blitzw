@@ -138,8 +138,7 @@
   // -------------------------------------------------------
   var FOOTER_HTML = [
     '<footer class="site-footer" role="contentinfo">',
-    '  <!-- Diaporama en fondu enchaîné (Effet N°2, global) — construit par js/bg-effects.js -->',
-    '  <div id="footerCrossfadeBg" aria-hidden="true"></div>',
+    '  <!-- Fond photo 100% statique (CSS pur, voir css/bg-effects.css) -->',
     '  <div class="footer-top">',
     '',
     '    <!-- Colonne : marque -->',

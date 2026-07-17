@@ -32,14 +32,6 @@
         desc: 'Ambiance digitale/tech, smartphone et laptop, tons bleu marine — 1920×1080px' }
     ],
 
-    /* --- Effet 2 (a) : Crossfade pur — Footer global (toutes les pages) --- */
-    footerCrossfade: [
-      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145820/buerogebaeude-nachtansicht-blitz-leihen.webp', alt: 'Blitz Leihen Bürogebäude bei Nacht', desc: 'Façade de bureau discrète, tons bleu marine — 1600×900px' },
-      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145825/team-finanzberater-buero-abend.webp', alt: 'Team von Finanzberatern bei Blitz Leihen', desc: 'Équipe au travail, ambiance feutrée — 1600×900px' },
-      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145819/abstraktes-finanznetzwerk-blau.webp', alt: 'Abstrakte Finanznetzwerk Visualisierung', desc: 'Motif abstrait finance/réseau, tons sombres — 1600×900px' },
-      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145820/deutsche-grossstadt-nachtansicht.webp', alt: 'Berlin bei Nacht mit beleuchteten Gebäuden', desc: 'Vue nocturne d\'une ville allemande — 1600×900px' }
-    ],
-
     /* --- Effet 2 (b) : Crossfade pur — Section Témoignages (index.html) --- */
     testimonialsCrossfade: [
       { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145826/zufriedener-kunde-portraet-blitz-leihen.webp', alt: 'Zufriedene Kunden nach Kreditzusage', desc: 'Portrait lifestyle client souriant, tons clairs et chauds — 1600×900px' },
@@ -56,75 +48,14 @@
       { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145825/renovierungskredit-modernisierung-kueche.webp',    alt: 'Renovierungskredit für die Modernisierung',  eyebrow: 'Renovierungskredit',  title: 'Investieren Sie in Ihr Zuhause', desc: 'Rénovation intérieure moderne, artisan au travail — 1600×900px' },
       { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145820/hypothekenkredit-immobiliensicherheit.webp',       alt: 'Hypothekenkredit mit Immobiliensicherheit',  eyebrow: 'Hypothekenkredit',    title: 'Großzügiger Kapitalspielraum', desc: 'Grande propriété, ambiance patrimoniale — 1600×900px' },
       { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145825/umschuldung-kredit-zusammenfassen.webp',    alt: 'Umschuldung mehrerer bestehender Kredite',   eyebrow: 'Umschuldung',        title: 'Eine einzige, günstigere Rate', desc: 'Personne sereine consultant ses finances — 1600×900px' }
-    ],
+    ]
 
-    /* --- Effet 4 : Photo de fond (remplace la vidéo, plus fiable) — Hero de kontakt.html --- */
-    kontaktHero: {
-      src:  'https://res.cloudinary.com/duramdsjz/image/upload/v1784145821/kontakt-team-buero-blitz-leihen.webp',
-      alt:  'Team von Blitz Leihen im Kundengespräch',
-      desc: 'Ambiance bureau/équipe chaleureuse, plan large, sans texte incrusté — 1920×1080px'
-    },
-
-    /* --- Effet 4bis : Photo de fond pour le hero de TOUTES les autres pages ---
-       Même mécanisme que kontaktHero, une image dédiée par page. */
-    pageHeroes: {
-      kredite: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173520/kredite-uebersicht-blitz-leihen.webp', alt: 'Übersicht aller Kreditarten bei Blitz Leihen',
-        desc: 'Moment de poignée de main / accord de crédit, ambiance bureau moderne — 1920×1080px'
-      },
-      immobilien: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173519/immobilienfinanzierung-hero-schluesseluebergabe.webp', alt: 'Schlüsselübergabe nach erfolgreicher Immobilienfinanzierung',
-        desc: 'Remise des clés d\'une nouvelle maison, moment joyeux — 1920×1080px'
-      },
-      simulation: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173520/kreditrechner-finanzplanung-hero.webp', alt: 'Kreditrechner und Finanzplanung am Laptop',
-        desc: 'Mains sur un ordinateur portable avec graphiques financiers à l\'écran — 1920×1080px'
-      },
-      zinssatz: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173524/zinssatz-beratung-hero.webp', alt: 'Beratungsgespräch zur Zinssatzberechnung',
-        desc: 'Conseiller expliquant un graphique de taux à un client, tableau/documents — 1920×1080px'
-      },
-      ratgeber: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173520/ratgeber-finanzwissen-hero.webp', alt: 'Finanzwissen und Ratgeber-Artikel recherchieren',
-        desc: 'Personne lisant/prenant des notes sur un ordinateur portable, ambiance studieuse — 1920×1080px'
-      },
-      kreditantrag: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173520/kreditantrag-online-unterschrift-hero.webp', alt: 'Online-Kreditantrag digital unterschreiben',
-        desc: 'Signature numérique d\'un contrat sur tablette, gros plan mains — 1920×1080px'
-      },
-      agb: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173519/agb-vertragsunterlagen-hero.webp', alt: 'Allgemeine Geschäftsbedingungen und Vertragsunterlagen',
-        desc: 'Documents contractuels professionnels sur un bureau, stylo, ambiance neutre — 1920×1080px'
-      },
-      datenschutz: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173519/datenschutz-datensicherheit-hero.webp', alt: 'Datenschutz und sichere Datenverarbeitung',
-        desc: 'Ambiance sécurité des données, laptop verrouillé/cadenas symbolique, tons bleus — 1920×1080px'
-      },
-      impressum: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173519/impressum-buero-blitz-leihen-hero.webp', alt: 'Blitz Leihen Firmensitz und Geschäftsräume',
-        desc: 'Façade ou hall d\'accueil professionnel d\'un immeuble de bureaux — 1920×1080px'
-      },
-      schufaNegativ: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173519/kredit-trotz-schufa-hero.webp', alt: 'Neustart trotz negativer Schufa möglich',
-        desc: 'Personne soulagée/optimiste, lumière chaude, symbolique nouveau départ — 1920×1080px'
-      },
-      kreditantragAblauf: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173519/kreditantrag-ablauf-prozess-hero.webp', alt: 'Ablauf des Kreditantrags Schritt für Schritt',
-        desc: 'Personne suivant une checklist/processus digital sur smartphone — 1920×1080px'
-      },
-      ratenkreditDispo: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173520/ratenkredit-dispokredit-vergleich-hero.webp', alt: 'Vergleich zwischen Ratenkredit und Dispokredit',
-        desc: 'Personne comparant deux options, geste de réflexion, bureau lumineux — 1920×1080px'
-      },
-      schufaScore: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173520/schufa-score-verbessern-hero.webp', alt: 'Schufa-Score verbessern und Bonität steigern',
-        desc: 'Graphique de croissance/tendance positive, symbolique amélioration — 1920×1080px'
-      },
-      ueberUns: {
-        src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784173523/ueber-uns-team-blitz-leihen-hero.webp', alt: 'Das Team von Blitz Leihen',
-        desc: 'Photo d\'équipe conviviale, bureaux modernes de Blitz Leihen — 1920×1080px'
-      }
-    }
+    /* Les photos de fond de tous les hero (Kontakt, Kredite, Immobilien,
+       Über uns, etc.) et le fond du footer sont désormais 100% statiques
+       (CSS pur, voir css/bg-effects.css) afin d'éviter tout flash de fond
+       bleu le temps que ce script se charge. Leurs URLs Cloudinary sont
+       directement dans le HTML (attribut style="--hero-photo:url(...)")
+       et dans css/bg-effects.css pour le footer. */
   };
 
   /* ----------------------------------------------------------
@@ -333,78 +264,18 @@
     }, 5500);
   }
 
-  /* ============================================================
-     EFFET 4 — PHOTO DE FOND POUR TOUS LES HERO DU SITE
-     Utilisé sur la page Kontakt, et réutilisé ici pour le hero
-     de chaque page (hero-mini + le hero "Über uns"). Remplace une
-     vidéo : rendu plus fiable, chargement plus léger, tout aussi
-     immersif avec le zoom Ken Burns.
-     contentSelector : sélecteur de l'élément de contenu devant
-     lequel insérer l'overlay (par défaut '.hero-mini__content';
-     passer '.container' pour le hero "Über uns" par exemple).
-     ============================================================ */
-  function initHeroPhoto(containerId, config, contentSelector) {
-    var container = document.getElementById(containerId);
-    if (!container || !config) return;
-
-    contentSelector = contentSelector || '.hero-mini__content';
-
-    var photo = document.createElement('div');
-    photo.className = 'hero-mini__photo-bg';
-    photo.style.animationName = 'kbZoomIn'; // léger zoom continu, cohérent avec l'effet 1
-    photo.style.animationDuration = '26s';
-    photo.style.animationTimingFunction = 'ease-in-out';
-    photo.style.animationIterationCount = 'infinite';
-    photo.style.animationDirection = 'alternate';
-
-    if (estUrlReelle(config.src)) {
-      photo.style.backgroundImage = 'url(' + config.src + ')';
-      photo.setAttribute('role', 'img');
-      photo.setAttribute('aria-label', config.alt);
-    } else {
-      photo.appendChild(creerPlaceholder(config.desc, config.alt));
-    }
-
-    container.insertBefore(photo, container.firstChild);
-
-    var overlay = document.createElement('div');
-    overlay.className = 'bg-overlay-contrast';
-    container.insertBefore(overlay, container.querySelector(contentSelector));
-  }
-
   /* ----------------------------------------------------------
      INITIALISATION — asynchrone, ne bloque jamais le rendu
      (script chargé avec `defer` + exécution après DOMContentLoaded)
   ---------------------------------------------------------- */
   function init() {
     initKenBurns('heroMega', MEDIA.heroKenBurns);
-    initCrossfade('footerCrossfadeBg', MEDIA.footerCrossfade, {
-      interval: 6500,
-      ariaLabel: 'Blitz Leihen — Ihr Finanzpartner in Deutschland'
-    });
     initCrossfade('testimonialsCrossfadeBg', MEDIA.testimonialsCrossfade, {
       interval: 7000,
       lightOverlay: true,
       ariaLabel: 'Zufriedene Blitz Leihen Kunden'
     });
     initDistortion('offersDistortionGallery', MEDIA.offersGallery);
-    initHeroPhoto('kontaktHeroVideo', MEDIA.kontaktHero);
-
-    // Hero de toutes les autres pages du site (même mécanisme, une image par page)
-    initHeroPhoto('krediteHeroBg',            MEDIA.pageHeroes.kredite);
-    initHeroPhoto('immobilienHeroBg',         MEDIA.pageHeroes.immobilien);
-    initHeroPhoto('simulationHeroBg',         MEDIA.pageHeroes.simulation);
-    initHeroPhoto('zinssatzHeroBg',           MEDIA.pageHeroes.zinssatz);
-    initHeroPhoto('ratgeberHeroBg',           MEDIA.pageHeroes.ratgeber);
-    initHeroPhoto('kreditantragHeroBg',       MEDIA.pageHeroes.kreditantrag);
-    initHeroPhoto('agbHeroBg',                MEDIA.pageHeroes.agb);
-    initHeroPhoto('datenschutzHeroBg',        MEDIA.pageHeroes.datenschutz);
-    initHeroPhoto('impressumHeroBg',          MEDIA.pageHeroes.impressum);
-    initHeroPhoto('schufaNegativHeroBg',      MEDIA.pageHeroes.schufaNegativ);
-    initHeroPhoto('kreditantragAblaufHeroBg', MEDIA.pageHeroes.kreditantragAblauf);
-    initHeroPhoto('ratenkreditDispoHeroBg',   MEDIA.pageHeroes.ratenkreditDispo);
-    initHeroPhoto('schufaScoreHeroBg',        MEDIA.pageHeroes.schufaScore);
-    initHeroPhoto('ueberUnsHeroBg',           MEDIA.pageHeroes.ueberUns, '.container');
   }
 
   if (document.readyState === 'loading') {
@@ -417,8 +288,7 @@
   window.BlitzBgEffects = {
     initKenBurns: initKenBurns,
     initCrossfade: initCrossfade,
-    initDistortion: initDistortion,
-    initHeroPhoto: initHeroPhoto
+    initDistortion: initDistortion
   };
 
 })();

@@ -101,11 +101,11 @@
 
     <!-- ===================================================
          HERO MINI AVEC PHOTO DE FOND (Effet N°4)
-         Photo injectée par js/bg-effects.js dans #kontaktHeroVideo
-         — voir ce fichier pour brancher votre lien Cloudinary.
+         Photo 100% statique (CSS pur, voir css/bg-effects.css) :
+         aucun flash au chargement.
     =================================================== -->
-    <div class="hero-mini hero-mini--photo" id="kontaktHeroVideo" role="banner">
-      <!-- Photo/placeholder + overlay de contraste injectés ici par js/bg-effects.js -->
+    <div class="hero-mini hero-mini--photo" id="kontaktHeroVideo" role="banner" style="--hero-photo:url('https://res.cloudinary.com/duramdsjz/image/upload/v1784145821/kontakt-team-buero-blitz-leihen.webp');">
+      <div class="bg-overlay-contrast" aria-hidden="true"></div>
       <div class="hero-mini__content">
         <nav class="breadcrumb" aria-label="Breadcrumb">
           <span class="breadcrumb__item"><a href="index.html">Startseite</a></span>

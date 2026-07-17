@@ -139,6 +139,15 @@ html {
   text-size-adjust: 100%;
 }
 
+/* Supprime le flash gris/bordure au clic/tap sur mobile (Chrome/Safari) pour
+   tous les éléments interactifs — logo, boutons, liens, cartes cliquables.
+   N'affecte pas outline: le focus clavier par défaut du navigateur reste intact. */
+a, button, .btn, input, textarea, select, summary,
+[role="button"], [onclick], label, .site-logo {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
 body {
   font-family: var(--font-body);
   font-size: var(--text-base);

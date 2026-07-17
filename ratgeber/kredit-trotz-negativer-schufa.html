@@ -98,8 +98,9 @@
 
   <main id="main-content">
 
-    <!-- Photo de fond injectée par js/bg-effects.js (voir ce fichier pour le lien Cloudinary) -->
-    <div class="hero-mini hero-mini--photo" id="schufaNegativHeroBg" role="banner" style="min-height:240px;">
+    <!-- Photo de fond 100% statique (CSS pur, voir css/bg-effects.css) : aucun flash au chargement -->
+    <div class="hero-mini hero-mini--photo" id="schufaNegativHeroBg" role="banner" style="min-height:240px; --hero-photo:url('https://res.cloudinary.com/duramdsjz/image/upload/v1784173519/kredit-trotz-schufa-hero.webp');">
+      <div class="bg-overlay-contrast" aria-hidden="true"></div>
       <div class="hero-mini__content">
         <nav class="breadcrumb" aria-label="Breadcrumb">
           <span class="breadcrumb__item"><a href="../index.html">Startseite</a></span>
@@ -287,7 +288,7 @@
         </header>
         <div class="related-grid">
           <a href="schufa-score-verbessern.html" class="ratgeber-card">
-            <div class="ratgeber-card__img">📊</div>
+            <div class="ratgeber-card__img" role="img" aria-label="Schufa-Score verbessern: Bonität steigern" style="background-image:url('https://res.cloudinary.com/duramdsjz/image/upload/v1784254451/schufa-score-tipps-card.webp');"></div>
             <div class="ratgeber-card__body">
               <span class="ratgeber-card__category">Bonität & Schufa</span>
               <h3 class="ratgeber-card__title">Schufa-Score verbessern</h3>
@@ -295,7 +296,7 @@
             </div>
           </a>
           <a href="ratenkredit-vs-dispokredit.html" class="ratgeber-card">
-            <div class="ratgeber-card__img">⚖️</div>
+            <div class="ratgeber-card__img" role="img" aria-label="Ratenkredit vs. Dispokredit im Vergleich" style="background-image:url('https://res.cloudinary.com/duramdsjz/image/upload/v1784254451/ratenkredit-dispokredit-card.webp');"></div>
             <div class="ratgeber-card__body">
               <span class="ratgeber-card__category">Vergleich</span>
               <h3 class="ratgeber-card__title">Ratenkredit vs. Dispokredit</h3>
@@ -303,7 +304,7 @@
             </div>
           </a>
           <a href="../ratgeber.html" class="ratgeber-card">
-            <div class="ratgeber-card__img">📰</div>
+            <div class="ratgeber-card__img" role="img" aria-label="Alle Ratgeber-Artikel entdecken" style="background-image:url('https://res.cloudinary.com/duramdsjz/image/upload/v1784173520/ratgeber-finanzwissen-hero.webp');"></div>
             <div class="ratgeber-card__body">
               <span class="ratgeber-card__category">Ratgeber</span>
               <h3 class="ratgeber-card__title">Alle Artikel entdecken</h3>

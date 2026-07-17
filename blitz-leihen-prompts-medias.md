@@ -357,3 +357,29 @@ tout — c'est une simple page de redirection centrée, avec du texte sombre
 sur fond clair. Lui ajouter une photo demanderait de repenser tout son design
 (texte blanc, overlay sombre) pour un gain nul en référencement. Dites-moi si
 vous souhaitez tout de même l'harmoniser visuellement.
+
+---
+
+## Effet 5 — Vignettes des cartes articles (page ratgeber.html)
+**Format : 800×600px (4:3)** — remplace l'icône emoji sur fond bleu dégradé
+en haut de chaque carte (`.ratgeber-card__img`, actuellement 160px de haut).
+
+### IMG_CARD_SCHUFA_SCORE — carte "Schufa-Score verbessern: 7 wirksame Tipps"
+**Nom de fichier recommandé :** `schufa-score-tipps-card.webp`
+**Prompt :**
+> Photorealistic close-up of an upward-trending bar chart on a tablet or paper report, green and blue bars rising, soft natural light, symbolic of credit score improvement, navy and gold color accents, shallow depth of field, no readable text or logos — 4:3
+
+### IMG_CARD_SCHUFA_NEGATIV — carte "Kredit trotz negativer Schufa: Ihre Möglichkeiten"
+**Nom de fichier recommandé :** `kredit-trotz-schufa-card.webp`
+**Prompt :**
+> Photorealistic close-up of a person reviewing a credit report document with a magnifying glass, focused and thoughtful mood, soft warm light, navy and gold tones, shallow depth of field, no readable text or logos — 4:3
+
+### IMG_CARD_RATENKREDIT_DISPO — carte "Ratenkredit vs. Dispokredit: Was ist günstiger?"
+**Nom de fichier recommandé :** `ratenkredit-dispokredit-card.webp`
+**Prompt :**
+> Photorealistic symbolic image of a balance scale weighing two financial options, or two paths diverging on a desk with documents, soft daylight, navy and gold tones, clean minimalist composition, no readable text or logos — 4:3
+
+### IMG_CARD_KREDITANTRAG_ABLAUF — carte "Kreditantrag: Ablauf, Dauer und benötigte Unterlagen"
+**Nom de fichier recommandé :** `kreditantrag-ablauf-card.webp`
+**Prompt :**
+> Photorealistic organized desk with neatly arranged documents, a folder, and a checklist on a tablet, soft natural light, sense of clear process and order, navy and gold tones, shallow depth of field, no readable text or logos — 4:3

@@ -138,9 +138,6 @@
   z-index: 2;
 }
 
-.site-footer .cf-bg { opacity: 0.55; } /* diaporama discret, décoratif */
-.site-footer .bg-overlay-contrast { background: rgba(5, 18, 38, 0.82); }
-
 /* -- Témoignages : overlay clair pour garder les cartes lisibles -- */
 #testimonialsCrossfadeBg { border-radius: var(--radius-2xl); }
 
@@ -253,28 +250,48 @@
 }
 
 /* ==========================================================
-   4. PHOTO DE FOND (page Kontakt — hero-mini)
-   Remplace une vidéo : plus fiable, plus léger, avec un léger
-   zoom continu (même keyframes que l'effet Ken Burns).
+   4. PHOTO DE FOND STATIQUE — Hero de chaque page
+   100% CSS/HTML, aucune injection JS : la photo s'affiche dès le
+   premier rendu de la page, sans flash de fond bleu le temps que
+   le script se charge. L'URL est fournie par page via la variable
+   CSS --hero-photo (attribut style="--hero-photo:url(...)" posé
+   sur le conteneur du hero dans le HTML).
    ========================================================== */
-.hero-mini--photo .hero-mini__photo-bg {
+.hero-mini--photo::before {
+  content: '';
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  background-image: var(--hero-photo);
   background-size: cover;
   background-position: center;
+  animation: kbZoomIn 26s ease-in-out infinite alternate;
+  z-index: 0;
 }
 
-/* L'overlay de contraste (§0) est injecté juste après la photo
-   par js/bg-effects.js pour respecter le cahier des charges §3 */
-.hero-mini--photo .hero-mini__content { z-index: 2; }
+/* .hero-mini__content a déjà position:relative;z-index:2 par défaut
+   (voir css/components.css) — il s'affiche donc naturellement
+   au-dessus de la photo (§ci-dessus) et de l'overlay (§0). */
 
 /* Cas particulier : le hero "Über uns" (.about-hero) utilise .container
    au lieu de .hero-mini__content — ce dernier n'a pas de z-index propre
    par défaut, il faut donc l'ancrer explicitement au-dessus de la photo
-   et de l'overlay injectés par js/bg-effects.js. */
+   et de l'overlay. */
 .about-hero.hero-mini--photo > .container {
   position: relative;
   z-index: 2;
+}
+
+/* ==========================================================
+   FOND STATIQUE DU FOOTER
+   Une seule image + assombrissement, fondus en un seul calque CSS
+   — aucun script requis, aucun flash au chargement.
+   ========================================================== */
+.site-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(5, 18, 38, 0.82), rgba(5, 18, 38, 0.82)),
+    url('https://res.cloudinary.com/duramdsjz/image/upload/v1783865280/blitz-leihen-footer-background_ghucl0.webp') center / cover;
+  z-index: 0;
 }
