@@ -125,6 +125,22 @@
       #contactSuccess {
         display: none;
       }
+
+      .map-container {
+        width: 100% !important;
+        align-self: stretch; /* Force l'étirement si le parent est en Flexbox */
+        overflow: hidden;
+        border-radius: 16px; /* Pour garder les beaux angles arrondis */
+        margin-top: 20px;
+        margin-bottom: 30px;
+      }
+
+      .map-container iframe {
+        width: 100% !important; /* Force l'iframe à prendre toute la largeur */
+        height: 350px; /* Ajustez la hauteur selon vos besoins */
+        display: block;
+        border: 0;
+      }
     </style>
   </head>
 
