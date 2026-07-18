@@ -178,10 +178,12 @@
   // -------------------------------------------------------
   function toggleFenetre() {
     var win = document.getElementById('blitzChatWindow');
+    var bubble = document.getElementById('blitzChatBubble');
     if (!win) return;
 
     state.fenetreOuverte = !state.fenetreOuverte;
     win.classList.toggle('open', state.fenetreOuverte);
+    if (bubble) bubble.classList.toggle('is-hidden', state.fenetreOuverte);
 
     if (state.fenetreOuverte) {
       state.unread = 0;

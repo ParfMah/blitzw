@@ -29,7 +29,17 @@
   justify-content: center;
   box-shadow: var(--shadow-lg);
   z-index: 9500;
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal), opacity var(--transition-normal);
+}
+
+/* Masquée pendant que la fenêtre de chat est ouverte : sur mobile, la
+   fenêtre passe en plein écran et se retrouve exactement sous cette bulle
+   (même coin bas-droit), ce qui cachait le bouton d'envoi du message.
+   La fermeture reste possible via le bouton (×) dans l'en-tête du chat. */
+#blitzChatBubble.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: scale(0.8);
 }
 
 #blitzChatBubble:hover {

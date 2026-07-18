@@ -41,13 +41,13 @@
         btnSecondary:    'Alle Kreditprodukte',
         btnSecondaryHref:'kredite.html',
         photos: [
-          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-kunde-kreditvertrag-lachend_hvnefd.webp', alt: 'Glücklicher Kunde mit Kreditvertrag',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/f_auto,q_auto/v1783849033/blitz-leihen-hero-kunde-kreditvertrag-lachend_hvnefd.webp', alt: 'Glücklicher Kunde mit Kreditvertrag',
             caption: 'Kredit in 48 Stunden',
             desc: 'CLIENT SATISFAIT tenant un contrat de crédit — ambiance chaleureuse et professionnelle — 800×600px' },
-          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-finanzberater-beratungsgespraech_nhkcni.webp', alt: 'Professioneller Finanzberater',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/f_auto,q_auto/v1783849033/blitz-leihen-hero-finanzberater-beratungsgespraech_nhkcni.webp', alt: 'Professioneller Finanzberater',
             caption: 'Persönliche Beratung',
             desc: 'CONSEILLER FINANCIER souriant face au client, bureau moderne — 800×600px' },
-          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-familie-wohnzimmer-gluecklich_ya6ki8.webp', alt: 'Familie mit finanziertem Wunsch',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/f_auto,q_auto/v1783849033/blitz-leihen-hero-familie-wohnzimmer-gluecklich_ya6ki8.webp', alt: 'Familie mit finanziertem Wunsch',
             caption: 'Finanzielle Freiheit',
             desc: 'FAMILLE HEUREUSE dans leur salon, ambiance de réussite et sérénité — 800×600px' }
         ]
@@ -66,13 +66,13 @@
         btnSecondary:    'Konditionen ansehen',
         btnSecondaryHref:'immobilien.html',
         photos: [
-          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-einfamilienhaus-garten-modern_rglahy.webp', alt: 'Modernes Einfamilienhaus in Deutschland',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/f_auto,q_auto/v1783849033/blitz-leihen-hero-einfamilienhaus-garten-modern_rglahy.webp', alt: 'Modernes Einfamilienhaus in Deutschland',
             caption: 'Traumhaus verwirklichen',
             desc: 'MAISON INDIVIDUELLE MODERNE avec jardin, style contemporain, ciel bleu — 800×600px' },
-          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849032/blitz-leihen-hero-eigentumswohnung-interieur_bbtfus.webp', alt: 'Elegante Eigentumswohnung',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/f_auto,q_auto/v1783849032/blitz-leihen-hero-eigentumswohnung-interieur_bbtfus.webp', alt: 'Elegante Eigentumswohnung',
             caption: 'Eigentumswohnung',
             desc: 'INTÉRIEUR APPARTEMENT élégant avec lumière naturelle, mobilier design — 800×600px' },
-          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-paar-hausschluessel-uebergabe1_mikuxd.webp', alt: 'Paar vor neuem Haus',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/f_auto,q_auto/v1783849033/blitz-leihen-hero-paar-hausschluessel-uebergabe1_mikuxd.webp', alt: 'Paar vor neuem Haus',
             caption: 'Schlüsselübergabe',
             desc: 'COUPLE souriant devant leur nouvelle maison, tenant les clés — 800×600px' }
         ]
@@ -91,13 +91,13 @@
         btnSecondary:    'Über uns',
         btnSecondaryHref:'ueber-uns.html',
         photos: [
-          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-smartphone-kredit-app_yzlmin.webp', alt: 'Digitale Kreditanwendung auf Smartphone',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/f_auto,q_auto/v1783849033/blitz-leihen-hero-smartphone-kredit-app_yzlmin.webp', alt: 'Digitale Kreditanwendung auf Smartphone',
             caption: '100% digital & sicher',
             desc: 'SMARTPHONE avec app de crédit sur écran, fond lumineux moderne — 800×600px' },
-          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849032/blitz-leihen-hero-bafin-sicherheit-tresor_zxtkwd.webp', alt: 'BaFin Sicherheit und Zertifizierung',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/f_auto,q_auto/v1783849032/blitz-leihen-hero-bafin-sicherheit-tresor_zxtkwd.webp', alt: 'BaFin Sicherheit und Zertifizierung',
             caption: 'BaFin-reguliert',
             desc: 'SÉCURITÉ FINANCIÈRE — coffre fort, bouclier ou façade banque allemande — 800×600px' },
-          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849037/blitz-leihen-hero-team-buero-modern_k5iek0.webp', alt: 'Professionelles Team Blitz Leihen',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/f_auto,q_auto/v1783849037/blitz-leihen-hero-team-buero-modern_k5iek0.webp', alt: 'Professionelles Team Blitz Leihen',
             caption: 'Unser Expertenteam',
             desc: 'ÉQUIPE BUREAU MODERNE — conseillers en open space, ambiance dynamique — 800×600px' }
         ]
@@ -116,13 +116,13 @@
         btnSecondary:    'Kundenstimmen',
         btnSecondaryHref:'ueber-uns.html',
         photos: [
-          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849032/blitz-leihen-hero-berlin-skyline-panorama_gqw7uk.webp', alt: 'Berlin Stadtansicht Deutschland',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/f_auto,q_auto/v1783849032/blitz-leihen-hero-berlin-skyline-panorama_gqw7uk.webp', alt: 'Berlin Stadtansicht Deutschland',
             caption: 'Gegründet in Berlin 2015',
             desc: 'PANORAMA BERLIN ou grande ville allemande, skyline moderne, ciel bleu — 800×600px' },
-          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-familie-mehrgenerationen-zuhause_jbrasy.webp', alt: 'Glückliche Familie zu Hause',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/f_auto,q_auto/v1783849033/blitz-leihen-hero-familie-mehrgenerationen-zuhause_jbrasy.webp', alt: 'Glückliche Familie zu Hause',
             caption: '15.000+ zufriedene Kunden',
             desc: 'FAMILLE MULTIGÉNÉRATIONNELLE dans leur maison, ambiance chaleureuse — 800×600px' },
-          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1783849033/blitz-leihen-hero-geschaeftshandschlag-partnerschaft_jqgame.webp', alt: 'Geschäftshandschlag Partnerschaft',
+          { src: 'https://res.cloudinary.com/duramdsjz/image/upload/f_auto,q_auto/v1783849033/blitz-leihen-hero-geschaeftshandschlag-partnerschaft_jqgame.webp', alt: 'Geschäftshandschlag Partnerschaft',
             caption: 'Ihr Partner für die Zukunft',
             desc: 'POIGNÉE DE MAIN professionnelle, bureau élégant en arrière-plan — 800×600px' }
         ]
@@ -414,6 +414,31 @@
   }
 
   /* ----------------------------------------------------------
+     FORCE LA MISE EN PAGE MOBILE SUR UN VRAI TÉLÉPHONE
+     — même en mode "Version ordinateur" du navigateur —
+
+     En "Version ordinateur" sur mobile, le navigateur élargit
+     artificiellement la largeur de mise en page (window.innerWidth,
+     ce que lisent les media queries), mais la hauteur `100vh` reste
+     calculée sur l'écran physique réel. Résultat : la grille du hero
+     (colonnes en %) se base sur une largeur "bureau" alors que sa
+     hauteur reste celle, réelle, d'un téléphone — la photo se
+     retrouve étirée dans un rectangle beaucoup trop étroit et haut.
+
+     window.screen.width reflète la largeur PHYSIQUE de l'écran et
+     n'est, lui, jamais modifié par ce mode. On s'en sert ici pour
+     forcer la mise en page mobile (classe .hero-mega--force-mobile,
+     voir css/components.css) dès qu'on détecte un vrai téléphone,
+     indépendamment de ce que rapportent les media queries.
+  ---------------------------------------------------------- */
+  function appliquerLayoutMobileForce() {
+    var hero = document.getElementById('heroMega');
+    if (!hero) return;
+    var estVraiTelephone = !!(window.screen && window.screen.width && window.screen.width <= 600);
+    hero.classList.toggle('hero-mega--force-mobile', estVraiTelephone);
+  }
+
+  /* ----------------------------------------------------------
      INIT
   ---------------------------------------------------------- */
   function init() {
@@ -422,7 +447,11 @@
     build();
     /* Reset du photo index */
     state.photoIndex = CONFIG.panels.map(function () { return 0; });
+    appliquerLayoutMobileForce();
   }
+
+  window.addEventListener('resize', appliquerLayoutMobileForce, { passive: true });
+  window.addEventListener('orientationchange', appliquerLayoutMobileForce, { passive: true });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);

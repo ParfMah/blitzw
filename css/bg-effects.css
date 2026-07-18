@@ -221,6 +221,6 @@
   inset: 0;
   background:
     linear-gradient(rgba(5, 18, 38, 0.82), rgba(5, 18, 38, 0.82)),
-    url('https://res.cloudinary.com/duramdsjz/image/upload/v1783865280/blitz-leihen-footer-background_ghucl0.webp') center / cover;
+    url('https://res.cloudinary.com/duramdsjz/image/upload/f_auto,q_auto/v1783865280/blitz-leihen-footer-background_ghucl0.webp') center / cover;
   z-index: 0;
 }

@@ -785,6 +785,90 @@
 }
 
 /* ==========================================================
+   MISE EN PAGE MOBILE FORCÉE (classe, pas media query)
+   Appliquée par js/hero-mega.js quand un vrai téléphone est détecté
+   (window.screen.width), même si le navigateur rapporte une largeur
+   de mise en page "bureau" — cas du mode "Version ordinateur" activé
+   manuellement sur mobile. Reproduit à l'identique les règles du
+   bloc "RESPONSIVE — MOBILE (< 768px)" ci-dessus, mais via une classe
+   pour ne plus dépendre de window.innerWidth. Grâce au double sélecteur
+   de classe, la spécificité l'emporte sur les règles "bureau" par défaut
+   quelle que soit la largeur rapportée aux media queries.
+   ========================================================== */
+.hero-mega.hero-mega--force-mobile {
+  min-height: 100svh;
+  height: 100svh;
+}
+
+.hero-mega--force-mobile .hero-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-mega--force-mobile .hero-panel__content {
+  order: 1;
+  flex: 0 0 auto;
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  background: rgba(11,45,89,0.88);
+}
+
+.hero-mega--force-mobile .hero-panel__content::before { display: none; }
+
+.hero-mega--force-mobile .hero-panel__eyebrow { font-size: 0.65rem; margin-bottom: var(--space-2); }
+
+.hero-mega--force-mobile .hero-panel__title {
+  font-size: clamp(1.2rem, 5vw, 1.6rem);
+  margin-bottom: var(--space-3);
+}
+
+.hero-mega--force-mobile .hero-panel__text {
+  font-size: var(--text-xs);
+  margin-bottom: var(--space-4);
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.hero-mega--force-mobile .hero-panel__actions {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.hero-mega--force-mobile .hero-panel__actions .btn {
+  flex: 1;
+  min-width: 130px;
+  font-size: 0.65rem;
+  padding: 0.55rem 0.8rem;
+}
+
+.hero-mega--force-mobile .hero-panel__photos-zone {
+  order: 2;
+  flex: 1 1 auto;
+  min-height: 200px;
+}
+
+.hero-mega--force-mobile .hero-photo-item {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.hero-mega--force-mobile .hero-photo-placeholder__desc { display: none; }
+.hero-mega--force-mobile .hero-photo-placeholder__code { font-size: 0.55rem; }
+.hero-mega--force-mobile .hero-photo-placeholder { padding: var(--space-4); gap: var(--space-2); }
+
+.hero-mega--force-mobile .hero-mega__nav { bottom: var(--space-3); gap: var(--space-3); }
+.hero-mega--force-mobile .hero-mega__arrow { width: 38px; height: 38px; font-size: 0.9rem; }
+.hero-mega--force-mobile .hero-mega__dot { width: 6px; height: 6px; }
+.hero-mega--force-mobile .hero-mega__dot.active { width: 22px; }
+
+.hero-mega--force-mobile .hero-photo-caption {
+  padding-bottom: calc(var(--space-3) + 48px);
+}
+
+/* ==========================================================
    FOOTER COMPACT — Réécriture pour réduire la hauteur
    et le rendre plus dense visuellement
    ========================================================== */
