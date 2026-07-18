@@ -57,7 +57,7 @@
 }
 
 .ratgeber-card__img {
-  height: 160px;
+  height: 220px;
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   background-size: cover;
   background-position: center;
