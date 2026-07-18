@@ -57,7 +57,7 @@
 }
 
 .ratgeber-card__img {
-  height: 160px;
+  height: 220px;
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
   background-size: cover;
   background-position: center;
@@ -241,8 +241,18 @@
 
 .article-callout p { color: rgba(255,255,255,0.9); margin-bottom: var(--space-4); }
 
+.table-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+}
+
 .article-table {
   width: 100%;
+  max-width: 100%;
   border-collapse: collapse;
   margin: var(--space-6) 0;
   font-size: var(--text-sm);
