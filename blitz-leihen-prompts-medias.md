@@ -383,3 +383,31 @@ en haut de chaque carte (`.ratgeber-card__img`, actuellement 160px de haut).
 **Nom de fichier recommandé :** `kreditantrag-ablauf-card.webp`
 **Prompt :**
 > Photorealistic organized desk with neatly arranged documents, a folder, and a checklist on a tablet, soft natural light, sense of clear process and order, navy and gold tones, shallow depth of field, no readable text or logos — 4:3
+
+---
+
+## Effet 4ter — Photos de hero pour les 2 nouvelles pages (FAQ + Kundenstimmen)
+**Format : 1920×1080px (16:9)** — même mécanisme statique que les autres hero du site.
+
+### IMG_HERO_FAQ — hero de `faq.html`
+**Nom de fichier recommandé :** `faq-haeufige-fragen-hero.webp`
+**Prompt :**
+> Photorealistic close-up of a person's hands holding a smartphone with a thoughtful question-mark-shaped light reflection, or a person in a bright office looking at a tablet with a curious, engaged expression, soft natural daylight, navy and gold tones, calm and helpful mood, shallow depth of field, no readable text or logos — 16:9
+
+**Mots-clés banque d'images :** person reading faq tablet, customer support help desk bright, thoughtful person question
+
+### IMG_HERO_KUNDENSTIMMEN — hero de `kundenstimmen.html`
+**Nom de fichier recommandé :** `kundenstimmen-hero-blitz-leihen.webp`
+**Prompt :**
+> Photorealistic warm group of diverse happy people (customers) in an outdoor or bright indoor setting, candid genuine smiles, soft natural light, navy and gold color accents, sense of trust and satisfaction, shallow depth of field, no text or logos — 16:9
+
+**Mots-clés banque d'images :** happy diverse group people outdoor, satisfied customers group photo warm
+
+---
+
+## Récapitulatif — 2 images de hero supplémentaires
+
+| # | Identifiant | Nom de fichier recommandé | Page |
+|---|---|---|---|
+| 1 | IMG_HERO_FAQ | faq-haeufige-fragen-hero.webp | faq.html |
+| 2 | IMG_HERO_KUNDENSTIMMEN | kundenstimmen-hero-blitz-leihen.webp | kundenstimmen.html |

@@ -178,6 +178,8 @@
     '      <ul class="footer-col__links">',
     '        <li><a href="' + rootPath + 'ueber-uns.html"  class="footer-col__link">Über uns</a></li>',
     '        <li><a href="' + rootPath + 'ratgeber.html"   class="footer-col__link">Ratgeber</a></li>',
+    '        <li><a href="' + rootPath + 'faq.html"        class="footer-col__link">Häufige Fragen (FAQ)</a></li>',
+    '        <li><a href="' + rootPath + 'kundenstimmen.html" class="footer-col__link">Kundenstimmen</a></li>',
     '        <li><a href="' + rootPath + 'kontakt.html"    class="footer-col__link">Kontakt</a></li>',
     '        <li><a href="' + rootPath + 'ueber-uns.html#team" class="footer-col__link">Unser Team</a></li>',
     '        <li><a href="' + rootPath + 'ueber-uns.html#karriere" class="footer-col__link">Karriere</a></li>',
