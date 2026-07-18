@@ -17,28 +17,6 @@
 
   var MEDIA = {
 
-    /* --- Effet 1 : Ken Burns — Hero de la page d'accueil (index.html) ---
-       5 ambiances variées pour un fond riche qui ne se répète pas trop vite. */
-    heroKenBurns: [
-      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145820/familie-finanzberatung-zuhause.webp', alt: 'Familie plant gemeinsam ihre Finanzierung',
-        desc: 'Ambiance chaleureuse : famille/couple autour d\'une table, discussion financière — 1920×1080px' },
-      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145820/deutsche-stadtsilhouette-daemmerung.webp', alt: 'Moderne deutsche Stadtsilhouette bei Dämmerung',
-        desc: 'Skyline urbaine allemande moderne au crépuscule — 1920×1080px' },
-      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145821/kreditberater-kundengespraech-buero.webp', alt: 'Berater im Gespräch mit zufriedenem Kunden',
-        desc: 'Conseiller financier et client, bureau moderne, ambiance de confiance — 1920×1080px' },
-      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145820/einfamilienhaus-mit-garten-deutschland.webp', alt: 'Einfamilienhaus mit Garten in Deutschland',
-        desc: 'Maison individuelle avec jardin, lumière douce — 1920×1080px' },
-      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145819/digitaler-kreditantrag-smartphone.webp', alt: 'Digitale Kreditanwendung auf Smartphone und Laptop',
-        desc: 'Ambiance digitale/tech, smartphone et laptop, tons bleu marine — 1920×1080px' }
-    ],
-
-    /* --- Effet 2 (b) : Crossfade pur — Section Témoignages (index.html) --- */
-    testimonialsCrossfade: [
-      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145826/zufriedener-kunde-portraet-blitz-leihen.webp', alt: 'Zufriedene Kunden nach Kreditzusage', desc: 'Portrait lifestyle client souriant, tons clairs et chauds — 1600×900px' },
-      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145821/familie-vor-eigenheim-finanziert.webp', alt: 'Familie vor ihrem finanzierten Zuhause', desc: 'Famille devant sa maison, ambiance positive — 1600×900px' },
-      { src: 'https://res.cloudinary.com/duramdsjz/image/upload/v1784145821/paar-finanzplanung-laptop-wohnzimmer.webp', alt: 'Paar mit Laptop bei der Finanzplanung', desc: 'Couple planifiant ensemble, intérieur lumineux — 1600×900px' }
-    ],
-
     /* --- Effet 3 : Distorsion fluide — Galerie des offres (kredite.html) ---
        Une image par produit de crédit affiché sur la page. */
     offersGallery: [
@@ -77,120 +55,16 @@
   }
 
   /* ============================================================
-     EFFET 1 — KEN BURNS (zoom lent + crossfade)
-     ============================================================ */
-  function initKenBurns(containerId, images) {
-    var container = document.getElementById(containerId);
-    if (!container || !images || !images.length) return;
-
-    var bg = document.createElement('div');
-    bg.className = 'kb-bg';
-    bg.setAttribute('role', 'img');
-    bg.setAttribute('aria-label', 'Blitz Leihen — Vertrauensvolle Finanzierung in Deutschland');
-
-    images.forEach(function (img, i) {
-      var slide = document.createElement('div');
-      slide.className = 'kb-bg__slide ' + (i % 2 === 0 ? 'kb-bg__slide--in' : 'kb-bg__slide--out') + (i === 0 ? ' is-active' : '');
-
-      if (estUrlReelle(img.src)) {
-        slide.style.backgroundImage = 'url(' + img.src + ')';
-        slide.setAttribute('aria-hidden', i === 0 ? 'false' : 'true');
-      } else {
-        slide.appendChild(creerPlaceholder(img.desc, img.alt));
-      }
-      bg.appendChild(slide);
-    });
-
-    // Overlay de contraste (cahier des charges §3)
-    var overlay = document.createElement('div');
-    overlay.className = 'bg-overlay-contrast';
-    bg.appendChild(overlay);
-
-    // Insertion en TOUT PREMIER enfant : reste derrière le contenu
-    // injecté ensuite par hero-mega.js (track / nav / progress).
-    container.insertBefore(bg, container.firstChild);
-
-    // Rotation lente et continue, indépendante du carrousel de contenu
-    var index = 0;
-    setInterval(function () {
-      var slides = bg.querySelectorAll('.kb-bg__slide');
-      slides[index].classList.remove('is-active');
-      index = (index + 1) % slides.length;
-      slides[index].classList.add('is-active');
-    }, 7000);
-  }
-
   /* ============================================================
-     EFFET 2 — CROSSFADE PUR (footer + témoignages)
+     EFFET 3 — RECOUVREMENT DIRECTIONNEL (galerie des offres de crédit)
+     Chaque nouvelle image glisse depuis le haut, le bas, la gauche ou
+     la droite (rotation cyclique) pour venir recouvrir entièrement
+     l'image précédente, qui elle ne bouge, ne s'estompe et ne se
+     floute jamais avant d'être cachée.
      ============================================================ */
-  function initCrossfade(containerId, images, options) {
-    var container = document.getElementById(containerId);
-    if (!container || !images || !images.length) return;
-
-    options = options || {};
-    var interval = options.interval || 6000;
-
-    var bg = document.createElement('div');
-    bg.className = 'cf-bg';
-    bg.setAttribute('role', 'img');
-    bg.setAttribute('aria-label', options.ariaLabel || 'Blitz Leihen');
-
-    images.forEach(function (img, i) {
-      var slide = document.createElement('div');
-      slide.className = 'cf-bg__slide' + (i === 0 ? ' is-active' : '');
-      if (estUrlReelle(img.src)) {
-        slide.style.backgroundImage = 'url(' + img.src + ')';
-      } else {
-        slide.appendChild(creerPlaceholder(img.desc, img.alt));
-      }
-      bg.appendChild(slide);
-    });
-
-    var overlay = document.createElement('div');
-    overlay.className = 'bg-overlay-contrast' + (options.lightOverlay ? ' bg-overlay-contrast--light' : '');
-    bg.appendChild(overlay);
-
-    container.insertBefore(bg, container.firstChild);
-
-    var index = 0;
-    setInterval(function () {
-      var slides = bg.querySelectorAll('.cf-bg__slide');
-      slides[index].classList.remove('is-active');
-      index = (index + 1) % slides.length;
-      slides[index].classList.add('is-active');
-    }, interval);
-  }
-
-  /* ============================================================
-     EFFET 3 — DISTORSION FLUIDE (galerie des offres de crédit)
-     Fondu + flou + léger zoom, renforcés par une distorsion SVG
-     (feTurbulence/feDisplacementMap) pendant la fenêtre de transition.
-     ============================================================ */
-  function injecterFiltreSVG() {
-    if (document.getElementById('dg-distort-filter')) return;
-
-    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('width', '0');
-    svg.setAttribute('height', '0');
-    svg.style.position = 'absolute';
-    svg.style.pointerEvents = 'none';
-    svg.innerHTML =
-      '<filter id="dg-distort-filter" x="-20%" y="-20%" width="140%" height="140%">' +
-      '  <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="2" seed="7" result="noise">' +
-      '    <animate attributeName="baseFrequency" values="0.008 0.012;0.02 0.028;0.008 0.012" dur="6s" repeatCount="indefinite"/>' +
-      '  </feTurbulence>' +
-      '  <feDisplacementMap in="SourceGraphic" in2="noise" scale="0" xChannelSelector="R" yChannelSelector="G">' +
-      '    <animate attributeName="scale" values="0;55;0" dur="1.1s" begin="indefinite" fill="freeze" id="dg-distort-anim"/>' +
-      '  </feDisplacementMap>' +
-      '</filter>';
-    document.body.appendChild(svg);
-  }
-
   function initDistortion(containerId, images) {
     var container = document.getElementById(containerId);
     if (!container || !images || !images.length) return;
-
-    injecterFiltreSVG();
 
     var dots = document.createElement('div');
     dots.className = 'distort-gallery__dots';
@@ -225,6 +99,13 @@
     var dotEls = dots.querySelectorAll('.distort-gallery__dot');
     var current = 0;
 
+    // Rotation harmonieuse des 4 directions d'entrée, dans cet ordre,
+    // pour que les photos arrivent tour à tour du haut, de la droite,
+    // du bas puis de la gauche plutôt que toujours du même côté.
+    var DIRECTIONS = ['top', 'right', 'bottom', 'left'];
+    var dirIndex = 0;
+    var DIR_CLASSES = ['enter-from-top', 'enter-from-bottom', 'enter-from-left', 'enter-from-right'];
+
     function updateCaption(i) {
       caption.innerHTML =
         '<span class="distort-gallery__caption-eyebrow">' + images[i].eyebrow + '</span>' +
@@ -237,23 +118,33 @@
       var prevEl = slides[current];
       var nextEl = slides[next];
 
-      // Active la distorsion SVG pendant la transition, puis la retire
-      prevEl.classList.add('is-distorting');
-      nextEl.classList.add('is-distorting');
-      var anim = document.getElementById('dg-distort-anim');
-      if (anim && anim.beginElement) { try { anim.beginElement(); } catch (e) {} }
+      var direction = DIRECTIONS[dirIndex % DIRECTIONS.length];
+      dirIndex++;
 
-      prevEl.classList.remove('is-active');
-      prevEl.classList.add('is-leaving');
-      nextEl.classList.add('is-active');
+      // Repositionne la nouvelle image hors-champ (côté choisi), sans
+      // transition, AVANT de déclencher l'animation d'entrée.
+      nextEl.classList.remove.apply(nextEl.classList, DIR_CLASSES.concat(['is-entering']));
+      nextEl.classList.add('enter-from-' + direction);
+
+      // Force le navigateur à appliquer cette position de départ avant
+      // d'activer la transition (sinon le glissement ne se joue pas).
+      void nextEl.offsetWidth;
+
+      requestAnimationFrame(function () {
+        nextEl.classList.add('is-entering');
+      });
 
       dotEls[current].classList.remove('active');
       dotEls[next].classList.add('active');
 
+      // Une fois le glissement terminé : la nouvelle image devient l'image
+      // "au repos" ; l'ancienne repasse simplement en arrière-plan, sans
+      // avoir jamais bougé, pâli ni flouté entre-temps.
       setTimeout(function () {
-        prevEl.classList.remove('is-leaving', 'is-distorting');
-        nextEl.classList.remove('is-distorting');
-      }, 1150);
+        prevEl.classList.remove('is-active');
+        nextEl.classList.remove.apply(nextEl.classList, DIR_CLASSES.concat(['is-entering']));
+        nextEl.classList.add('is-active');
+      }, 980);
 
       current = next;
       updateCaption(current);
@@ -269,12 +160,6 @@
      (script chargé avec `defer` + exécution après DOMContentLoaded)
   ---------------------------------------------------------- */
   function init() {
-    initKenBurns('heroMega', MEDIA.heroKenBurns);
-    initCrossfade('testimonialsCrossfadeBg', MEDIA.testimonialsCrossfade, {
-      interval: 7000,
-      lightOverlay: true,
-      ariaLabel: 'Zufriedene Blitz Leihen Kunden'
-    });
     initDistortion('offersDistortionGallery', MEDIA.offersGallery);
   }
 
@@ -286,8 +171,6 @@
 
   // Exposé pour d'éventuels usages futurs sur d'autres pages
   window.BlitzBgEffects = {
-    initKenBurns: initKenBurns,
-    initCrossfade: initCrossfade,
     initDistortion: initDistortion
   };
 
