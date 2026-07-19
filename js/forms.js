@@ -284,6 +284,8 @@
 
   // Valide le trio jour/mois/année, reconstruit la date ISO dans le
   // champ caché #geburtsdatum, et affiche le retour visuel adapté
+  // Valide le trio jour/mois/année, reconstruit la date ISO dans le
+  // champ caché #geburtsdatum, et affiche le retour visuel adapté
   function validateGeburtsdatumGroup() {
     var tag    = document.getElementById('geburtsdatumTag');
     var monat  = document.getElementById('geburtsdatumMonat');
@@ -293,33 +295,42 @@
     if (!tag || !monat || !jahr || !hidden) return true;
 
     var selects = [tag, monat, jahr];
-    var errorMsg = '';
     var alleAusgefuellt = tag.value && monat.value && jahr.value;
 
+    // AJOUT : tant que les 3 champs ne sont pas tous remplis, on n'affiche
+    // aucune erreur — ce n'est pas encore une erreur, juste une saisie en cours.
     if (!alleAusgefuellt) {
-      errorMsg = 'Bitte Tag, Monat und Jahr auswählen.';
+      hidden.value = '';
+      selects.forEach(function(sel) {
+        sel.classList.remove('error', 'valid');
+      });
+      if (errorEl) {
+        errorEl.textContent = '';
+        errorEl.style.display = 'none';
+      }
+      return false;
+    }
+
+    var errorMsg = '';
+    var iso  = jahr.value + '-' + monat.value + '-' + tag.value;
+    var date = new Date(iso + 'T00:00:00');
+
+    if (isNaN(date.getTime()) || date.getDate() !== parseInt(tag.value, 10)) {
+      errorMsg = 'Dieses Datum ist ungültig.';
       hidden.value = '';
     } else {
-      var iso  = jahr.value + '-' + monat.value + '-' + tag.value;
-      var date = new Date(iso + 'T00:00:00');
-
-      if (isNaN(date.getTime()) || date.getDate() !== parseInt(tag.value, 10)) {
-        errorMsg = 'Dieses Datum ist ungültig.';
-        hidden.value = '';
-      } else {
-        var age = Math.floor((Date.now() - date.getTime()) / 31536000000);
-        if (age < 18) {
-          errorMsg = 'Sie müssen mindestens 18 Jahre alt sein.';
-        } else if (age > 80) {
-          errorMsg = 'Bitte überprüfen Sie das eingegebene Geburtsdatum.';
-        }
-        hidden.value = errorMsg ? '' : iso;
+      var age = Math.floor((Date.now() - date.getTime()) / 31536000000);
+      if (age < 18) {
+        errorMsg = 'Sie müssen mindestens 18 Jahre alt sein.';
+      } else if (age > 80) {
+        errorMsg = 'Bitte überprüfen Sie das eingegebene Geburtsdatum.';
       }
+      hidden.value = errorMsg ? '' : iso;
     }
 
     selects.forEach(function(sel) {
       sel.classList.toggle('error', errorMsg !== '');
-      sel.classList.toggle('valid', errorMsg === '' && alleAusgefuellt);
+      sel.classList.toggle('valid', errorMsg === '');
     });
 
     if (errorEl) {
