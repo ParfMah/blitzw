@@ -157,6 +157,18 @@
   }
 
   // -------------------------------------------------------
+  // Met à jour le remplissage bleu du curseur (input type="range")
+  // pour qu'il suive dynamiquement la position du bouton rond.
+  // -------------------------------------------------------
+  function updateRangeFill(range) {
+    var min = parseFloat(range.min) || 0;
+    var max = parseFloat(range.max) || 100;
+    var val = parseFloat(range.value) || 0;
+    var percent = ((val - min) / (max - min)) * 100;
+    range.style.setProperty('--range-fill', percent + '%');
+  }
+
+  // -------------------------------------------------------
   // 5. CALCULATRICE DE PRÊT RAPIDE
   // Calcule la mensualité approximative selon le montant,
   // la durée et le taux d'intérêt.
@@ -197,21 +209,20 @@
     }
 
     // Mise à jour en temps réel à chaque changement
-    calc.addEventListener('input', calculate);
-
-    // Mise à jour des labels des sliders si présents
+   // Mise à jour des labels des sliders si présents
     calc.querySelectorAll('input[type="range"]').forEach(function(range) {
       var display = document.getElementById(range.id + 'Display');
-      if (!display) return;
 
       range.addEventListener('input', function() {
         var unit = range.getAttribute('data-unit') || '';
-        display.textContent = range.value + unit;
+        if (display) display.textContent = range.value + unit;
+        updateRangeFill(range); // AJOUT : suit la position du curseur
       });
 
       // Affichage initial
       var unit = range.getAttribute('data-unit') || '';
       if (display) display.textContent = range.value + unit;
+      updateRangeFill(range); // AJOUT : bon remplissage dès le chargement
     });
 
     // Calcul initial avec les valeurs par défaut

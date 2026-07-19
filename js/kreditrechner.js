@@ -105,6 +105,19 @@
   // -------------------------------------------------------
   // INITIALISATION
   // -------------------------------------------------------
+  // -------------------------------------------------------
+  // Met à jour le remplissage bleu du curseur (input type="range")
+  // pour qu'il suive dynamiquement la position du bouton rond.
+  // -------------------------------------------------------
+
+  function updateRangeFill(range) {
+    var min = parseFloat(range.min) || 0;
+    var max = parseFloat(range.max) || 100;
+    var val = parseFloat(range.value) || 0;
+    var percent = ((val - min) / (max - min)) * 100;
+    range.style.setProperty('--range-fill', percent + '%');
+  }
+
   function init() {
     var betragRange = document.getElementById('betragRange');
     var laufzeitRange = document.getElementById('laufzeitRange');
@@ -113,16 +126,20 @@
     lireParametresURL();
     betragRange.value = state.betrag;
     laufzeitRange.value = state.laufzeit;
+    updateRangeFill(betragRange);   // AJOUT : bon remplissage dès le chargement
+    updateRangeFill(laufzeitRange); // AJOUT
 
     betragRange.addEventListener('input', function () {
       state.betrag = parseInt(betragRange.value, 10);
       majBoutonsActifs('[data-betrag]', state.betrag, 'data-betrag');
+      updateRangeFill(betragRange); // AJOUT : suit le glissement à la souris/au doigt
       update();
     });
 
     laufzeitRange.addEventListener('input', function () {
       state.laufzeit = parseInt(laufzeitRange.value, 10);
       majBoutonsActifs('[data-laufzeit]', state.laufzeit, 'data-laufzeit');
+      updateRangeFill(laufzeitRange); // AJOUT
       update();
     });
 
@@ -131,6 +148,7 @@
         state.betrag = parseInt(btn.getAttribute('data-betrag'), 10);
         betragRange.value = state.betrag;
         majBoutonsActifs('[data-betrag]', state.betrag, 'data-betrag');
+        updateRangeFill(betragRange); // AJOUT : les boutons "10 000 €" etc. ne déclenchent pas 'input'
         update();
       });
     });
@@ -140,6 +158,7 @@
         state.laufzeit = parseInt(btn.getAttribute('data-laufzeit'), 10);
         laufzeitRange.value = state.laufzeit;
         majBoutonsActifs('[data-laufzeit]', state.laufzeit, 'data-laufzeit');
+        updateRangeFill(laufzeitRange); // AJOUT
         update();
       });
     });
