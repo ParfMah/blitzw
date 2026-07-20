@@ -1,10 +1,18 @@
 # Blitz Leihen — robots.txt
+#
+# ⚠️ SITE EN PHASE DE TEST — indexation totalement bloquée.
+# Quand le site est prêt à être mis en ligne officiellement :
+#   1. Remplacer "Disallow: /" par les règles ci-dessous (commentées)
+#   2. Repasser les balises <meta name="robots"> des pages publiques
+#      de "noindex, nofollow" à "index, follow" (sauf /admin/).
 
 User-agent: *
-Allow: /
+Disallow: /
 
-# Espaces d'administration : non destinés à l'indexation
-Disallow: /admin/
-Disallow: /admin-mobile/
-
-Sitemap: https://www.blitz-leihen.de/sitemap.xml
+# --- Règles à restaurer lors de la mise en ligne officielle ---
+# User-agent: *
+# Allow: /
+# Disallow: /admin/
+# Disallow: /admin-mobile/
+#
+# Sitemap: https://www.blitz-leihen.de/sitemap.xml

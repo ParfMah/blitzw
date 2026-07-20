@@ -51,7 +51,7 @@
     return (
       (meta && meta.getAttribute('content')) ||
       window.BLITZ_API_BASE ||
-      'https://blitzback.onrender.com'
+      'https://79-108-162-55.sslip.io'
     ).replace(/\/$/, '');
   }
 

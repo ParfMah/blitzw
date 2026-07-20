@@ -13,7 +13,7 @@
     ✏️ EN PRODUCTION : remplacer par l'URL réelle de votre backend.
     Exemple : <meta name="api-base" content="https://blitz-leihen-backend.onrender.com">
   -->
-  <meta name="api-base" content="https://blitzback.onrender.com">
+  <meta name="api-base" content="https://79-108-162-55.sslip.io">
   <meta name="robots" content="noindex, nofollow">
 
   <title>Blitz Leihen · Admin</title>
@@ -1307,7 +1307,7 @@
             <div class="settings-item__icon">🔗</div>
             <div class="settings-item__text">
               <div class="settings-item__title" data-i18n="settings_api_title">API Backend URL</div>
-              <div class="settings-item__sub" id="currentApiUrl">https://blitzback.onrender.com</div>
+              <div class="settings-item__sub" id="currentApiUrl">https://79-108-162-55.sslip.io</div>
             </div>
             <span class="settings-item__arrow">›</span>
           </div>
@@ -1674,7 +1674,7 @@ const App = {
   getApiBase() {
     return localStorage.getItem('blitz_api_base') ||
       document.querySelector('meta[name="api-base"]')?.content ||
-      'https://blitzback.onrender.com';
+      'https://79-108-162-55.sslip.io';
   },
 
   token:   null,

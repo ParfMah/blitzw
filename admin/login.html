@@ -8,7 +8,7 @@
     ✏️  EN PRODUCTION : remplacer le contenu par l'URL réelle de votre backend.
     Exemple : <meta name="api-base" content="https://blitz-leihen-backend.onrender.com">
   -->
-  <meta name="api-base" content="https://blitzback.onrender.com">
+  <meta name="api-base" content="https://79-108-162-55.sslip.io">
   <meta name="robots" content="noindex, nofollow">
   <title>Admin Login – Blitz Leihen</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -128,13 +128,13 @@
       'use strict';
 
       // --- URL de l'API backend ---
-      // En développement : https://blitzback.onrender.com
+      // En développement : https://79-108-162-55.sslip.io
       // En production    : remplacer par l'URL réelle, ou injecter via meta tag
       // (voir README pour la configuration FRONTEND_URL / API_BASE_URL)
       var API_BASE = (
         document.querySelector('meta[name="api-base"]')?.getAttribute('content') ||
         window.BLITZ_API_BASE ||
-        'https://blitzback.onrender.com'
+        'https://79-108-162-55.sslip.io'
       ).replace(/\/$/, '');
       var AUTH_URL = API_BASE + '/api/auth/login';
 

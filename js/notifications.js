@@ -33,14 +33,14 @@
   //      (méthode recommandée pour la production)
   //   2. window.BLITZ_API_BASE = "https://..."
   //      (assignée par un script inline en haut de page)
-  //   3. https://blitzback.onrender.com (développement local)
+  //   3. https://79-108-162-55.sslip.io (développement local)
   // -------------------------------------------------------
   function getApiBase() {
     var meta = document.querySelector('meta[name="api-base"]');
     return (
       (meta && meta.getAttribute('content')) ||
       window.BLITZ_API_BASE ||
-      'https://blitzback.onrender.com'
+      'https://79-108-162-55.sslip.io'
     ).replace(/\/$/, '');
   }
 

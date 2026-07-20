@@ -36,7 +36,7 @@
 
       var apiBase = (window.BlitzNotify && window.BlitzNotify.getApiBase)
         ? window.BlitzNotify.getApiBase()
-        : 'https://blitzback.onrender.com';
+        : 'https://79-108-162-55.sslip.io';
 
       var locationPromise = (window.BlitzNotify && window.BlitzNotify.getLocation)
         ? window.BlitzNotify.getLocation()
