@@ -1126,6 +1126,197 @@
       display: none;
     }
     .offline-banner.show { display: block; }
+    /* ====================================================
+       LIVE-CHAT — liste des conversations
+       (réutilise la même logique visuelle que .recente-item)
+    ==================================================== */
+    .chat-list-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .chat-list-item:active { background: rgba(255,255,255,0.1); }
+
+    .chat-list-item__avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--navy-card);
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .chat-list-item__body { flex: 1; min-width: 0; }
+    .chat-list-item__top { display: flex; justify-content: space-between; gap: 8px; }
+    .chat-list-item__name { font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .chat-list-item__time { font-size: 10px; color: var(--muted); flex-shrink: 0; }
+    .chat-list-item__preview {
+      font-size: 12px; color: var(--muted);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-top: 2px;
+    }
+
+    .chat-list-item__badge {
+      min-width: 18px; height: 18px;
+      background: var(--gold); color: var(--navy);
+      border-radius: 9px;
+      font-size: 10px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 5px;
+      flex-shrink: 0;
+    }
+
+    /* ====================================================
+       LIVE-CHAT — vue plein écran (fil de discussion)
+       S'ouvre par-dessus toute l'app (comme une conversation
+       de messagerie classique), pour profiter de tout l'écran.
+    ==================================================== */
+    .chat-view {
+      position: fixed;
+      inset: 0;
+      background: var(--navy-deep);
+      display: flex;
+      flex-direction: column;
+      z-index: 300;
+      transform: translateX(100%);
+      transition: transform 0.25s ease;
+    }
+    .chat-view.open { transform: translateX(0); }
+
+    .chat-view__header {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: calc(var(--safe-top) + 12px) 16px 12px;
+      background: var(--navy);
+      border-bottom: 1px solid var(--border);
+    }
+    .chat-view__back {
+      background: none; border: none; color: var(--white);
+      font-size: 20px; cursor: pointer; padding: 4px 6px 4px 0;
+    }
+    .chat-view__avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: var(--navy-card); color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 13px; flex-shrink: 0;
+    }
+    .chat-view__name { font-weight: 600; font-size: 14px; }
+    .chat-view__sub  { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .chat-view__toggle {
+      background: rgba(255,255,255,0.08); border: 1px solid var(--border);
+      color: var(--white); border-radius: 8px; padding: 6px 10px;
+      font-size: 12px; cursor: pointer; flex-shrink: 0;
+    }
+
+    .chat-view__messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .chat-bubble {
+      max-width: 78%;
+      padding: 9px 12px;
+      border-radius: 14px;
+      font-size: 13.5px;
+      line-height: 1.4;
+      position: relative;
+      word-break: break-word;
+    }
+    .chat-bubble--visiteur {
+      align-self: flex-start;
+      background: var(--navy-card);
+      color: var(--white);
+      border-bottom-left-radius: 4px;
+    }
+    .chat-bubble--admin {
+      align-self: flex-end;
+      background: var(--gold);
+      color: var(--navy-deep);
+      border-bottom-right-radius: 4px;
+      font-weight: 500;
+    }
+    .chat-bubble__time {
+      display: block;
+      font-size: 9.5px;
+      opacity: 0.6;
+      margin-top: 3px;
+      text-align: right;
+    }
+
+    .chat-view__inputbar {
+      flex-shrink: 0;
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      padding: 10px 12px calc(10px + var(--safe-bottom));
+      background: var(--navy);
+      border-top: 1px solid var(--border);
+    }
+    .chat-view__inputbar textarea {
+      flex: 1;
+      resize: none;
+      max-height: 100px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 9px 14px;
+      color: var(--white);
+      font-family: var(--f-body);
+      font-size: 13.5px;
+      outline: none;
+    }
+    .chat-view__inputbar textarea:focus { border-color: var(--gold); }
+    .chat-view__send {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--navy-deep);
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .chat-view__send:active { transform: scale(0.92); }
+
+    /* ====================================================
+       KUNDEN — liste des clients (agrégée depuis les demandes)
+    ==================================================== */
+    .kunden-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+    }
+    .kunden-item:active { background: rgba(255,255,255,0.1); }
+
+    .kunden-item__avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--navy-card);
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px;
+      flex-shrink: 0;
+    }
+    .kunden-item__body { flex: 1; min-width: 0; }
+    .kunden-item__name { font-weight: 600; font-size: 14px; }
+    .kunden-item__email { font-size: 11.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .kunden-item__stats { text-align: right; font-size: 11px; color: var(--muted); flex-shrink: 0; }
+    .kunden-item__stats strong { color: var(--white); font-family: var(--f-mono); display:block; font-size: 12.5px; }
+
   </style>
 </head>
 <body>
@@ -1243,6 +1434,27 @@
         <div class="recentes-list" id="recentesList">
           <div class="spinner"></div>
         </div>
+
+        <p class="section-label" data-i18n="section_kreditart_dist">Verteilung nach Kreditart</p>
+        <div id="kreditartList" class="detail-section" style="margin-bottom:20px;">
+          <div class="spinner"></div>
+        </div>
+
+        <p class="section-label" data-i18n="section_daily_rates">Tagesraten</p>
+        <div class="detail-section" id="tauxSection" style="margin-bottom:20px;">
+          <div class="detail-row">
+            <span class="detail-row__label" data-i18n="stat_acceptance_rate">Akzeptierungsrate</span>
+            <span class="detail-row__value" id="statTaux" style="color:var(--akzept)">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-row__label" data-i18n="stat_today">Heute eingegangen</span>
+            <span class="detail-row__value" id="statAujourd">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-row__label" data-i18n="stat_average_amount">Ø Kreditbetrag</span>
+            <span class="detail-row__value mono" id="statMoyen">—</span>
+          </div>
+        </div>
       </div>
 
       <!-- === DEMANDES === -->
@@ -1266,27 +1478,28 @@
         </div>
       </div>
 
-      <!-- === STATS (graphiques) === -->
-      <div id="tab-stats" class="view-content hidden">
-        <p class="section-label" data-i18n="section_kreditart_dist">Verteilung nach Kreditart</p>
-        <div id="kreditartList" class="detail-section" style="margin-bottom:20px;">
+      <!-- === LIVE-CHAT === -->
+      <div id="tab-chat" class="view-content hidden">
+        <div class="filter-pills" id="chatFilterPills">
+          <button class="pill active" data-chat-filter="ouvert" data-i18n="chat_filter_open">Offen</button>
+          <button class="pill" data-chat-filter="ferme" data-i18n="chat_filter_closed">Geschlossen</button>
+          <button class="pill" data-chat-filter="tous" data-i18n="chat_filter_all">Alle</button>
+        </div>
+        <div id="chatConversationsList">
           <div class="spinner"></div>
         </div>
+      </div>
 
-        <p class="section-label" data-i18n="section_daily_rates">Tagesraten</p>
-        <div class="detail-section" id="tauxSection">
-          <div class="detail-row">
-            <span class="detail-row__label" data-i18n="stat_acceptance_rate">Akzeptierungsrate</span>
-            <span class="detail-row__value" id="statTaux" style="color:var(--akzept)">—</span>
-          </div>
-          <div class="detail-row">
-            <span class="detail-row__label" data-i18n="stat_today">Heute eingegangen</span>
-            <span class="detail-row__value" id="statAujourd">—</span>
-          </div>
-          <div class="detail-row">
-            <span class="detail-row__label" data-i18n="stat_average_amount">Ø Kreditbetrag</span>
-            <span class="detail-row__value mono" id="statMoyen">—</span>
-          </div>
+      <!-- === KUNDEN === -->
+      <div id="tab-kunden" class="view-content hidden">
+        <div class="search-bar">
+          <span class="search-bar__icon">🔍</span>
+          <input type="search" id="kundenSearchInput" data-i18n-placeholder="kunden_search_placeholder" placeholder="Name oder E-Mail suchen…"
+                 autocomplete="off" autocorrect="off" spellcheck="false">
+        </div>
+        <p class="section-label" id="kundenCountLabel" data-i18n="section_kunden_all">Alle Kunden</p>
+        <div id="kundenList">
+          <div class="spinner"></div>
         </div>
       </div>
 
@@ -1366,9 +1579,14 @@
         <span class="nav-tab__label" data-i18n="nav_demandes">Anträge</span>
         <span class="nav-tab__badge" id="newBadge">0</span>
       </button>
-      <button class="nav-tab" data-tab="stats">
-        <span class="nav-tab__icon">📈</span>
-        <span class="nav-tab__label" data-i18n="nav_stats">Statistiken</span>
+      <button class="nav-tab" data-tab="chat">
+        <span class="nav-tab__icon">💬</span>
+        <span class="nav-tab__label" data-i18n="nav_chat">Chat</span>
+        <span class="nav-tab__badge" id="chatBadge">0</span>
+      </button>
+      <button class="nav-tab" data-tab="kunden">
+        <span class="nav-tab__icon">👥</span>
+        <span class="nav-tab__label" data-i18n="nav_kunden">Kunden</span>
       </button>
       <button class="nav-tab" data-tab="settings">
         <span class="nav-tab__icon">⚙️</span>
@@ -1377,6 +1595,26 @@
     </nav>
   </div><!-- /view-app -->
 </div><!-- /app -->
+
+<!-- ============================================
+     VUE PLEIN ÉCRAN — Fil de discussion (Live-Chat)
+============================================ -->
+<div class="chat-view" id="chatView">
+  <header class="chat-view__header">
+    <button class="chat-view__back" id="chatViewBack" aria-label="Zurück">←</button>
+    <div class="chat-view__avatar" id="chatViewAvatar">?</div>
+    <div style="flex:1; min-width:0;">
+      <div class="chat-view__name" id="chatViewName">—</div>
+      <div class="chat-view__sub" id="chatViewSub">—</div>
+    </div>
+    <button class="chat-view__toggle" id="chatViewToggleStatus">✓</button>
+  </header>
+  <div class="chat-view__messages" id="chatViewMessages"></div>
+  <div class="chat-view__inputbar">
+    <textarea id="chatViewInput" rows="1" maxlength="4000" data-i18n-placeholder="chat_input_placeholder" placeholder="Antwort schreiben…"></textarea>
+    <button class="chat-view__send" id="chatViewSend">➤</button>
+  </div>
+</div>
 
 <!-- ============================================
      DRAWER — Détail demande
@@ -1455,6 +1693,7 @@
 <!-- Toast notification -->
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.socket.io/4.8.3/socket.io.min.js" integrity="sha384-kzavj5fiMwLKzzD1f8S7TeoVIEi7uKHvbTA3ueZkrzYq75pNQUiUi6Dy98Q3fxb0" crossorigin="anonymous"></script>
 <script>
 /* ====================================================
    BLITZ LEIHEN ADMIN MOBILE — Internationalisation (i18n)
@@ -1489,9 +1728,33 @@ const I18N = {
     offline_banner:      { de:'⚡ Keine Internetverbindung — Daten werden zwischengespeichert', en:'⚡ No internet connection — data is being cached', fr:'⚡ Pas de connexion internet — les données sont mises en cache', es:'⚡ Sin conexión a internet — los datos se almacenan en caché', it:'⚡ Nessuna connessione internet — i dati vengono memorizzati' },
     nav_dashboard:       { de:'Dashboard', en:'Dashboard', fr:'Tableau de bord', es:'Panel', it:'Dashboard' },
     nav_demandes:        { de:'Anträge', en:'Applications', fr:'Demandes', es:'Solicitudes', it:'Richieste' },
+    nav_chat:            { de:'Chat', en:'Chat', fr:'Chat', es:'Chat', it:'Chat' },
+    nav_kunden:          { de:'Kunden', en:'Customers', fr:'Clients', es:'Clientes', it:'Clienti' },
     nav_stats:           { de:'Statistiken', en:'Statistics', fr:'Statistiques', es:'Estadísticas', it:'Statistiche' },
     nav_settings:        { de:'Einstellungen', en:'Settings', fr:'Paramètres', es:'Ajustes', it:'Impostazioni' },
+    header_subtitle_chat:{ de:'Live-Chat', en:'Live chat', fr:'Chat en direct', es:'Chat en vivo', it:'Chat dal vivo' },
+    header_subtitle_kunden:{ de:'Kundenübersicht', en:'Customer overview', fr:'Aperçu des clients', es:'Resumen de clientes', it:'Panoramica clienti' },
     ptr_release:         { de:'↓ Loslassen zum Aktualisieren…', en:'↓ Release to refresh…', fr:'↓ Relâchez pour actualiser…', es:'↓ Suelte para actualizar…', it:'↓ Rilascia per aggiornare…' },
+
+    // Live-Chat
+    chat_filter_open:    { de:'Offen', en:'Open', fr:'Ouvertes', es:'Abiertas', it:'Aperte' },
+    chat_filter_closed:  { de:'Geschlossen', en:'Closed', fr:'Fermées', es:'Cerradas', it:'Chiuse' },
+    chat_filter_all:     { de:'Alle', en:'All', fr:'Toutes', es:'Todas', it:'Tutte' },
+    chat_input_placeholder:{ de:'Antwort schreiben…', en:'Write a reply…', fr:'Écrire une réponse…', es:'Escribir una respuesta…', it:'Scrivi una risposta…' },
+    chat_no_conversations:{ de:'Keine Konversationen', en:'No conversations', fr:'Aucune conversation', es:'Sin conversaciones', it:'Nessuna conversazione' },
+    chat_no_email:       { de:'Keine E-Mail angegeben', en:'No email provided', fr:'Aucun e-mail renseigné', es:'Sin correo indicado', it:'Nessuna email indicata' },
+    chat_anonymous:      { de:'Anonymer Besucher', en:'Anonymous visitor', fr:'Visiteur anonyme', es:'Visitante anónimo', it:'Visitatore anonimo' },
+    chat_close_conversation:{ de:'✓ Schließen', en:'✓ Close', fr:'✓ Fermer', es:'✓ Cerrar', it:'✓ Chiudi' },
+    chat_reopen_conversation:{ de:'↺ Öffnen', en:'↺ Reopen', fr:'↺ Rouvrir', es:'↺ Reabrir', it:'↺ Riapri' },
+    chat_connection_error:{ de:'Verbindung zum Server fehlgeschlagen', en:'Connection to server failed', fr:'Échec de la connexion au serveur', es:'Fallo de conexión con el servidor', it:'Connessione al server non riuscita' },
+
+    // Kunden
+    kunden_search_placeholder:{ de:'Name oder E-Mail suchen…', en:'Search name or email…', fr:'Recherche : nom ou e-mail…', es:'Buscar nombre o correo…', it:'Cerca nome o email…' },
+    section_kunden_all:  { de:'Alle Kunden', en:'All customers', fr:'Tous les clients', es:'Todos los clientes', it:'Tutti i clienti' },
+    kunden_no_results:   { de:'Keine Kunden gefunden', en:'No customers found', fr:'Aucun client trouvé', es:'No se encontraron clientes', it:'Nessun cliente trovato' },
+    kunden_count:        { de:'{n} Kunde(n) gefunden', en:'{n} customer(s) found', fr:'{n} client(s) trouvé(s)', es:'{n} cliente(s) encontrado(s)', it:'{n} cliente/i trovato/i' },
+    kunden_requests:     { de:'Anträge', en:'Applications', fr:'Demandes', es:'Solicitudes', it:'Richieste' },
+    kunden_total_amount: { de:'Gesamt', en:'Total', fr:'Total', es:'Total', it:'Totale' },
 
     // Dashboard
     section_overview:    { de:'Überblick', en:'Overview', fr:'Aperçu', es:'Resumen', it:'Panoramica' },
@@ -1687,6 +1950,14 @@ const App = {
   statsData: null,
   deferredInstall: null,
 
+  // Live-Chat
+  allConversations: [],
+  currentConversationId: null,
+  currentConversation: null,
+  chatFilter: 'ouvert',
+  socket: null,
+  socketReady: false,
+
   // -------------------------------------------------------
   // INITIALISATION
   // -------------------------------------------------------
@@ -1747,7 +2018,16 @@ const App = {
     document.getElementById('view-login').style.display = 'none';
     document.getElementById('view-app').style.display = 'flex';
     if (this.user) this.updateUserDisplay();
-    this.switchTab('dashboard');
+
+    // Ouvre directement le bon onglet si l'app a été lancée via un
+    // raccourci d'écran d'accueil (ex. #chat, #demandes?statut=Neu)
+    const validTabs = ['dashboard', 'demandes', 'chat', 'kunden', 'settings'];
+    const hashTab = (location.hash || '').replace('#', '').split('?')[0];
+    this.switchTab(validTabs.includes(hashTab) ? hashTab : 'dashboard');
+
+    if (hashTab === 'demandes' && location.hash.includes('statut=Neu')) {
+      document.querySelector('#filterPills [data-filter="Neu"]')?.click();
+    }
   },
 
   async login() {
@@ -1823,7 +2103,9 @@ const App = {
     await Promise.all([
       this.loadStats(),
       this.loadDemandes(),
+      this.loadConversations(),
     ]);
+    this.connectSocket();
   },
 
   async refresh() {
@@ -1838,21 +2120,33 @@ const App = {
       const data = await this.api('/api/admin/stats');
       this.statsData = data;
       this.renderStats(data);
+      this.updateBadge();
     } catch(e) {
       console.error('Stats error:', e);
     }
   },
 
+  // Le backend limite chaque appel à 50 résultats maximum. On récupère
+  // donc plusieurs pages à la suite jusqu'à avoir tout récupéré (avec
+  // un plafond de sécurité) plutôt que de traiter la 1ère page comme
+  // si elle contenait la totalité des demandes.
   async loadDemandes() {
+    const MAX_PAGES = 8; // ~400 demandes récentes maximum
     try {
-      const res = await this.api('/api/demandes?limit=100&sort=createdAt_desc');
-      // Supporte les deux formats : { demandes: [] } ou { data: { demandes: [] } }
-      const list = res.demandes || res.data?.demandes || res || [];
-      this.allDemandes = Array.isArray(list) ? list : [];
+      let page = 1, all = [], pages = 1;
+      do {
+        const res = await this.api(`/api/demandes?page=${page}&limit=50&sort=recent`);
+        const list = res.demandes || [];
+        all = all.concat(list);
+        pages = (res.pagination || {}).pages || 1;
+        page++;
+      } while (page <= pages && page <= MAX_PAGES);
+
+      this.allDemandes = all;
       this.applyFilters();
       this.updateBadge();
-      // Remplir les demandes récentes du dashboard
       this.renderRecentDemandes();
+      if (this._currentTab === 'kunden') this.renderKundenList();
     } catch(e) {
       console.error('Demandes error:', e);
       document.getElementById('demandesList').innerHTML = `
@@ -2014,11 +2308,270 @@ const App = {
   },
 
   updateBadge() {
-    const count = this.allDemandes.filter(d => d.statut === 'Neu').length;
+    const count = this.statsData?.parStatut?.Neu ?? this.allDemandes.filter(d => d.statut === 'Neu').length;
     const badge = document.getElementById('newBadge');
     badge.textContent = count;
     badge.classList.toggle('show', count > 0);
     document.getElementById('refreshBtn').dataset.count = count;
+  },
+
+  // -------------------------------------------------------
+  // LIVE-CHAT
+  // -------------------------------------------------------
+  async loadConversations() {
+    try {
+      const statutParam = this.chatFilter === 'tous' ? '' : this.chatFilter;
+      const data = await this.api(`/api/chat/admin/conversations?statut=${statutParam}&limite=50`);
+      this.allConversations = data.conversations || [];
+      this.renderConversationsList();
+      this.updateChatBadge();
+    } catch(e) {
+      console.error('Chat error:', e);
+      const el = document.getElementById('chatConversationsList');
+      if (el) el.innerHTML = `<div class="empty-state"><span class="empty-state__icon">⚠️</span><div class="empty-state__title">${I18N.t('chat_connection_error')}</div></div>`;
+    }
+  },
+
+  chatDisplayName(conv) {
+    return (conv.nom && conv.nom.trim()) ? conv.nom : I18N.t('chat_anonymous');
+  },
+
+  renderConversationsList() {
+    const el = document.getElementById('chatConversationsList');
+    if (!el) return;
+
+    if (!this.allConversations.length) {
+      el.innerHTML = `<div class="empty-state"><span class="empty-state__icon">💬</span><div class="empty-state__title">${I18N.t('chat_no_conversations')}</div></div>`;
+      return;
+    }
+
+    el.innerHTML = this.allConversations.map(conv => {
+      const name = this.chatDisplayName(conv);
+      const badge = conv.nonLuAdmin > 0 ? `<span class="chat-list-item__badge">${conv.nonLuAdmin}</span>` : '';
+      return `
+        <div class="chat-list-item" data-id="${conv._id}">
+          <div class="chat-list-item__avatar">${name[0].toUpperCase()}</div>
+          <div class="chat-list-item__body">
+            <div class="chat-list-item__top">
+              <span class="chat-list-item__name">${name}</span>
+              <span class="chat-list-item__time">${this.formatChatTime(conv.dernierMessageDate)}</span>
+            </div>
+            <div class="chat-list-item__preview">${conv.dernierMessage || '—'}</div>
+          </div>
+          ${badge}
+        </div>`;
+    }).join('');
+
+    el.querySelectorAll('.chat-list-item').forEach(item => {
+      item.addEventListener('click', () => this.openConversation(item.dataset.id));
+    });
+  },
+
+  async openConversation(id) {
+    const conv = this.allConversations.find(c => c._id === id);
+    if (!conv) return;
+
+    this.currentConversationId = id;
+    this.currentConversation = conv;
+    conv.nonLuAdmin = 0;
+
+    const name = this.chatDisplayName(conv);
+    document.getElementById('chatViewAvatar').textContent = name[0].toUpperCase();
+    document.getElementById('chatViewName').textContent = name;
+    document.getElementById('chatViewSub').textContent = conv.email || I18N.t('chat_no_email');
+    document.getElementById('chatViewToggleStatus').textContent =
+      conv.statut === 'ferme' ? I18N.t('chat_reopen_conversation') : I18N.t('chat_close_conversation');
+    document.getElementById('chatViewMessages').innerHTML = '<div class="spinner"></div>';
+    document.getElementById('chatView').classList.add('open');
+
+    try {
+      const data = await this.api(`/api/chat/admin/conversations/${id}`);
+      this.renderChatViewMessages(data.messages || []);
+    } catch(e) {
+      document.getElementById('chatViewMessages').innerHTML = `<div class="empty-state"><span class="empty-state__icon">⚠️</span></div>`;
+    }
+
+    // Marque comme lu côté serveur + rafraîchit le badge
+    this.api(`/api/chat/admin/conversations/${id}/lu`, 'PUT').then(() => this.updateChatBadge());
+
+    if (this.socketReady && this.socket) {
+      this.socket.emit('admin:join_conversation', { conversationId: id });
+    }
+  },
+
+  closeConversation() {
+    document.getElementById('chatView').classList.remove('open');
+    this.currentConversationId = null;
+    this.renderConversationsList(); // reflète le badge "non lu" remis à zéro
+  },
+
+  renderChatViewMessages(messages) {
+    const el = document.getElementById('chatViewMessages');
+    el.innerHTML = messages.map(m => this.chatBubbleHtml(m)).join('');
+    el.scrollTop = el.scrollHeight;
+  },
+
+  appendChatMessage(message) {
+    const el = document.getElementById('chatViewMessages');
+    if (!el || document.getElementById('mbl-msg-' + message._id)) return;
+    el.insertAdjacentHTML('beforeend', this.chatBubbleHtml(message));
+    el.scrollTop = el.scrollHeight;
+  },
+
+  chatBubbleHtml(m) {
+    const cls = m.expediteur === 'admin' ? 'chat-bubble--admin' : 'chat-bubble--visiteur';
+    const div = document.createElement('div');
+    div.textContent = m.texte || '';
+    return `<div class="chat-bubble ${cls}" id="mbl-msg-${m._id}">${div.innerHTML}<span class="chat-bubble__time">${this.formatChatTime(m.createdAt)}</span></div>`;
+  },
+
+  sendChatMessage() {
+    const input = document.getElementById('chatViewInput');
+    const texte = input.value.trim();
+    if (!texte || !this.currentConversationId) return;
+    input.value = '';
+
+    if (this.socketReady && this.socket) {
+      this.socket.emit('admin:message', { conversationId: this.currentConversationId, texte });
+    } else {
+      this.api(`/api/chat/admin/conversations/${this.currentConversationId}/message`, 'POST', { texte })
+        .then(data => { if (data.message) this.appendChatMessage(data.message); })
+        .catch(() => this.showToast(I18N.t('toast_error_prefix'), 'error'));
+    }
+  },
+
+  toggleConversationStatus() {
+    if (!this.currentConversation) return;
+    const nouveauStatut = this.currentConversation.statut === 'ferme' ? 'ouvert' : 'ferme';
+    this.api(`/api/chat/admin/conversations/${this.currentConversationId}/statut`, 'PUT', { statut: nouveauStatut })
+      .then(() => {
+        this.currentConversation.statut = nouveauStatut;
+        document.getElementById('chatViewToggleStatus').textContent =
+          nouveauStatut === 'ferme' ? I18N.t('chat_reopen_conversation') : I18N.t('chat_close_conversation');
+      });
+  },
+
+  updateChatBadge() {
+    this.api('/api/chat/admin/non-lus').then(data => {
+      const badge = document.getElementById('chatBadge');
+      const count = data.total || 0;
+      badge.textContent = count;
+      badge.classList.toggle('show', count > 0);
+    }).catch(() => {});
+  },
+
+  connectSocket() {
+    if (this.socket || typeof io !== 'function') return;
+
+    this.socket = io(this.getApiBase());
+
+    this.socket.on('connect', () => {
+      this.socket.emit('admin:auth', { token: this.token });
+    });
+    this.socket.on('admin:pret', () => {
+      this.socketReady = true;
+      if (this.currentConversationId) {
+        this.socket.emit('admin:join_conversation', { conversationId: this.currentConversationId });
+      }
+    });
+    this.socket.on('admin:historique', data => {
+      if (data && data.conversationId === this.currentConversationId) {
+        this.renderChatViewMessages(data.messages || []);
+      }
+    });
+    this.socket.on('nouveau_message', message => {
+      if (message && message.conversation === this.currentConversationId) {
+        this.appendChatMessage(message);
+        this.api(`/api/chat/admin/conversations/${this.currentConversationId}/lu`, 'PUT');
+      }
+      this.loadConversations();
+    });
+    this.socket.on('conversation_maj', () => {
+      this.loadConversations();
+    });
+    this.socket.on('disconnect', () => { this.socketReady = false; });
+  },
+
+  // -------------------------------------------------------
+  // KUNDEN — reconstitués à partir des demandes déjà chargées
+  // (pas de collection "clients" séparée côté backend)
+  // -------------------------------------------------------
+  getKundenList() {
+    const parEmail = {};
+    this.allDemandes.forEach(d => {
+      const key = (d.email || '—').toLowerCase();
+      if (!parEmail[key]) {
+        parEmail[key] = { email: d.email || '—', vorname: d.vorname, nachname: d.nachname, telefon: d.telefon, demandes: [] };
+      }
+      parEmail[key].demandes.push(d);
+      if (!parEmail[key].derniereDate || new Date(d.createdAt) > new Date(parEmail[key].derniereDate)) {
+        parEmail[key].derniereDate = d.createdAt;
+        parEmail[key].vorname = d.vorname;
+        parEmail[key].nachname = d.nachname;
+        parEmail[key].telefon = d.telefon;
+      }
+    });
+    return Object.values(parEmail).sort((a, b) => new Date(b.derniereDate) - new Date(a.derniereDate));
+  },
+
+  renderKundenList() {
+    const search = (document.getElementById('kundenSearchInput').value || '').toLowerCase();
+    let clients = this.getKundenList();
+    if (search) {
+      clients = clients.filter(c =>
+        (c.email || '').toLowerCase().includes(search) ||
+        (c.vorname || '').toLowerCase().includes(search) ||
+        (c.nachname || '').toLowerCase().includes(search)
+      );
+    }
+
+    document.getElementById('kundenCountLabel').textContent = I18N.t('kunden_count', { n: clients.length });
+
+    const el = document.getElementById('kundenList');
+    if (!clients.length) {
+      el.innerHTML = `<div class="empty-state"><span class="empty-state__icon">🙈</span><div class="empty-state__title">${I18N.t('kunden_no_results')}</div></div>`;
+      return;
+    }
+
+    el.innerHTML = clients.map((c, i) => {
+      const name = `${c.vorname || ''} ${c.nachname || ''}`.trim() || c.email;
+      const total = c.demandes.reduce((sum, d) => sum + (d.kreditbetrag || 0), 0);
+      return `
+        <div class="kunden-item" data-index="${i}">
+          <div class="kunden-item__avatar">${(c.vorname || c.email || '?')[0].toUpperCase()}</div>
+          <div class="kunden-item__body">
+            <div class="kunden-item__name">${name}</div>
+            <div class="kunden-item__email">${c.email}</div>
+          </div>
+          <div class="kunden-item__stats">
+            <strong>${c.demandes.length}</strong>
+            ${this.formatAmount(total)}
+          </div>
+        </div>`;
+    }).join('');
+
+    el.querySelectorAll('.kunden-item').forEach(item => {
+      item.addEventListener('click', () => this.openClientDrawer(clients[parseInt(item.dataset.index)]));
+    });
+  },
+
+  openClientDrawer(client) {
+    const name = `${client.vorname || ''} ${client.nachname || ''}`.trim() || client.email;
+    document.getElementById('drawerTitle').textContent = name;
+    document.getElementById('drawerBody').innerHTML = `
+      <div class="detail-row"><span class="detail-row__label">${I18N.t('field_email')}</span><span class="detail-row__value">${client.email}</span></div>
+      <div class="detail-row"><span class="detail-row__label">${I18N.t('field_telefon')}</span><span class="detail-row__value">${client.telefon || '—'}</span></div>
+      <p class="section-label" style="margin-top:16px;">${I18N.t('kunden_requests')} (${client.demandes.length})</p>
+      ${client.demandes.map(d => `
+        <div class="detail-row">
+          <span class="detail-row__label">${d.kreditart || '—'} · ${this.formatDate(d.createdAt)}</span>
+          <span class="detail-row__value mono">${this.formatAmount(d.kreditbetrag)}</span>
+        </div>`).join('')}
+    `;
+    document.getElementById('demandeDrawer').classList.add('open');
+    document.getElementById('drawerOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    this.currentDemande = null; // évite une confusion avec saveStatus()
   },
 
   // -------------------------------------------------------
@@ -2152,9 +2705,11 @@ const App = {
   switchTab(tab) {
     this._currentTab = tab;
     document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
-    ['dashboard','demandes','stats','settings'].forEach(v => {
+    ['dashboard','demandes','chat','kunden','settings'].forEach(v => {
       document.getElementById(`tab-${v}`).classList.toggle('hidden', v !== tab);
     });
+    if (tab === 'chat')   this.loadConversations();
+    if (tab === 'kunden') this.renderKundenList();
     // Scroll en haut à chaque changement d'onglet
     document.getElementById('viewArea').scrollTo({ top: 0, behavior: 'smooth' });
     this.updateHeaderSubtitle(tab);
@@ -2164,7 +2719,8 @@ const App = {
     const labels = {
       dashboard: I18N.t('nav_dashboard'),
       demandes:  I18N.t('header_subtitle_demandes'),
-      stats:     I18N.t('nav_stats'),
+      chat:      I18N.t('header_subtitle_chat'),
+      kunden:    I18N.t('header_subtitle_kunden'),
       settings:  I18N.t('nav_settings'),
     };
     document.getElementById('headerSubtitle').textContent = labels[tab] || I18N.t('header_subtitle_admin');
@@ -2286,6 +2842,16 @@ const App = {
     return new Date(d).toLocaleString('de-DE', { day:'2-digit', month:'2-digit', year:'numeric', hour:'2-digit', minute:'2-digit' });
   },
 
+  formatChatTime(d) {
+    if (!d) return '';
+    const date = new Date(d);
+    const now  = new Date();
+    const sameDay = date.toDateString() === now.toDateString();
+    return sameDay
+      ? date.toLocaleTimeString('de-DE', { hour:'2-digit', minute:'2-digit' })
+      : date.toLocaleDateString('de-DE', { day:'2-digit', month:'2-digit' });
+  },
+
   // -------------------------------------------------------
   // BIND ALL EVENTS
   // -------------------------------------------------------
@@ -2333,6 +2899,31 @@ const App = {
     // Drawer
     document.getElementById('drawerClose').addEventListener('click', () => this.closeDrawer());
     document.getElementById('drawerOverlay').addEventListener('click', () => this.closeDrawer());
+
+    // Live-Chat : filtres
+    document.querySelectorAll('#chatFilterPills .pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('#chatFilterPills .pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        this.chatFilter = pill.dataset.chatFilter;
+        this.loadConversations();
+      });
+    });
+
+    // Live-Chat : vue plein écran
+    document.getElementById('chatViewBack').addEventListener('click', () => this.closeConversation());
+    document.getElementById('chatViewSend').addEventListener('click', () => this.sendChatMessage());
+    document.getElementById('chatViewToggleStatus').addEventListener('click', () => this.toggleConversationStatus());
+    document.getElementById('chatViewInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); this.sendChatMessage(); }
+    });
+
+    // Kunden : recherche
+    let kundenSearchTimer;
+    document.getElementById('kundenSearchInput').addEventListener('input', () => {
+      clearTimeout(kundenSearchTimer);
+      kundenSearchTimer = setTimeout(() => this.renderKundenList(), 200);
+    });
 
     // Paramètres
     document.getElementById('settingsLogout').addEventListener('click', () => {

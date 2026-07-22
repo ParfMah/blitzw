@@ -3,8 +3,8 @@
  * Gère le cache offline et les notifications push.
  */
 
-const CACHE_NAME   = 'blitz-admin-v1';
-const STATIC_CACHE = 'blitz-admin-static-v1';
+const CACHE_NAME   = 'blitz-admin-v2';
+const STATIC_CACHE = 'blitz-admin-static-v2';
 
 // Ressources à mettre en cache immédiatement à l'installation
 const PRECACHE_URLS = [

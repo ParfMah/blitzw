@@ -59,7 +59,7 @@
         <div class="form-group">
           <label class="form-label" for="password">
             Passwort
-            <a href="#" style="font-size:var(--text-xs); color:var(--color-primary-light); float:right; margin-left:auto; font-weight:var(--weight-regular);">Passwort vergessen?</a>
+            <a href="#" id="forgotPasswordLink" style="font-size:var(--text-xs); color:var(--color-primary-light); float:right; margin-left:auto; font-weight:var(--weight-regular);">Passwort vergessen?</a>
           </label>
           <div style="position:relative;">
             <input
@@ -113,6 +113,7 @@
     </div>
   </main>
 
+  <script src="../js/admin-common.js"></script>
   <script>
     /**
      * BLITZ LEIHEN — Admin Login
@@ -127,22 +128,24 @@
     (function() {
       'use strict';
 
-      // --- URL de l'API backend ---
-      // En développement : https://79-108-162-55.sslip.io
-      // En production    : remplacer par l'URL réelle, ou injecter via meta tag
-      // (voir README pour la configuration FRONTEND_URL / API_BASE_URL)
-      var API_BASE = (
-        document.querySelector('meta[name="api-base"]')?.getAttribute('content') ||
-        window.BLITZ_API_BASE ||
-        'https://79-108-162-55.sslip.io'
-      ).replace(/\/$/, '');
-      var AUTH_URL = API_BASE + '/api/auth/login';
+      var AUTH_URL = window.BlitzAdmin.API_BASE + '/auth/login';
 
       var form      = document.getElementById('loginForm');
       var loginBtn  = document.getElementById('loginBtn');
       var errorEl   = document.getElementById('loginError');
       var toggleBtn = document.getElementById('togglePassword');
       var passInput = document.getElementById('password');
+      var forgotLink = document.getElementById('forgotPasswordLink');
+
+      // --- "Passwort vergessen ?" : pas de flux automatisé de
+      // réinitialisation pour l'instant (un seul compte admin) —
+      // on informe clairement plutôt que de ne rien faire au clic.
+      if (forgotLink) {
+        forgotLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          window.BlitzAdmin.showToast('Bitte wenden Sie sich direkt an Ihren technischen Ansprechpartner.');
+        });
+      }
 
       // --- Afficher / masquer le mot de passe ---
       if (toggleBtn && passInput) {

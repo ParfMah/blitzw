@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="api-base" content="https://79-108-162-55.sslip.io">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Einstellungen – Blitz Leihen Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="icon" type="image/webp" href="../blitz_leihen_logo.webp">
+</head>
+<body class="admin-body">
+
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar" role="navigation" aria-label="Administration">
+      <div class="admin-sidebar__header">
+        <img src="../blitz_leihen_logo.webp" alt="Blitz Leihen" class="admin-sidebar__logo">
+      </div>
+
+      <nav class="admin-nav">
+        <span class="admin-nav__section-title">Hauptmenü</span>
+        <a href="dashboard.html" class="admin-nav__link">
+          <span class="admin-nav__icon">📊</span> Dashboard
+        </a>
+        <a href="dashboard.html#demandes" class="admin-nav__link">
+          <span class="admin-nav__icon">📋</span> Alle Anträge
+        </a>
+        <a href="dashboard.html#neu" class="admin-nav__link">
+          <span class="admin-nav__icon">🆕</span> Neue Anträge
+          <span id="newCount" style="margin-left:auto; background:var(--color-accent); color:white; border-radius:var(--radius-full); padding:2px 8px; font-size:0.65rem; font-weight:700;">0</span>
+        </a>
+        <a href="chat.html" class="admin-nav__link">
+          <span class="admin-nav__icon">💬</span> Live-Chat
+          <span id="chatUnreadCount" style="margin-left:auto; background:var(--color-accent); color:white; border-radius:var(--radius-full); padding:2px 8px; font-size:0.65rem; font-weight:700;">0</span>
+        </a>
+
+        <span class="admin-nav__section-title">Verwaltung</span>
+        <a href="kunden.html" class="admin-nav__link">
+          <span class="admin-nav__icon">👥</span> Kunden
+        </a>
+        <a href="#" class="admin-nav__link" id="navEmailsSoon">
+          <span class="admin-nav__icon">📧</span> E-Mails
+        </a>
+        <a href="einstellungen.html" class="admin-nav__link active">
+          <span class="admin-nav__icon">⚙️</span> Einstellungen
+        </a>
+
+        <span class="admin-nav__section-title">System</span>
+        <a href="../index.html" class="admin-nav__link" target="_blank">
+          <span class="admin-nav__icon">🌐</span> Website anzeigen
+        </a>
+        <a href="#" class="admin-nav__link" id="logoutBtn">
+          <span class="admin-nav__icon">🚪</span> Abmelden
+        </a>
+      </nav>
+
+      <div class="admin-sidebar__footer">
+        <div class="admin-user">
+          <div class="admin-user__avatar" id="userAvatar">A</div>
+          <div>
+            <div class="admin-user__name" id="userName">Administrator</div>
+            <div class="admin-user__role">Super Admin</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="admin-sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- CONTENU PRINCIPAL -->
+    <div class="admin-content">
+
+      <header class="admin-topbar">
+        <button id="sidebarToggle" style="display:none; background:none; border:none; cursor:pointer; font-size:1.3rem; color:var(--color-primary); margin-right:var(--space-4);" aria-label="Menü öffnen">☰</button>
+        <h1 class="admin-topbar__title">Einstellungen</h1>
+        <div class="admin-topbar__actions">
+          <div class="admin-user__avatar" id="topbarAvatar" style="cursor:pointer;" title="Abmelden" onclick="logout()">A</div>
+        </div>
+      </header>
+
+      <main class="admin-main" id="adminMain">
+
+        <!-- Profil -->
+        <div class="settings-card">
+          <div class="settings-card__title">Mein Profil</div>
+          <div class="settings-card__desc">Ihre Kontoinformationen als Administrator.</div>
+          <div class="settings-field">
+            <label>Name</label>
+            <input type="text" id="profileName" disabled>
+          </div>
+          <div class="settings-field" style="margin-bottom:0;">
+            <label>E-Mail</label>
+            <input type="text" id="profileEmail" disabled>
+          </div>
+        </div>
+
+        <!-- Changement de mot de passe -->
+        <div class="settings-card">
+          <div class="settings-card__title">Passwort ändern</div>
+          <div class="settings-card__desc">Aus Sicherheitsgründen empfehlen wir, das Passwort regelmäßig zu ändern.</div>
+
+          <div class="settings-msg" id="settingsMsg"></div>
+
+          <form id="passwordForm">
+            <div class="settings-field">
+              <label for="oldPassword">Aktuelles Passwort</label>
+              <input type="password" id="oldPassword" autocomplete="current-password" required>
+            </div>
+            <div class="settings-field">
+              <label for="newPassword">Neues Passwort</label>
+              <input type="password" id="newPassword" autocomplete="new-password" minlength="8" required>
+            </div>
+            <div class="settings-field" style="margin-bottom:var(--space-5);">
+              <label for="newPasswordConfirm">Neues Passwort bestätigen</label>
+              <input type="password" id="newPasswordConfirm" autocomplete="new-password" minlength="8" required>
+            </div>
+            <button type="submit" class="btn btn-primary" id="passwordSubmitBtn" style="width:100%; justify-content:center;">
+              Passwort aktualisieren
+            </button>
+          </form>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/admin-common.js"></script>
+  <script>
+    /**
+     * BLITZ LEIHEN — Admin : page Einstellungen
+     * Utilise la route existante PUT /api/admin/mot-de-passe pour le
+     * changement de mot de passe du compte admin connecté.
+     */
+    (function() {
+      'use strict';
+
+      var API_BASE     = window.BlitzAdmin.API_BASE;
+      var checkAuth    = window.BlitzAdmin.checkAuth;
+      var authHeaders  = window.BlitzAdmin.authHeaders;
+      var logout       = window.BlitzAdmin.logout;
+      var loadUserInfo = window.BlitzAdmin.loadUserInfo;
+      window.logout    = logout;
+
+      function fillProfile() {
+        var userStr = sessionStorage.getItem('blitz_admin_user');
+        if (!userStr) return;
+        try {
+          var user = JSON.parse(userStr);
+          document.getElementById('profileName').value  = user.name  || '—';
+          document.getElementById('profileEmail').value  = user.email || user.username || '—';
+        } catch (e) {}
+      }
+
+      function showMsg(text, type) {
+        var el = document.getElementById('settingsMsg');
+        el.textContent = text;
+        el.className = 'settings-msg show settings-msg--' + type;
+      }
+
+      function bindEvents() {
+        var form = document.getElementById('passwordForm');
+        var submitBtn = document.getElementById('passwordSubmitBtn');
+
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+
+          var oldPassword = document.getElementById('oldPassword').value;
+          var newPassword = document.getElementById('newPassword').value;
+          var confirm     = document.getElementById('newPasswordConfirm').value;
+
+          if (newPassword !== confirm) {
+            showMsg('Die neuen Passwörter stimmen nicht überein.', 'error');
+            return;
+          }
+          if (newPassword.length < 8) {
+            showMsg('Das neue Passwort muss mindestens 8 Zeichen lang sein.', 'error');
+            return;
+          }
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Wird aktualisiert…';
+
+          fetch(API_BASE + '/admin/mot-de-passe', {
+            method: 'PUT',
+            headers: authHeaders(),
+            body: JSON.stringify({ ancienPassword: oldPassword, nouveauPassword: newPassword }),
+          })
+            .then(function(r) {
+              if (r.status === 401) { logout(); return null; }
+              return r.json().then(function(data) { return { ok: r.ok, data: data }; });
+            })
+            .then(function(result) {
+              if (!result) return;
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Passwort aktualisieren';
+
+              if (result.ok) {
+                showMsg('Passwort erfolgreich aktualisiert.', 'ok');
+                form.reset();
+              } else {
+                showMsg(result.data.message || 'Das aktuelle Passwort ist falsch.', 'error');
+              }
+            })
+            .catch(function() {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Passwort aktualisieren';
+              showMsg('Verbindung zum Server fehlgeschlagen.', 'error');
+            });
+        });
+
+        var logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) logoutBtn.addEventListener('click', function(e) { e.preventDefault(); logout(); });
+      }
+
+      function init() {
+        if (!checkAuth()) return;
+        loadUserInfo();
+        fillProfile();
+        bindEvents();
+        window.BlitzAdmin.initSidebar();
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>

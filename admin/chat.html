@@ -54,13 +54,13 @@
         </a>
 
         <span class="admin-nav__section-title">Verwaltung</span>
-        <a href="#" class="admin-nav__link">
+        <a href="kunden.html" class="admin-nav__link">
           <span class="admin-nav__icon">👥</span> Kunden
         </a>
-        <a href="#" class="admin-nav__link">
+        <a href="#" class="admin-nav__link" id="navEmailsSoon">
           <span class="admin-nav__icon">📧</span> E-Mails
         </a>
-        <a href="#" class="admin-nav__link">
+        <a href="einstellungen.html" class="admin-nav__link">
           <span class="admin-nav__icon">⚙️</span> Einstellungen
         </a>
 
@@ -84,6 +84,9 @@
         </div>
       </div>
     </aside>
+
+    <!-- Fond semi-transparent derrière la sidebar ouverte (mobile) -->
+    <div class="admin-sidebar-backdrop" id="sidebarBackdrop"></div>
 
     <!-- =============================================
          CONTENU PRINCIPAL
@@ -134,6 +137,7 @@
     </div>
   </div>
 
+  <script src="../js/admin-common.js"></script>
   <script src="https://cdn.socket.io/4.8.3/socket.io.min.js" integrity="sha384-kzavj5fiMwLKzzD1f8S7TeoVIEi7uKHvbTA3ueZkrzYq75pNQUiUi6Dy98Q3fxb0" crossorigin="anonymous"></script>
   <script>
     /**
@@ -149,12 +153,12 @@
     (function() {
       'use strict';
 
-      // --- Configuration API (même logique que dashboard.html) ---
-      var API_BASE = (
-        document.querySelector('meta[name="api-base"]')?.getAttribute('content') ||
-        window.BLITZ_API_BASE ||
-        'https://79-108-162-55.sslip.io'
-      ).replace(/\/$/, '') + '/api';
+      var API_BASE     = window.BlitzAdmin.API_BASE;
+      var checkAuth    = window.BlitzAdmin.checkAuth;
+      var authHeaders  = window.BlitzAdmin.authHeaders;
+      var logout       = window.BlitzAdmin.logout;
+      var loadUserInfo = window.BlitzAdmin.loadUserInfo;
+      window.logout    = logout; // utilisé par l'attribut onclick="logout()" dans le HTML
 
       var SOCKET_BASE = API_BASE.replace(/\/api$/, '');
 
@@ -163,39 +167,6 @@
       var currentId         = null;
       var socket             = null;
       var socketReady        = false;
-
-      // --- Authentification ---
-      function checkAuth() {
-        var token = sessionStorage.getItem('blitz_admin_token');
-        if (!token) { window.location.href = 'login.html'; return false; }
-        return token;
-      }
-
-      function authHeaders() {
-        var token = sessionStorage.getItem('blitz_admin_token');
-        return { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token };
-      }
-
-      function loadUserInfo() {
-        var userStr = sessionStorage.getItem('blitz_admin_user');
-        if (!userStr) return;
-        try {
-          var user = JSON.parse(userStr);
-          var initial = user.name ? user.name[0].toUpperCase() : 'A';
-          var avatarEl = document.getElementById('userAvatar');
-          var nameEl   = document.getElementById('userName');
-          var topbarAv = document.getElementById('topbarAvatar');
-          if (avatarEl) avatarEl.textContent = initial;
-          if (nameEl)   nameEl.textContent   = user.name || 'Administrator';
-          if (topbarAv) topbarAv.textContent  = initial;
-        } catch(e) {}
-      }
-
-      window.logout = function() {
-        sessionStorage.removeItem('blitz_admin_token');
-        sessionStorage.removeItem('blitz_admin_user');
-        window.location.href = 'login.html';
-      };
 
       // --- Utilitaires d'affichage ---
       function formaterHeure(iso) {
@@ -315,7 +286,8 @@
 
         thread.innerHTML = [
           '<div class="chat-inbox__thread-header">',
-          '  <div>',
+          '  <button class="chat-inbox__thread-back" id="threadBackBtn" aria-label="Zurück zur Liste">← Zurück</button>',
+          '  <div style="flex:1; min-width:0;">',
           '    <div class="chat-inbox__thread-title">' + nomAffiche(conv) + '</div>',
           '    <div class="chat-inbox__thread-sub">' + (conv.email || 'Keine E-Mail angegeben') + (localisation ? ' · ' + localisation : '') + '</div>',
           '  </div>',
@@ -329,6 +301,11 @@
           '  <button class="btn btn-primary" id="chatSendBtn">Senden</button>',
           '</div>',
         ].join('');
+
+        var backBtn = document.getElementById('threadBackBtn');
+        if (backBtn) backBtn.addEventListener('click', function() {
+          document.getElementById('chatInbox').classList.add('show-list');
+        });
 
         document.getElementById('toggleStatutBtn').addEventListener('click', function() {
           changerStatut(conv._id, estFerme ? 'ouvert' : 'ferme');
@@ -464,25 +441,22 @@
 
         var logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) logoutBtn.addEventListener('click', function(e) { e.preventDefault(); logout(); });
-
-        var sidebarToggle = document.getElementById('sidebarToggle');
-        var sidebar       = document.getElementById('adminSidebar');
-        if (sidebarToggle && sidebar) {
-          sidebarToggle.addEventListener('click', function() { sidebar.classList.toggle('open'); });
-        }
       }
 
       function init() {
         if (!checkAuth()) return;
         loadUserInfo();
         bindEvents();
+        window.BlitzAdmin.initSidebar();
         loadConversations();
         majBadgeGlobal();
         connecterSocket();
 
-        if (window.innerWidth <= 1024) {
-          var toggleBtn = document.getElementById('sidebarToggle');
-          if (toggleBtn) toggleBtn.style.display = 'flex';
+        // Sur mobile : la liste des conversations doit être visible par
+        // défaut au chargement (sinon rien n'est cliquable, ni la liste
+        // ni le fil, qui affiche juste un message d'invite vide).
+        if (window.innerWidth <= 900) {
+          document.getElementById('chatInbox').classList.add('show-list');
         }
 
         // Rafraîchissement périodique de secours (si Socket.IO indisponible)
@@ -496,6 +470,7 @@
       }
 
     })();
+
   </script>
 </body>
 </html>

@@ -55,13 +55,13 @@
         </a>
 
         <span class="admin-nav__section-title">Verwaltung</span>
-        <a href="#" class="admin-nav__link">
+        <a href="kunden.html" class="admin-nav__link">
           <span class="admin-nav__icon">👥</span> Kunden
         </a>
-        <a href="#" class="admin-nav__link">
+        <a href="#" class="admin-nav__link" id="navEmailsSoon">
           <span class="admin-nav__icon">📧</span> E-Mails
         </a>
-        <a href="#" class="admin-nav__link">
+        <a href="einstellungen.html" class="admin-nav__link">
           <span class="admin-nav__icon">⚙️</span> Einstellungen
         </a>
 
@@ -85,6 +85,9 @@
         </div>
       </div>
     </aside>
+
+    <!-- Fond semi-transparent derrière la sidebar ouverte (mobile) -->
+    <div class="admin-sidebar-backdrop" id="sidebarBackdrop"></div>
 
     <!-- =============================================
          CONTENU PRINCIPAL
@@ -184,7 +187,7 @@
             </div>
           </div>
 
-          <!-- Tableau -->
+          <!-- Tableau (desktop / tablette) -->
           <div style="overflow-x:auto;">
             <table class="admin-table" aria-label="Liste der Kreditanträge">
               <thead>
@@ -209,6 +212,9 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Vue "cartes" (mobile uniquement, voir admin.css) -->
+          <div class="admin-cards-list" id="demandesCardsList"></div>
 
           <!-- Pagination -->
           <div class="admin-pagination">
@@ -253,80 +259,65 @@
     </div>
   </div>
 
+  <script src="../js/admin-common.js"></script>
   <script>
     /**
      * BLITZ LEIHEN — Admin Dashboard
      *
      * Gère :
-     * 1. Vérification de l'authentification au chargement
-     * 2. Chargement des demandes depuis le backend (GET /api/demandes)
-     * 3. Affichage des statistiques
-     * 4. Filtrage et recherche des demandes
-     * 5. Affichage du détail d'une demande (drawer)
-     * 6. Modification du statut (PUT /api/demandes/:id)
-     * 7. Déconnexion
+     * 1. Chargement des demandes depuis le backend (GET /api/demandes),
+     *    avec pagination et filtres appliqués côté serveur — important
+     *    car le backend limite chaque page à 50 résultats maximum : il
+     *    ne faut donc jamais traiter la réponse comme "la totalité des
+     *    demandes", sous peine de statistiques et de filtres faux dès
+     *    qu'il y a plus de 10 demandes en base.
+     * 2. Affichage des statistiques réelles (GET /api/admin/stats,
+     *    calculées côté serveur sur l'ensemble de la collection).
+     * 3. Affichage du détail d'une demande (drawer)
+     * 4. Modification du statut (PUT /api/demandes/:id)
      */
     (function() {
       'use strict';
 
-      // --- Configuration API ---
-      // En développement : https://79-108-162-55.sslip.io
-      // En production    : lire depuis le meta tag <meta name="api-base" content="https://...">
-      //                    ou depuis window.BLITZ_API_BASE défini par le serveur
-      var API_BASE = (
-        document.querySelector('meta[name="api-base"]')?.getAttribute('content') ||
-        window.BLITZ_API_BASE ||
-        'https://79-108-162-55.sslip.io'
-      ).replace(/\/$/, '') + '/api';
+      var API_BASE     = window.BlitzAdmin.API_BASE;
+      var checkAuth    = window.BlitzAdmin.checkAuth;
+      var authHeaders  = window.BlitzAdmin.authHeaders;
+      var logout       = window.BlitzAdmin.logout;
+      var loadUserInfo = window.BlitzAdmin.loadUserInfo;
+      window.logout    = logout; // utilisé par l'attribut onclick="logout()" dans le HTML
 
       // --- État ---
-      var allDemandes  = [];  // Toutes les demandes chargées
-      var filteredData = [];  // Données après filtres
-      var currentPage  = 1;
-      var itemsPerPage = 10;
-      var currentId    = null; // ID de la demande affichée dans le drawer
+      // IMPORTANT : le backend limite chaque appel à /api/demandes à 50
+      // résultats maximum (voir demandeController.listerDemandes). On ne
+      // charge donc JAMAIS "toutes" les demandes d'un coup : la page, les
+      // filtres et la recherche sont envoyés au serveur, qui renvoie la
+      // pagination réelle (total exact sur toute la collection).
+      var currentPageDemandes = [];  // Demandes de la page actuellement affichée
+      var pagination           = { total: 0, page: 1, pages: 1 };
+      var currentId            = null; // ID de la demande affichée dans le drawer
+      var searchDebounceTimer  = null;
 
-      // --- Vérification de l'authentification ---
-      function checkAuth() {
-        var token = sessionStorage.getItem('blitz_admin_token');
-        if (!token) {
-          window.location.href = 'login.html';
-          return false;
-        }
-        return token;
+      // --- Construit les paramètres de requête à partir des filtres actifs ---
+      function buildQueryParams(page) {
+        var search  = (document.getElementById('globalSearch') || {}).value || '';
+        var statutF = (document.getElementById('filterStatus') || {}).value || '';
+        var typeF   = (document.getElementById('filterType')   || {}).value || '';
+
+        var params = new URLSearchParams();
+        params.set('page',  page || 1);
+        params.set('limit', 50);
+        if (search)  params.set('search', search);
+        if (statutF) params.set('statut', statutF);
+        if (typeF)   params.set('kreditart', typeF);
+        return params.toString();
       }
 
-      // --- En-têtes d'authentification ---
-      function authHeaders() {
-        var token = sessionStorage.getItem('blitz_admin_token');
-        return {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
-        };
-      }
-
-      // --- Infos utilisateur dans la sidebar ---
-      function loadUserInfo() {
-        var userStr = sessionStorage.getItem('blitz_admin_user');
-        if (!userStr) return;
-        try {
-          var user = JSON.parse(userStr);
-          var initial = user.name ? user.name[0].toUpperCase() : 'A';
-          var avatarEl = document.getElementById('userAvatar');
-          var nameEl   = document.getElementById('userName');
-          var topbarAv = document.getElementById('topbarAvatar');
-          if (avatarEl) avatarEl.textContent = initial;
-          if (nameEl)   nameEl.textContent   = user.name || 'Administrator';
-          if (topbarAv) topbarAv.textContent  = initial;
-        } catch(e) {}
-      }
-
-      // --- Chargement des demandes depuis l'API ---
-      window.loadDemandes = function() {
+      // --- Chargement des demandes depuis l'API (page courante + filtres) ---
+      window.loadDemandes = function(page) {
         var token = checkAuth();
         if (!token) return;
 
-        fetch(API_BASE + '/demandes', { headers: authHeaders() })
+        fetch(API_BASE + '/demandes?' + buildQueryParams(page || 1), { headers: authHeaders() })
           .then(function(r) {
             if (r.status === 401) { logout(); return null; }
             if (!r.ok) throw new Error('API error ' + r.status);
@@ -334,34 +325,50 @@
           })
           .then(function(json) {
             if (!json) return;
-            // Le backend retourne { success, data: { demandes: [], total, page, pages } }
-            // On supporte aussi le format simple { demandes: [] } ou [] pour compatibilité
-            var demandes;
-            if (json.data && json.data.demandes) {
-              demandes = json.data.demandes;    // format backend réel
-            } else if (json.demandes) {
-              demandes = json.demandes;          // format alternatif
-            } else if (Array.isArray(json)) {
-              demandes = json;                   // tableau direct
-            } else {
-              demandes = [];
-            }
-            allDemandes  = demandes;
-            filteredData = allDemandes.slice();
-            renderStats(allDemandes);
+            var data = json.data || {};
+            currentPageDemandes = data.demandes || [];
+            pagination = data.pagination || { total: currentPageDemandes.length, page: 1, pages: 1 };
             renderTable();
-            updateNewCount();
           })
           .catch(function(err) {
             console.error('Fehler beim Laden der Anträge:', err);
-            // Mode démo : affiche des données fictives si le backend n'est pas encore connecté
             loadDemoData();
           });
       };
 
+      // --- Statistiques réelles (calculées côté serveur sur TOUTE la collection,
+      //     indépendamment de la page affichée dans le tableau) ---
+      function loadStats() {
+        var token = checkAuth();
+        if (!token) return;
+
+        fetch(API_BASE + '/admin/stats', { headers: authHeaders() })
+          .then(function(r) {
+            if (r.status === 401) { logout(); return null; }
+            return r.json();
+          })
+          .then(function(json) {
+            if (!json || !json.success) return;
+            var d = json.data;
+            var statuts = d.parStatut || {};
+
+            setText('statTotal',        d.total);
+            setText('statNew',          statuts.Neu || 0);
+            setText('statAccepted',     statuts.Akzeptiert || 0);
+            setText('statRefused',      statuts.Abgelehnt || 0);
+            setText('statTotalChange',  d.total + ' Anträge insgesamt');
+            setText('statAcceptedRate', (d.tauxAcceptation || 0) + '% Akzeptierungsrate');
+            setText('statRefusedRate',  d.total ? Math.round((statuts.Abgelehnt || 0) / d.total * 100) + '% Ablehnungsrate' : '0% Ablehnungsrate');
+
+            var newCountEl = document.getElementById('newCount');
+            if (newCountEl) newCountEl.textContent = statuts.Neu || 0;
+          })
+          .catch(function() { /* mode démo : les cartes gardent leur dernière valeur connue */ });
+      }
+
       // --- Données de démonstration (mode sans backend) ---
       function loadDemoData() {
-        allDemandes = [
+        currentPageDemandes = [
           { _id:'1', referenceNumber:'BL-2025-001234', vorname:'Max',     nachname:'Müller',  kreditart:'Privatkredit',      kreditbetrag:20000, statut:'Neu',        createdAt:'2025-01-15T10:30:00Z', land:'Deutschland',   einkommen:3500 },
           { _id:'2', referenceNumber:'BL-2025-001235', vorname:'Sandra',  nachname:'Becker',  kreditart:'Immobilienkredit',  kreditbetrag:250000, statut:'Analyse',   createdAt:'2025-01-14T14:22:00Z', land:'Deutschland',   einkommen:5000 },
           { _id:'3', referenceNumber:'BL-2025-001236', vorname:'Thomas',  nachname:'Richter', kreditart:'Autofinanzierung',  kreditbetrag:35000, statut:'Akzeptiert', createdAt:'2025-01-13T09:15:00Z', land:'Österreich',    einkommen:4200 },
@@ -369,66 +376,35 @@
           { _id:'5', referenceNumber:'BL-2025-001238', vorname:'Klaus',   nachname:'Weber',   kreditart:'Umschuldung',       kreditbetrag:45000, statut:'Neu',        createdAt:'2025-01-11T11:00:00Z', land:'Frankreich',    einkommen:4800 },
           { _id:'6', referenceNumber:'BL-2025-001239', vorname:'Maria',   nachname:'Hofmann', kreditart:'Hypothekenkredit',  kreditbetrag:180000, statut:'Analyse',   createdAt:'2025-01-10T13:30:00Z', land:'Deutschland',  einkommen:6000 },
         ];
-        filteredData = allDemandes.slice();
-        renderStats(allDemandes);
+        pagination = { total: currentPageDemandes.length, page: 1, pages: 1 };
         renderTable();
-        updateNewCount();
+
+        setText('statTotal', 6);
+        setText('statNew', 2);
+        setText('statAccepted', 1);
+        setText('statRefused', 1);
+        setText('statTotalChange',  '6 Anträge insgesamt (Demo)');
+        setText('statAcceptedRate', '17% Akzeptierungsrate');
+        setText('statRefusedRate',  '17% Ablehnungsrate');
       }
 
-      // --- Statistiques ---
-      function renderStats(data) {
-        var total    = data.length;
-        var neu      = data.filter(function(d) { return d.statut === 'Neu'; }).length;
-        var accepted = data.filter(function(d) { return d.statut === 'Akzeptiert'; }).length;
-        var refused  = data.filter(function(d) { return d.statut === 'Abgelehnt'; }).length;
-
-        setText('statTotal',        total);
-        setText('statNew',          neu);
-        setText('statAccepted',     accepted);
-        setText('statRefused',      refused);
-        setText('statTotalChange',  total + ' Anträge insgesamt');
-        setText('statAcceptedRate', Math.round(accepted / (total || 1) * 100) + '% Akzeptierungsrate');
-        setText('statRefusedRate',  Math.round(refused  / (total || 1) * 100) + '% Ablehnungsrate');
-      }
-
-      // --- Rendu du tableau ---
+      // --- Rendu du tableau (desktop) + des cartes (mobile) ---
       function renderTable() {
-        var tbody = document.getElementById('demandesTableBody');
-        var info  = document.getElementById('paginationInfo');
+        var tbody     = document.getElementById('demandesTableBody');
+        var cardsList = document.getElementById('demandesCardsList');
+        var info      = document.getElementById('paginationInfo');
         if (!tbody) return;
 
-        // Application des filtres de recherche et de statut
-        var search     = (document.getElementById('globalSearch')  || {}).value || '';
-        var statusF    = (document.getElementById('filterStatus')   || {}).value || '';
-        var typeF      = (document.getElementById('filterType')     || {}).value || '';
-        var searchLow  = search.toLowerCase();
+        if (info) info.textContent = pagination.total + ' Einträge gefunden';
 
-        filteredData = allDemandes.filter(function(d) {
-          var name = ((d.vorname || '') + ' ' + (d.nachname || '')).toLowerCase();
-          var ref  = (d.referenceNumber || '').toLowerCase();
-
-          var matchSearch = !search || name.includes(searchLow) || ref.includes(searchLow);
-          var matchStatus = !statusF || d.statut === statusF;
-          var matchType   = !typeF   || d.kreditart === typeF;
-
-          return matchSearch && matchStatus && matchType;
-        });
-
-        // Pagination
-        var start  = (currentPage - 1) * itemsPerPage;
-        var end    = start + itemsPerPage;
-        var page   = filteredData.slice(start, end);
-        var total  = filteredData.length;
-
-        if (info) info.textContent = total + ' Einträge gefunden';
-
-        if (total === 0) {
+        if (!currentPageDemandes.length) {
           tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:var(--space-10);color:var(--color-text-muted);">Keine Anträge gefunden.</td></tr>';
-          renderPagination(0);
+          if (cardsList) cardsList.innerHTML = '<div class="admin-empty-state"><span class="admin-empty-state__icon">📭</span><div class="admin-empty-state__title">Keine Anträge gefunden</div></div>';
+          renderPagination();
           return;
         }
 
-        tbody.innerHTML = page.map(function(d) {
+        tbody.innerHTML = currentPageDemandes.map(function(d) {
           var date   = d.createdAt ? new Date(d.createdAt).toLocaleDateString('de-DE') : '—';
           var amount = d.kreditbetrag ? Number(d.kreditbetrag).toLocaleString('de-DE') + ' €' : '—';
           var badge  = statusBadge(d.statut);
@@ -446,7 +422,31 @@
           ].join('');
         }).join('');
 
-        renderPagination(total);
+        // Vue "cartes" (mobile) — mêmes données, présentation verticale
+        if (cardsList) {
+          cardsList.innerHTML = currentPageDemandes.map(function(d) {
+            var date   = d.createdAt ? new Date(d.createdAt).toLocaleDateString('de-DE') : '—';
+            var amount = d.kreditbetrag ? Number(d.kreditbetrag).toLocaleString('de-DE') + ' €' : '—';
+            return [
+              '<div class="admin-card-row" onclick="openDrawer(\'' + d._id + '\')">',
+              '  <div class="admin-card-row__top">',
+              '    <span class="admin-card-row__name">' + (d.vorname || '') + ' ' + (d.nachname || '') + '</span>',
+              '    ' + statusBadge(d.statut),
+              '  </div>',
+              '  <div class="admin-card-row__meta">',
+              '    <span class="admin-card-row__ref">' + (d.referenceNumber || d._id) + '</span>',
+              '    <span>' + date + '</span>',
+              '  </div>',
+              '  <div class="admin-card-row__meta">',
+              '    <span>' + (d.kreditart || '—') + '</span>',
+              '    <span class="admin-card-row__amount">' + amount + '</span>',
+              '  </div>',
+              '</div>',
+            ].join('');
+          }).join('');
+        }
+
+        renderPagination();
       }
 
       // --- Badge de statut HTML ---
@@ -461,13 +461,14 @@
         return '<span class="status-badge ' + cls + '">' + (statut || 'Neu') + '</span>';
       }
 
-      // --- Pagination ---
-      function renderPagination(total) {
+      // --- Pagination (reflète la pagination réelle renvoyée par le serveur) ---
+      function renderPagination() {
         var controls = document.getElementById('paginationControls');
         if (!controls) return;
 
-        var pages = Math.ceil(total / itemsPerPage);
-        var html  = '';
+        var pages       = pagination.pages || 1;
+        var currentPage = pagination.page  || 1;
+        var html        = '';
 
         for (var i = 1; i <= pages; i++) {
           html += '<button class="admin-page-btn' + (i === currentPage ? ' active' : '') + '" data-page="' + i + '">' + i + '</button>';
@@ -476,37 +477,32 @@
         controls.innerHTML = html;
         controls.querySelectorAll('.admin-page-btn').forEach(function(btn) {
           btn.addEventListener('click', function() {
-            currentPage = parseInt(this.getAttribute('data-page'));
-            renderTable();
+            loadDemandes(parseInt(this.getAttribute('data-page')));
           });
         });
       }
 
       // --- Ouverture du drawer ---
       window.openDrawer = function(id) {
-        var demande = allDemandes.find(function(d) { return d._id === id; });
+        var demande = currentPageDemandes.find(function(d) { return d._id === id; });
         if (!demande) return;
 
         currentId = id;
 
-        var overlay = document.getElementById('drawerOverlay');
-        var body    = document.getElementById('drawerBody');
+        var overlay   = document.getElementById('drawerOverlay');
+        var body      = document.getElementById('drawerBody');
         var statusSel = document.getElementById('drawerStatusSelect');
 
         if (overlay) overlay.classList.add('open');
-
-        // Pré-sélection du statut actuel
         if (statusSel) statusSel.value = demande.statut || 'Neu';
 
-        var date = demande.createdAt ? new Date(demande.createdAt).toLocaleString('de-DE') : '—';
+        var date   = demande.createdAt ? new Date(demande.createdAt).toLocaleString('de-DE') : '—';
         var amount = demande.kreditbetrag ? Number(demande.kreditbetrag).toLocaleString('de-DE') + ' €' : '—';
 
         if (body) {
           body.innerHTML = [
-            // Statut actuel
             '<div style="margin-bottom:var(--space-5);">' + statusBadge(demande.statut) + ' <small style="color:var(--color-text-muted); margin-left:var(--space-2);">Eingangsdatum: ' + date + '</small></div>',
 
-            // Infos personnelles
             '<div class="detail-section">',
             '<div class="detail-section__title">Persönliche Angaben</div>',
             '<div class="detail-grid">',
@@ -522,7 +518,6 @@
             detailRow('Bestehende Verbindlichkeiten', (demande.bestehendeVerbindlichkeiten || 0) + ' € / Monat'),
             '</div></div>',
 
-            // Infos crédit
             '<div class="detail-section">',
             '<div class="detail-section__title">Kreditangaben</div>',
             '<div class="detail-grid">',
@@ -534,7 +529,6 @@
             detailRow('SMS-Benachrichtigung', demande.sms_verification === 'ja' ? '✓ Ja' : '✗ Nein'),
             '</div></div>',
 
-            // Référence
             '<div class="detail-section">',
             '<div class="detail-section__title">Systeminformationen</div>',
             '<div class="detail-grid">',
@@ -577,32 +571,17 @@
         })
         .then(function(json) {
           if (!json) return;
-          // Le backend retourne { success, data: { demande, emailStatut } }
-          // On prend la demande mise à jour si disponible, sinon on met à jour localement
-          var updatedDemande = json.data && json.data.demande;
-          var d = allDemandes.find(function(x) { return x._id === currentId; });
-          if (d) {
-            d.statut = updatedDemande ? updatedDemande.statut : newStatus;
-          }
-          renderTable();
-          renderStats(allDemandes);
           closeDrawer();
+          loadDemandes(pagination.page); // recharge la page courante depuis le serveur
+          loadStats();
         })
         .catch(function() {
           // Mode démo ou erreur réseau : mise à jour locale uniquement
-          var d = allDemandes.find(function(x) { return x._id === currentId; });
+          var d = currentPageDemandes.find(function(x) { return x._id === currentId; });
           if (d) d.statut = newStatus;
           renderTable();
-          renderStats(allDemandes);
           closeDrawer();
         });
-      }
-
-      // --- Compteur "Nouvelles demandes" ---
-      function updateNewCount() {
-        var count = allDemandes.filter(function(d) { return d.statut === 'Neu'; }).length;
-        var el = document.getElementById('newCount');
-        if (el) el.textContent = count;
       }
 
       // --- Badge "Live-Chat" non lus ---
@@ -616,13 +595,6 @@
           .catch(function() {});
       }
 
-      // --- Déconnexion ---
-      window.logout = function() {
-        sessionStorage.removeItem('blitz_admin_token');
-        sessionStorage.removeItem('blitz_admin_user');
-        window.location.href = 'login.html';
-      };
-
       // --- Utilitaire : setText ---
       function setText(id, text) {
         var el = document.getElementById(id);
@@ -631,7 +603,6 @@
 
       // --- Liaisons des événements ---
       function bindEvents() {
-        // Fermeture du drawer
         var drawerClose  = document.getElementById('drawerClose');
         var drawerCloseB = document.getElementById('drawerCloseBtn');
         var overlay      = document.getElementById('drawerOverlay');
@@ -642,34 +613,29 @@
           if (e.target === overlay) closeDrawer();
         });
 
-        // Sauvegarde du statut
         var saveBtn = document.getElementById('saveStatusBtn');
         if (saveBtn) saveBtn.addEventListener('click', saveStatus);
 
-        // Déconnexion
         var logoutBtn = document.getElementById('logoutBtn');
         if (logoutBtn) logoutBtn.addEventListener('click', function(e) {
           e.preventDefault();
           logout();
         });
 
-        // Filtres
-        ['filterStatus', 'filterType', 'globalSearch'].forEach(function(id) {
+        // Filtres select : rechargement immédiat depuis le serveur (page 1)
+        ['filterStatus', 'filterType'].forEach(function(id) {
           var el = document.getElementById(id);
-          if (el) el.addEventListener('input', function() {
-            currentPage = 1;
-            renderTable();
-          });
+          if (el) el.addEventListener('change', function() { loadDemandes(1); });
         });
 
-        // Toggle sidebar mobile
-        var sidebarToggle = document.getElementById('sidebarToggle');
-        var sidebar       = document.getElementById('adminSidebar');
-        if (sidebarToggle && sidebar) {
-          sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('open');
-          });
-        }
+        // Recherche texte : léger délai pour éviter une requête à chaque
+        // frappe (l'utilisateur tape plusieurs lettres en une fraction de
+        // seconde — inutile d'interroger le serveur à chaque caractère).
+        var searchEl = document.getElementById('globalSearch');
+        if (searchEl) searchEl.addEventListener('input', function() {
+          clearTimeout(searchDebounceTimer);
+          searchDebounceTimer = setTimeout(function() { loadDemandes(1); }, 350);
+        });
       }
 
       // --- Initialisation ---
@@ -677,17 +643,13 @@
         if (!checkAuth()) return;
         loadUserInfo();
         bindEvents();
-        loadDemandes();
+        window.BlitzAdmin.initSidebar();
+        loadDemandes(1);
+        loadStats();
         updateChatBadge();
 
-        // Affiche le bouton hamburger sur mobile
-        if (window.innerWidth <= 1024) {
-          var toggleBtn = document.getElementById('sidebarToggle');
-          if (toggleBtn) toggleBtn.style.display = 'flex';
-        }
-
         // Rafraîchissement automatique toutes les 5 minutes
-        setInterval(loadDemandes, 300000);
+        setInterval(function() { loadDemandes(pagination.page); loadStats(); }, 300000);
         // Badge Live-Chat : rafraîchi plus fréquemment
         setInterval(updateChatBadge, 20000);
       }
@@ -699,6 +661,7 @@
       }
 
     })();
+
   </script>
 </body>
 </html>

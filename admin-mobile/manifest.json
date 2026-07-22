@@ -32,6 +32,12 @@
       "url": "./index.html#demandes?statut=Neu"
     },
     {
+      "name": "Live-Chat",
+      "short_name": "Chat",
+      "description": "Kundenchat öffnen",
+      "url": "./index.html#chat"
+    },
+    {
       "name": "Dashboard",
       "short_name": "Stats",
       "description": "Voir les statistiques",
