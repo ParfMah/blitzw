@@ -590,6 +590,7 @@
                           name="vorname"
                           class="form-control"
                           placeholder="Max"
+                          maxlength="50"
                           required
                           autocomplete="given-name"
                         />
@@ -606,6 +607,7 @@
                           name="nachname"
                           class="form-control"
                           placeholder="Mustermann"
+                          maxlength="50"
                           required
                           autocomplete="family-name"
                         />
@@ -730,6 +732,7 @@
                           name="adresse"
                           class="form-control"
                           placeholder="Musterstraße 12"
+                          maxlength="200"
                           required
                           autocomplete="street-address"
                         />
@@ -746,6 +749,7 @@
                           name="ort"
                           class="form-control"
                           placeholder="10117 Berlin"
+                          maxlength="100"
                           required
                         />
                         <span class="form-error" style="display: none"></span>
@@ -831,6 +835,7 @@
                           class="form-control"
                           placeholder="z.B. 3500"
                           min="0"
+                          max="1000000"
                           required
                         />
                         <span class="form-error" style="display: none"></span>
@@ -1052,7 +1057,7 @@
                           class="form-control"
                           placeholder="z.B. 20000"
                           min="1000"
-                          max="1500000"
+                          max="2000000"
                           required
                         />
                         <span class="form-error" style="display: none"></span>
@@ -1136,7 +1141,8 @@
                           name="verwendungszweck"
                           class="form-control"
                           rows="3"
-                          placeholder="Bitte beschreiben Sie kurz, wofür Sie den Kredit verwenden möchten..."
+                          max-length="300"
+                          placeholder="Bitte beschreiben Sie kurz, wofür Sie den Kredit verwenden möchten (max. 300 Zeichen)..."
                           required
                         ></textarea>
                         <span class="form-error" style="display: none"></span>
